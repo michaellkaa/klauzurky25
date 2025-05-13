@@ -19,5 +19,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/universities', [UniversityController::class, 'store']);
+//Route::post('/universities', [UniversityController::class, 'store']);
+//Route::get('/universities', [UniversityController::class, 'index']);
+
+
 Route::get('/universities', [UniversityController::class, 'index']);
+Route::post('/universities', [UniversityController::class, 'store']);
+Route::get('/universities/{id}', [UniversityController::class, 'show']);
+
+
+

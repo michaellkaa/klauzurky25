@@ -28,4 +28,11 @@ class UniversityController extends Controller
     {
         return response()->json(University::all());
     }
+
+
+    public function show($id)
+    {
+        return response()->json(University::findOrFail($id));
+    }
+
 }

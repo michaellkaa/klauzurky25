@@ -1,2 +1,10 @@
 @import "tailwindcss";
 @source "../views";
+
+.input {
+    @apply border border-gray-300 rounded-md p-2 w-full;
+  }
+  .btn {
+    @apply bg-green-600 text-white font-semibold px-4 py-2 rounded hover:bg-green-700;
+  }
+  
