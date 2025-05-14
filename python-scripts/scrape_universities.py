@@ -53,18 +53,17 @@ def insert_into_database(uni):
         if 'connection' in locals() and connection.is_connected():
             connection.close()
 
-# ⬇️ CYKLUS přes ID institucí
 for id_institution in range(1, 72):
     url = f"https://portal.studyin.cz/en/find-your-institution/get-data-detail?idInstitution={id_institution}"
     response = requests.get(url)
     
     if response.status_code == 200:
         data = response.json()
-        if data.get("name"):  # Kontrola že je to validní instituce
+        if data.get("name"):
             insert_into_database(data)
         else:
             print(f"⚠️ ID {id_institution} neobsahuje platná data.")
     else:
         print(f"❌ Chyba při načítání ID {id_institution}: {response.status_code}")
     
-    time.sleep(0.5)  # malý delay, ať je to šetrné
+    time.sleep(0.5)
