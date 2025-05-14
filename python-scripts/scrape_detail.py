@@ -1,62 +1,29 @@
 import requests
 from bs4 import BeautifulSoup
-import sqlite3
 
-# URL stránky s informacemi o univerzitě
-url = "https://www.vysokeskoly.com/vysoke-skoly-1/masarykova-univerzita"
+# Cílová URL
+url = "https://www.vysokeskoly.com/PS/Vysoke-skoly"
 
-# Odeslání HTTP požadavku a získání obsahu stránky
+# Získání HTML stránky
 response = requests.get(url)
+soup = BeautifulSoup(response.text, 'html.parser')
 
-# Kontrola, zda je stránka dostupná
-if response.status_code != 200:
-    print(f"Chyba při získávání stránky: {response.status_code}")
-    exit()
+# Najdeme všechny bloky škol
+bloky_skol = soup.select(".ListSkola")
 
-# Zpracování obsahu stránky pomocí BeautifulSoup
-soup = BeautifulSoup(response.content, "html.parser")
+# Projdeme každý blok
+for blok in bloky_skol:
+    # Najdeme odkaz
+    odkaz_element = blok.select_one("a.fullOdkaz")
+    if not odkaz_element:
+        continue
+    odkaz = odkaz_element['href']
 
-# Vyhledání sekce fakulty
-fakulty_section = soup.find("div", class_="sekce-fakulty")
+    # Najdeme název školy
+    nazev_element = blok.select_one(".nazev h3")
+    if not nazev_element:
+        continue
+    nazev = nazev_element.get_text(strip=True)
 
-# Zkontrolujme, zda sekce fakulty byla nalezena
-if fakulty_section is None:
-    print("Sekce fakulty nebyla nalezena. Zkontroluj strukturu stránky.")
-    exit()
-
-# Vyhledání všech odkazů na fakulty
-fakulta_links = fakulty_section.find_all("a", class_="fakultaDetail")
-
-# Zkontrolujme, zda jsme našli odkazy na fakulty
-if not fakulta_links:
-    print("Nebyl nalezen žádný odkaz na fakulty. Zkontroluj strukturu stránky.")
-    exit()
-
-# Seznam názvů fakult
-fakulty_names = [link.text.strip() for link in fakulta_links]
-
-# Spojení názvů fakult do jednoho řetězce odděleného čárkami
-fields = ", ".join(fakulty_names)
-
-# Vytvoření připojení k SQLite databázi
-conn = sqlite3.connect("university_data.db")
-cursor = conn.cursor()
-
-# Vytvoření tabulky pro fakulty, pokud ještě neexistuje
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS fields (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT
-)
-""")
-
-# Uložení názvů fakult do databáze
-for fakulta in fakulty_names:
-    cursor.execute("INSERT INTO fields (name) VALUES (?)", (fakulta,))
-
-# Uložení změn a uzavření připojení
-conn.commit()
-conn.close()
-
-# Výpis názvů fakult
-print(f"Fakulty: {fields}")
+    print(f"Název: {nazev}")
+    print(f"Odkaz: {odkaz}\n")
