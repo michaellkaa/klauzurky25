@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 import re
 
 url = "https://www.vysokeskoly.com/PS/Vysoke-skoly"
-
 response = requests.get(url)
 response.encoding = 'windows-1250'
 soup = BeautifulSoup(response.text, 'html.parser')
@@ -39,9 +38,38 @@ for blok in bloky_skol:
     stitek_element = blok.select_one(".stitky .stitek.typ-skoly")
     stitek = stitek_element.get_text(strip=True) if stitek_element else ""
 
+    detail_response = requests.get(odkaz)
+    detail_response.encoding = 'windows-1250'
+    detail_soup = BeautifulSoup(detail_response.text, 'html.parser')
+
+    popis_element = detail_soup.select_one(".BoxAnot p")
+    popis = popis_element.get_text(strip=True) if popis_element else "Popis nenalezen"
+
+    facebook = instagram = twitter = youtube = linkedin = ""
+    social_links = detail_soup.select("ul.FKsocial a")
+    for link in social_links:
+        href = link.get("href", "")
+        classes = link.get("class", [])
+        if "ico-facebook" in classes:
+            facebook = href
+        elif "ico-instagram" in classes:
+            instagram = href
+        elif "ico-twitter" in classes:
+            twitter = href
+        elif "ico-youtube" in classes:
+            youtube = href
+        elif "ico-linkedin" in classes:
+            linkedin = href
+
     print(f"Název: {nazev}")
     print(f"Odkaz: {odkaz}")
     print(f"Lokace: {lokace}")
     print(f"Město: {mesto}")
     print(f"Typ školy: {stitek}")
-    print(f"Obory: {fakulty_text}\n")
+    print(f"Obory: {fakulty_text}")
+    print(f"Popis: {popis}")
+    print(f"Facebook: {facebook}")
+    print(f"Instagram: {instagram}")
+    print(f"Twitter: {twitter}")
+    print(f"YouTube: {youtube}")
+    print(f"LinkedIn: {linkedin}\n")
