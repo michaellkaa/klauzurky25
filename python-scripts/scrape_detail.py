@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import re
+import os
 
 url = "https://www.vysokeskoly.com/PS/Vysoke-skoly"
 response = requests.get(url)
@@ -45,6 +46,27 @@ for blok in bloky_skol:
     popis_element = detail_soup.select_one(".BoxAnot p")
     popis = popis_element.get_text(strip=True) if popis_element else "Popis nenalezen"
 
+    # Webová stránka (ale ne sociální sítě)
+    web = ""
+    for a in detail_soup.select("p.kontakty2 a[href^='http']"):
+        href = a.get("href", "")
+        if not any(x in href for x in ["facebook.com", "instagram.com", "twitter.com", "youtube.com", "linkedin.com"]):
+            web = href
+            break
+
+    # Telefon a e-mail
+    email = telefon = ""
+    kontakty = detail_soup.select(".kontakty2")
+    for kontakt_blok in kontakty:
+        text = kontakt_blok.get_text(separator="\n", strip=True)
+        email_match = re.search(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}", text)
+        if email_match:
+            email = email_match.group(0)
+        telefon_match = re.search(r"\+?\d{3} ?\d{3} ?\d{3}", text)
+        if telefon_match:
+            telefon = telefon_match.group(0)
+
+    # Sociální sítě
     facebook = instagram = twitter = youtube = linkedin = ""
     social_links = detail_soup.select("ul.FKsocial a")
     for link in social_links:
@@ -68,6 +90,9 @@ for blok in bloky_skol:
     print(f"Typ školy: {stitek}")
     print(f"Obory: {fakulty_text}")
     print(f"Popis: {popis}")
+    print(f"Web: {web}")
+    print(f"E-mail: {email}")
+    print(f"Telefon: {telefon}")
     print(f"Facebook: {facebook}")
     print(f"Instagram: {instagram}")
     print(f"Twitter: {twitter}")
