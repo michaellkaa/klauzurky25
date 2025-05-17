@@ -11,10 +11,21 @@ class University extends Model
 
     protected $fillable = [
         'name',
+        'address',
         'location',
         'website',
+        'email',
+        'phone',
+        'facebook',
+        'instagram',
+        'twitter',
+        'youtube',
+        'linkedin',
+        'about',
+        'type',
         'field',
         'language',
-        'type',
+        'logo_url',
+        'banner_url',
     ];
 }

@@ -1,7 +1,62 @@
 import requests
 from bs4 import BeautifulSoup
 import re
+import mysql.connector
 import os
+
+def insert_into_database(uni):
+    try:
+        # Kontrola povinných polí
+        if not uni.get('name') or not uni.get('location'):
+            print(f"Přeskočeno (chybí jméno nebo město): {uni.get('name')} / {uni.get('location')}")
+            return
+
+        connection = mysql.connector.connect(
+            host='89.168.43.83',
+            user='michaelka',
+            password='michaelka1',
+            database='michaelka_klauzury_html',
+            charset='utf8mb4',
+            collation='utf8mb4_general_ci'
+        )
+        if connection.is_connected():
+            cursor = connection.cursor()
+
+            query = """
+                INSERT INTO universities 
+                (name, address, location, website, facebook, twitter, instagram, youtube, linkedin, about, email, phone, logo_url, banner_url, type, field)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """
+            values = (
+                uni['name'],
+                uni.get('address', ''),
+                uni['location'],
+                uni.get('website', ''),
+                uni.get('facebook', ''),
+                uni.get('twitter', ''),
+                uni.get('instagram', ''),
+                uni.get('youtube', ''),
+                uni.get('linkedin', ''),
+                uni.get('about', ''),
+                uni.get('email', ''),
+                uni.get('phone', ''),
+                uni.get('logo', ''),
+                uni.get('banner', ''),
+                uni.get('type', ''),
+                uni.get('field', ''),
+                
+            )
+
+            cursor.execute(query, values)
+            connection.commit()
+            print(f"Uloženo do databáze: {uni['name']}")
+    except Exception as e:
+        print(f"Chyba při ukládání: {e}")
+    finally:
+        if 'connection' in locals() and connection.is_connected():
+            cursor.close()
+            connection.close()
+
 
 url = "https://www.vysokeskoly.com/PS/Vysoke-skoly"
 response = requests.get(url)
@@ -46,15 +101,15 @@ for blok in bloky_skol:
     popis_element = detail_soup.select_one(".BoxAnot p")
     popis = popis_element.get_text(strip=True) if popis_element else "Popis nenalezen"
 
-    # Webová stránka (ale ne sociální sítě)
+    # Web
     web = ""
     for a in detail_soup.select("p.kontakty2 a[href^='http']"):
         href = a.get("href", "")
-        if not any(x in href for x in ["facebook.com", "instagram.com", "twitter.com", "youtube.com", "linkedin.com"]):
+        if not any(x in href for x in ["facebook", "instagram", "twitter", "youtube", "linkedin"]):
             web = href
             break
 
-    # Telefon a e-mail
+    # Kontakt
     email = telefon = ""
     kontakty = detail_soup.select(".kontakty2")
     for kontakt_blok in kontakty:
@@ -83,6 +138,43 @@ for blok in bloky_skol:
         elif "ico-linkedin" in classes:
             linkedin = href
 
+    # Logo a banner
+        # Logo a banner
+    banner_url = logo_url = ""
+    banner_elem = detail_soup.select_one(".FullBigBanner .big-skolaImg img")
+    if banner_elem:
+        banner_url = "https://www.vysokeskoly.com" + banner_elem.get("src", "")
+
+    logo_elem = detail_soup.select_one(".FullBigBanner .big-skolaLogo img")
+    if logo_elem:
+        logo_url = "https://www.vysokeskoly.com" + logo_elem.get("src", "")
+
+    # ✅ Tady vytvoříme uni_data bez ohledu na logo/banner
+    uni_data = {
+        'name': nazev,
+        'address': lokace,
+        'location': mesto,
+        'website': web,
+        'facebook': facebook,
+        'instagram': instagram,
+        'twitter': twitter,
+        'youtube': youtube,
+        'linkedin': linkedin,
+        'about': popis,
+        'email': email,
+        'phone': telefon,
+        'logo': logo_url,
+        'banner': banner_url,
+        'type': stitek,
+        'field': fakulty_text,
+    }
+
+    # ✅ Zavoláme insert funkci
+    insert_into_database(uni_data)
+
+
+
+    # Výpis
     print(f"Název: {nazev}")
     print(f"Odkaz: {odkaz}")
     print(f"Lokace: {lokace}")
@@ -97,4 +189,5 @@ for blok in bloky_skol:
     print(f"Instagram: {instagram}")
     print(f"Twitter: {twitter}")
     print(f"YouTube: {youtube}")
-    print(f"LinkedIn: {linkedin}\n")
+    print(f"LinkedIn: {linkedin}")
+    #print(f"Obrázky: {banner_path if banner_elem else 'žádný banner'}, {logo_path if logo_elem else 'žádné logo'}\n")

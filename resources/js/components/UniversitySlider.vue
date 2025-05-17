@@ -27,8 +27,10 @@ onMounted(async () => {
           :to="`/university/${uni.id}`"
           class="min-w-[250px] bg-white rounded-lg shadow p-4 flex-shrink-0 hover:bg-gray-50 transition"
         >
-          <h3 class="text-lg font-bold">{{ uni.name }}</h3>
+          <h3 class="text-lg font-bold max-w-84">{{ uni.name }}</h3>
           <p class="text-gray-600 text-sm mb-2">{{ uni.location }}</p>
+          <p class="text-red-600 text-sm mb-2">{{ uni.type }}</p>
+
           <span
             class="text-sm text-green-600 underline"
             v-if="uni.website"
