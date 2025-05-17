@@ -1,11 +1,15 @@
 import requests
 from bs4 import BeautifulSoup
 import re
+import os
 
 BASE_URL = "https://www.vysokeskoly.com"
-url = BASE_URL + "/PS/Vysoke-skoly"
+URL = BASE_URL + "/PS/Vysoke-skoly"
 
-response = requests.get(url)
+IMG_DIR = "fakulty_obrazky"
+os.makedirs(IMG_DIR, exist_ok=True)
+
+response = requests.get(URL)
 response.encoding = 'windows-1250'
 soup = BeautifulSoup(response.text, 'html.parser')
 bloky_skol = soup.select(".ListSkola")
@@ -27,38 +31,28 @@ for blok in bloky_skol:
         fakulta.encoding = 'windows-1250'
         fakulta_soup = BeautifulSoup(fakulta.text, 'html.parser')
 
-        nazev_element = fakulta_soup.select_one(".web_2")
-        nazev = nazev_element.get_text(strip=True) if nazev_element else "Název nenalezen"
+        nazev = fakulta_soup.select_one(".web_2")
+        nazev = nazev.get_text(strip=True) if nazev else "Název nenalezen"
 
-        adresa_element = fakulta_soup.select_one(".big-adresa")
-        lokace = adresa_element.get_text(strip=True) if adresa_element else "Adresa nenalezena"
+        adresa = fakulta_soup.select_one(".big-adresa")
+        lokace = adresa.get_text(strip=True) if adresa else "Adresa nenalezena"
 
         popis_element = fakulta_soup.select_one(".BoxAnot")
         if popis_element:
             odstavce = popis_element.find_all("p")
-            if odstavce:
-                popis_full = "\n\n".join(p.get_text(" ", strip=True) for p in odstavce)
-            else:
-                # fallback, když tam nejsou <p>, ale jen text
-                popis_full = popis_element.get_text(" ", strip=True)
+            popis_full = "\n\n".join(p.get_text(" ", strip=True) for p in odstavce) if odstavce else popis_element.get_text(" ", strip=True)
         else:
             popis_full = "Popis nenalezen"
 
         popis = popis_full
-
         typ_studia = ""
 
         if "Typ studia:" in popis_full:
-            casti = popis_full.split("Typ studia:")
-            popis = casti[0].strip()
-            zbytek = casti[1]
-            if "Vedení" in zbytek:
-                typ_studia_cast, _ = zbytek.split("Vedení", 1)
-                typ_studia = typ_studia_cast.strip(" :,\n")
-            else:
-                typ_studia = zbytek.strip(" :,\n")
+            popis = popis_full.split("Typ studia:")[0].strip()
+            zbytek = popis_full.split("Typ studia:")[1]
+            typ_studia = zbytek.split("Vedení")[0].strip(" :,\n") if "Vedení" in zbytek else zbytek.strip(" :,\n")
         elif "Vedení" in popis_full:
-            popis = popis_full.split("Vedení", 1)[0].strip()
+            popis = popis_full.split("Vedení")[0].strip()
 
         email = telefon = web = ""
         kontakty_bloky = fakulta_soup.select(".rozdel-box, .kontakty2, .big-adresa")
@@ -77,22 +71,17 @@ for blok in bloky_skol:
                     telefon = telefon_match.group(0)
 
             if not web:
-                for blok in kontakty_bloky:
-                    odkazy = blok.find_all("a", href=True)
-                    for a in odkazy:
-                        if "Web:" in blok.get_text():
-                            if "facebook" in a["href"] or "instagram" in a["href"] or "twitter" in a["href"] or "youtube" in a["href"] or "linkedin" in a["href"]:
-                                continue
-                            pred_textem = a.find_previous(string=True)
-                            if pred_textem and "web" in pred_textem.lower():
-                                web = a["href"]
-                                break
-                    if web:
+                odkazy = blok.find_all("a", href=True)
+                for a in odkazy:
+                    href = a['href']
+                    if any(soc in href for soc in ["facebook", "instagram", "twitter", "youtube", "linkedin"]):
+                        continue
+                    if "web" in a.find_previous(string=True).lower():
+                        web = href
                         break
 
         facebook = instagram = twitter = youtube = linkedin = ""
-        social_links = fakulta_soup.select("ul.FKsocial a")
-        for link in social_links:
+        for link in fakulta_soup.select("ul.FKsocial a"):
             href = link.get("href", "")
             classes = link.get("class", [])
             if "ico-facebook" in classes:
@@ -107,26 +96,69 @@ for blok in bloky_skol:
                 linkedin = href
 
         banner_url = logo_url = ""
-        banner_elem = fakulta_soup.select_one(".FullBigBanner .big-skolaImg img")
-        if banner_elem:
-            banner_url = BASE_URL + banner_elem.get("src", "")
-        logo_elem = fakulta_soup.select_one(".FullBigBanner .big-skolaLogo img")
-        if logo_elem:
-            logo_url = BASE_URL + logo_elem.get("src", "")
+        banner = fakulta_soup.select_one(".FullBigBanner .big-skolaImg img")
+        if banner:
+            banner_url = BASE_URL + banner.get("src", "")
+            try:
+                img_data = requests.get(banner_url).content
+                with open(f"{IMG_DIR}/{nazev}_banner.jpg", "wb") as f:
+                    f.write(img_data)
+            except:
+                pass
+
+        logo = fakulta_soup.select_one(".FullBigBanner .big-skolaLogo img")
+        if logo:
+            logo_url = BASE_URL + logo.get("src", "")
+            try:
+                img_data = requests.get(logo_url).content
+                with open(f"{IMG_DIR}/{nazev}_logo.jpg", "wb") as f:
+                    f.write(img_data)
+            except:
+                pass
+
+        den_odveri_datum = ""
+        den_odveri_odkaz = ""
+        prijimacky_datum = ""
+        prijimacky_cena_prihlasky = ""
+        prihlaska_odkaz = ""
+
+        prijimacky_tab = fakulta_soup.select_one("table.tablePrijimacky")
+        if prijimacky_tab:
+            for row in prijimacky_tab.select("tr"):
+                cols = row.select("td")
+                if len(cols) == 2:
+                    nazev_raw = cols[0].get_text(" ", strip=True).replace(":", "").lower()
+                    obsah = cols[1]
+
+                    if "den otevřených dveří" in nazev_raw:
+                        text = obsah.get_text(" ", strip=True)
+
+                        odkazy = re.findall(r"https?://\S+", text)
+                        if odkazy:
+                            den_odveri_odkaz = ", ".join(odkazy)
+
+                        text_bez_odkazu = re.sub(r"https?://\S+", "", text).strip(" ,")
+                        den_odveri_datum = text_bez_odkazu
+
+                    elif "přihlášky ke studiu" in nazev_raw or "termín přihlášek" in nazev_raw:
+                        prijimacky_datum = obsah.get_text(" ", strip=True)
+
+                    elif "přihláška" in nazev_raw and "cena" in nazev_raw:
+                        prijimacky_cena_prihlasky = obsah.get_text(" ", strip=True)
+
+                for a in row.select("a[href]"):
+                    if "prihlaska" in a["href"]:
+                        prihlaska_odkaz = a["href"]
 
 
-
-        
-
-
-        print(f"Název: {nazev}")
-        #print(f"Odkaz: {url_fakulty}")
+        print("=======================================")
+        print(f"Název fakulty: {nazev}")
         print(f"Lokace: {lokace}")
         print(f"Popis: {popis}")
         print(f"Typ studia: {typ_studia}")
-        print(f"Web: {web or 'Nenalezeno'}")
-        print(f"E-mail: {email or 'Nenalezen'}")
-        print(f"Telefon: {telefon or 'Nenalezen'}")
+        print(f"Web: {web}")
+        print(f"E-mail: {email}")
+        print(f"Telefon: {telefon}")
         print(f"Facebook: {facebook}")
         print(f"Instagram: {instagram}")
         print(f"Twitter: {twitter}")
@@ -134,7 +166,10 @@ for blok in bloky_skol:
         print(f"LinkedIn: {linkedin}")
         print(f"Logo URL: {logo_url}")
         print(f"Banner URL: {banner_url}")
-        print(f"Přijímací řízení:\n{prijimacky_text or 'Nenalezeno'}")
-        print(f"Datum přijímaček: {datum_prijimacek or 'Nenalezeno'}")
-        print("--------------")
-
+        print("---- Přijímací řízení ----")
+        print(f"Den otevřených dveří: {den_odveri_datum}")
+        print(f"Odkaz na DOD: {den_odveri_odkaz}")
+        print(f"Termín přihlášek: {prijimacky_datum}")
+        print(f"Cena přihlášky: {prijimacky_cena_prihlasky}")
+        print(f"Odkaz na přihlášku: {prihlaska_odkaz}")
+        print("=======================================")
