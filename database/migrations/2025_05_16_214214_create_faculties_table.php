@@ -14,10 +14,8 @@ return new class extends Migration {
         Schema::create('faculties', function (Blueprint $table) {
             $table->id();
 
-            // Reference to the parent university
-            $table->unsignedBigInteger('university_id');
+            $table->string('university'); 
 
-            // Basic info
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('address')->nullable();
@@ -25,36 +23,33 @@ return new class extends Migration {
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
 
-            // Admissions
             $table->string('application_link')->nullable();
-            $table->text('admission_notes')->nullable();
+            $table->string('admission_notes')->nullable();
 
-
-            // Open Days
-            $table->date('open_day_date')->nullable();
+            $table->string('open_day_dates')->nullable();
             $table->string('open_day_url')->nullable();
 
-            $table->text('exam_dates')->nullable(); // lze rozparsovat na list v Pythonu
-            $table->integer('application_fee_online')->nullable();
-            $table->integer('application_fee_paper')->nullable();
+            $table->string('exam_dates')->nullable();
 
-            $table->date('application_deadline')->nullable();
+            $table->string('application_fee')->nullable();
 
-            // Study programs by level
-            $table->json('bc_programs')->nullable();
-            $table->json('mgr_programs')->nullable();
-            $table->json('dr_programs')->nullable();
+            $table->string('application_deadlines')->nullable();
 
-            // Images
+            $table->text ('bc_programs')->nullable();
+            $table->text ('mgr_programs')->nullable();
+            $table->text ('dr_programs')->nullable();
+
             $table->string('logo_url')->nullable();
             $table->string('banner_url')->nullable();
 
+            $table->string('facebook_url')->nullable();
+            $table->string('instagram_url')->nullable();
+            $table->string('twitter_url')->nullable();
+
+            $table->string('fields_of_study')->nullable();
+
             $table->timestamps();
 
-            $table->foreign('university_id')
-                ->references('id')
-                ->on('universities')
-                ->onDelete('cascade');
         });
     }
 

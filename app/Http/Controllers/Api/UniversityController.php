@@ -12,17 +12,29 @@ class UniversityController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string',
+            'address' => 'nullable|string',
             'location' => 'nullable|string',
             'website' => 'nullable|string',
+            'email' => 'nullable|email',
+            'phone' => 'nullable|string',
+            'facebook' => 'nullable|string',
+            'instagram' => 'nullable|string',
+            'twitter' => 'nullable|string',
+            'youtube' => 'nullable|string',
+            'linkedin' => 'nullable|string',
+            'about' => 'nullable|string',
+            'type' => 'nullable|string',
             'field' => 'nullable|string',
             'language' => 'nullable|string',
-            'type' => 'nullable|string',
+            'logo_url' => 'nullable|url',
+            'banner_url' => 'nullable|url',
         ]);
 
         $university = University::create($validated);
 
         return response()->json($university, 201);
     }
+
 
     public function index()
     {
