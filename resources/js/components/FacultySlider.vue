@@ -12,12 +12,10 @@ onMounted(async () => {
   try {
     const res = await fetch('/api/faculties')
     faculties.value = await res.json()
-    console.log('Fakulty:', faculties.value)
   } catch (error) {
     console.error('Chyba při načítání fakult:', error)
   }
 })
-
 </script>
 
 <template>
@@ -27,7 +25,7 @@ onMounted(async () => {
       <router-link
         v-for="faculty in faculties"
         :key="faculty.id"
-        :to="`/faculties/${faculty.id}`"
+        :to="`/faculty/${faculty.id}`"
         class="min-w-[250px] p-2 flex-shrink-0"
       >
         <FacultyCard :faculty="faculty" />

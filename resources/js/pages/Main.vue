@@ -6,9 +6,11 @@
       </section>
   
       <UniversitySlider title="All Universities" />
+      <FacultySlider title="All faculties" />
     </div>
   </template>
   
   <script setup>
   import UniversitySlider from '../components/UniversitySlider.vue'
+  import FacultySlider from '../components/FacultySlider.vue';
   </script>
