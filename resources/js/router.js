@@ -7,6 +7,7 @@ import Main from '../js/pages/Main.vue'
 import UniversityPage from '../js/pages/UniversityPage.vue'
 import AdminDashboard from '../js/pages/AdminDashboard.vue'
 
+
 const routes = [
   { path: '/', component: Main },
   { path: '/login', component: LoginPage },
