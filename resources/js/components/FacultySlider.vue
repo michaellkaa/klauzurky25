@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import FacultyCard from './FacultyCard.vue'
-
 const faculties = ref([])
 
 defineProps({

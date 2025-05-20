@@ -6,11 +6,11 @@ const universities = ref([])
 defineProps({
   title: String
 })
-// Fetch all universities from the Laravel API
+
 onMounted(async () => {
   try {
     const res = await fetch('/api/universities')
-    universities.value = await res.json()  // Store data in the universities array
+    universities.value = await res.json()
   } catch (error) {
     console.error('Error loading universities:', error)
   }

@@ -3,7 +3,7 @@ defineProps({ faculty: Object })
 </script>
 
 <template>
-  <router-link :to="`/faculties/${faculty.id}`">
+  <router-link :to="`/faculty/${faculty.id}`">
     <div class="bg-white rounded-2xl shadow-md w-72 overflow-hidden hover:shadow-lg transition-shadow duration-200">
       <!-- Banner -->
       <div v-if="faculty.banner_url" class="h-24 w-full bg-gray-100">
