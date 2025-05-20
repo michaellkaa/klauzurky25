@@ -17,10 +17,6 @@ use App\Http\Controllers\Api\AuthController;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 
 Route::get('/universities', [UniversityController::class, 'index']);
 Route::post('/universities', [UniversityController::class, 'store']);
@@ -37,3 +33,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->get('/user', function(Request $request) {
     return $request->user();
 });
+
+Route::middleware('auth:sanctum')->post('/user/photo', [AuthController::class, 'updatePhoto']);
+
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);

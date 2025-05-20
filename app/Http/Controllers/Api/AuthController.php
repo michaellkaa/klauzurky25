@@ -47,4 +47,32 @@ class AuthController extends Controller
         return response()->json(['message' => 'Přihlášení úspěšné']);
     }
 
+
+    public function updatePhoto(Request $request)
+    {
+        $request->validate([
+            'photo' => 'required|image|max:2048',
+        ]);
+
+        $user = auth()->user();
+
+        $path = $request->file('photo')->store('profile_photos', 'public');
+
+        $user->avatar_path = 'storage/' . $path;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Profilový obrázek uložen',
+            'avatar_path' => $user->avatar_path,
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        //return response()->json(['message' => 'Logged out']);
+    }
+
+
 }
