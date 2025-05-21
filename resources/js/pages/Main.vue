@@ -1,13 +1,12 @@
 <template>
     
     <div class="space-y-8 p-6">
-      <div class="flex justify-end">
+      <div class="flex justify-between mb-20">
+        <img src="../../../public/logo-sfyns.png" alt="" class="w-40 h-auto">
         <ProfileLink :user="user" />
       </div>
-      <section class="text-center">
-        <h1 class="text-4xl font-bold">Start Finding Your Next Step</h1>
-        <p class="text-gray-600 mt-2">Explore top universities in the Czech Republic</p>
-      </section>
+          <SearchBar />
+
   
       <UniversitySlider title="All Universities" />
       <FacultySlider title="All faculties" />
@@ -18,5 +17,6 @@
   import UniversitySlider from '../components/UniversitySlider.vue'
   import FacultySlider from '../components/FacultySlider.vue';
   import ProfileLink from '../Components/ProfileLink.vue';
+  import SearchBar from '../Components/SearchBar.vue';
 
   </script>

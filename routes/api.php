@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UniversityController;
 Use App\Http\Controllers\Api\FacultyController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,3 +41,5 @@ Route::middleware('auth:sanctum')->post('/user/photo', [AuthController::class, '
     Auth::logout();
     return response()->json(['message' => 'Logged out']);
 });*/
+
+Route::get('/search', [SearchController::class, 'search']);

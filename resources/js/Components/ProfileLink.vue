@@ -1,10 +1,10 @@
 <template>
   <router-link v-if="user" to="/profile" class="flex items-center space-x-2 cursor-pointer">
-    <span class="hidden sm:inline text-sm text-gray-700">{{ user.email }}</span>
+    <span class="hidden sm:inline text-sm text-black font-medium pr-2">{{ user.email }}</span>
     <img
       :src="user.avatar_path || defaultAvatar"
       alt="Profilová fotka"
-      class="w-10 h-10 rounded-full object-cover border border-gray-300"
+      class="w-10 h-10 rounded-full object-cover  border-gray-300 border"
     />
   </router-link>
 </template>

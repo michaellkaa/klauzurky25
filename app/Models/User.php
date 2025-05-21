@@ -34,4 +34,11 @@ class User extends Authenticatable
 
         return '../../public/profpic_empty.png';
     }
+
+    public function favorites()
+    {
+        return $this->morphedByMany(Faculty::class, 'favoritable', 'favorites')->withTimestamps()
+            ->union($this->morphedByMany(University::class, 'favoritable', 'favorites')->withTimestamps());
+    }
+
 }
