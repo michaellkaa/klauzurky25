@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UniversityController;
@@ -36,4 +36,7 @@ Route::middleware('auth:sanctum')->get('/user', function(Request $request) {
 
 Route::middleware('auth:sanctum')->post('/user/photo', [AuthController::class, 'updatePhoto']);
 
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+/*Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
+    Auth::logout();
+    return response()->json(['message' => 'Logged out']);
+});*/

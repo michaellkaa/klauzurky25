@@ -3,7 +3,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,3 +54,12 @@ Route::get('/register', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 })->name('register');
+
+Route::post('/logout', function (Request $request) {
+    Auth::guard('web')->logout();                   // odhlášení
+    $request->session()->invalidate();              // zneplatní session
+    $request->session()->regenerateToken();         // nový CSRF token
+
+    return response()->json(['message' => 'Logged out']);
+    
+})->middleware('auth');

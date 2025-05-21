@@ -67,12 +67,25 @@ class AuthController extends Controller
         ]);
     }
 
+    /*public function logout(Request $request)
+    {
+        Auth::guard('web')->logout(); // odhlásí uživatele
+        $request->session()->invalidate(); // zneplatní session
+        $request->session()->regenerateToken(); // nový CSRF token
+
+        return response()->json(['message' => 'Odhlášení úspěšné']);
+    }*/
+
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        // Pokud používáš session-based auth
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        //return response()->json(['message' => 'Logged out']);
+        // Pokud používáš tokeny (sanctum personal access tokens), tak můžeš také smazat token
+        // auth()->user()->currentAccessToken()->delete();
+
+        return response()->json(['message' => 'Odhlášení proběhlo úspěšně']);
     }
-
 
 }

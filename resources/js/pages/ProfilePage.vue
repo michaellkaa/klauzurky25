@@ -35,7 +35,7 @@
         </div>
         <div>
           <RouterLink
-            to="/forgot-password"
+            to=""
             class="text-sm text-blue-600 hover:underline"
           >Změnit heslo</RouterLink>
         </div>
@@ -58,6 +58,7 @@
 
     <div class="flex justify-end pt-6 border-t border-gray-200">
     <Button type="logout" :onClick="logout">Odhlásit se</Button>
+
     </div>
   </div>
 </template>
@@ -67,7 +68,9 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import Button from '../Components/Button.vue'
 
-const user = ref({ name: '', email: '', avatar_url: '' })
+
+const user = ref({}) 
+//const user = ref({ name: '', email: '', avatar_url: '' })
 const router = useRouter()
 const fileInput = ref(null)
 const previewPhoto = ref(null)
@@ -106,18 +109,59 @@ const handlePhotoChange = async (e) => {
   }
 }
 
-const logout = async () => {
+/*const logout = async () => {
   try {
+    // 1. Získání CSRF cookie – Laravel ji pošle do cookies
+    await fetch('/sanctum/csrf-cookie', {
+      credentials: 'include'
+    })
+
+    // 2. Odhlášení – cookie se přiloží automaticky
     const res = await fetch('/api/logout', {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
-    if (res.ok) {
-      router.push('/login')
+
+    if (!res.ok) {
+      throw new Error('Chyba při odhlašování')
     }
+
+    router.push('/login')
   } catch (error) {
-    console.error('Chyba při odhlášení:', error)
+    console.error('Nepodařilo se odhlásit.', error)
+  }
+}*/
+
+
+async function logout() {
+  try {
+    await fetch('http://127.0.0.1:8000/sanctum/csrf-cookie', {
+      credentials: 'include',
+    });
+
+    const response = await fetch('http://127.0.0.1:8000/logout', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+
+    console.log('Status:', response.status);
+    const data = await response.json();
+    console.log('Response:', data);
+
+    if (!response.ok) {
+      throw new Error('Logout failed');
+    }
+
+    console.log('Logout úspěšný');
+  } catch (error) {
+    console.error('Logout selhal', error);
   }
 }
 
