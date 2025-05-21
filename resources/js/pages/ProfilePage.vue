@@ -135,7 +135,6 @@ const handlePhotoChange = async (e) => {
   }
 }*/
 
-
 async function logout() {
   try {
     await fetch('http://127.0.0.1:8000/sanctum/csrf-cookie', {
@@ -158,8 +157,11 @@ async function logout() {
     if (!response.ok) {
       throw new Error('Logout failed');
     }
-
     console.log('Logout úspěšný');
+    
+    
+    window.location.href = '/';
+
   } catch (error) {
     console.error('Logout selhal', error);
   }

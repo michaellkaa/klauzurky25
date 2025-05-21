@@ -61,5 +61,4 @@ Route::post('/logout', function (Request $request) {
     $request->session()->regenerateToken();         // nový CSRF token
 
     return response()->json(['message' => 'Logged out']);
-    
 })->middleware('auth');
