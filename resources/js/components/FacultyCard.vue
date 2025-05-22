@@ -2,14 +2,15 @@
 import { useRouter } from 'vue-router'
 import HeartButton from './HeartButton.vue'
 
-defineProps({ faculty: Object })
+const props = defineProps({ faculty: Object })
 
 const router = useRouter()
 
 function goToFaculty() {
-  console.log('Card clicked: navigating to faculty', faculty.id)
-  router.push(`/faculty/${faculty.id}`)
+  console.log('Card clicked: navigating to faculty', props.faculty.id)
+  router.push(`/faculty/${props.faculty.id}`)
 }
+
 </script>
 
 <template>
@@ -19,12 +20,12 @@ function goToFaculty() {
       <HeartButton
         :type="'faculty'"
         :id="faculty.id"
-        :initiallyFavorited="false"
       />
+
     </div>
 
     <!-- Entire card clickable -->
-    <div
+     <div
       class="relative bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer"
       @click="goToFaculty"
     >

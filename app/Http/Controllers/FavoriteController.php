@@ -59,7 +59,7 @@ class FavoriteController extends Controller
         return response()->json(['message' => 'Favorite not found'], 404);
     }
 
-    /*public function isFavorited($facultyId)
+    public function isFavorited($facultyId)
     {
         $userId = auth()->id(); // Získáme ID přihlášeného uživatele
 
@@ -94,7 +94,23 @@ class FavoriteController extends Controller
                 ->delete();
 
         return response()->json(['message' => 'Removed from favorites']);
-    }*/
+    }
 
+    public function check(Request $request)
+    {
+        $request->validate([
+            'type' => 'required|in:university,faculty',
+            'id' => 'required|integer',
+        ]);
+
+        $model = $request->type === 'university' ? University::class : Faculty::class;
+
+        $isFavorited = Favorite::where('user_id', $request->user()->id)
+            ->where('favoritable_type', $model)
+            ->where('favoritable_id', $request->id)
+            ->exists();
+
+        return response()->json(['favorited' => $isFavorited]);
+    }
 
 }
