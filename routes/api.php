@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\UniversityController;
 Use App\Http\Controllers\Api\FacultyController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\FavoriteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,3 +44,8 @@ Route::middleware('auth:sanctum')->post('/user/photo', [AuthController::class, '
 });*/
 
 Route::get('/search', [SearchController::class, 'search']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/favorites', [FavoriteController::class, 'store']);
+    Route::delete('/favorites', [FavoriteController::class, 'destroy']);
+});

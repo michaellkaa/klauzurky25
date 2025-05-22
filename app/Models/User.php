@@ -37,8 +37,8 @@ class User extends Authenticatable
 
     public function favorites()
     {
-        return $this->morphedByMany(Faculty::class, 'favoritable', 'favorites')->withTimestamps()
-            ->union($this->morphedByMany(University::class, 'favoritable', 'favorites')->withTimestamps());
+        return $this->hasMany(Favorite::class);
     }
+
 
 }

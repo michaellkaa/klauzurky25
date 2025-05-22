@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-
+Route::get('/{any}', function () {
+    return view('app'); // Vue mount point
+})->where('any', '.*');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', function () {
@@ -62,3 +64,8 @@ Route::post('/logout', function (Request $request) {
 
     return response()->json(['message' => 'Logged out']);
 })->middleware('auth');
+/*
+Route::get('/faculty/{facultyId}/is-favorited', [FacultyController::class, 'isFavorited']);
+Route::post('/faculty/{facultyId}/favorite', [FavoriteController::class, 'addFavorite']);
+Route::delete('/faculty/{facultyId}/favorite', [FavoriteController::class, 'removeFavorite']);
+*/

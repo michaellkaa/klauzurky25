@@ -1,12 +1,35 @@
 <script setup>
+import { useRouter } from 'vue-router'
+import HeartButton from './HeartButton.vue'
+
 defineProps({ faculty: Object })
+
+const router = useRouter()
+
+function goToFaculty() {
+  console.log('Card clicked: navigating to faculty', faculty.id)
+  router.push(`/faculty/${faculty.id}`)
+}
 </script>
 
 <template>
-  <router-link :to="`/faculty/${faculty.id}`">
-    <div class="bg-white rounded-2xl shadow-md w-72 overflow-hidden hover:shadow-lg transition-shadow duration-200">
+  <div class="relative w-72">
+    <!-- Heart button OUTSIDE of clickable card -->
+    <div class="absolute top-2 right-2 z-50">
+      <HeartButton
+        :type="'faculty'"
+        :id="faculty.id"
+        :initiallyFavorited="false"
+      />
+    </div>
+
+    <!-- Entire card clickable -->
+    <div
+      class="relative bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer"
+      @click="goToFaculty"
+    >
       <!-- Banner -->
-      <div v-if="faculty.banner_url" class="h-24 w-full bg-gray-100">
+      <div v-if="faculty.banner_url" class="relative h-24 w-full bg-gray-100">
         <img :src="faculty.banner_url" alt="Faculty Banner" class="w-full h-full object-cover" />
       </div>
 
@@ -25,12 +48,11 @@ defineProps({ faculty: Object })
           </div>
         </div>
 
-        <!-- Address or other details -->
         <div class="text-xs text-gray-500 space-y-1">
           <p v-if="faculty.address"><strong>Adresa:</strong> {{ faculty.address }}</p>
-          <!-- Přidej další detaily, které chceš zobrazit, třeba web, email apod. -->
         </div>
       </div>
     </div>
-  </router-link>
+  </div>
 </template>
+

@@ -10,45 +10,91 @@ use App\Models\University;
 
 class FavoriteController extends Controller
 {
-    /*public function toggle(Request $request)
+     public function store(Request $request)
     {
         $request->validate([
-            'type' => 'required|in:faculty,university',
+            'type' => 'required|in:university,faculty',
             'id' => 'required|integer',
         ]);
 
-        $user = Auth::user();
+        $model = $request->type === 'university' ? University::class : Faculty::class;
+        $favoritable = $model::findOrFail($request->id);
 
-        $type = $request->type === 'faculty' ? Faculty::class : University::class;
-        $favorite = $user->favorites()
+        // Check if already favorited to avoid duplicates (unique constraint should help too)
+        $exists = Favorite::where('user_id', $request->user()->id)
+            ->where('favoritable_type', $model)
+            ->where('favoritable_id', $favoritable->id)
+            ->exists();
+
+        if (!$exists) {
+            Favorite::create([
+                'user_id' => $request->user()->id,
+                'favoritable_type' => $model,
+                'favoritable_id' => $favoritable->id,
+            ]);
+        }
+
+        return response()->json(['message' => 'Favorited']);
+    }
+
+    public function destroy(Request $request)
+    {
+        $request->validate([
+            'type' => 'required|in:university,faculty',
+            'id' => 'required|integer',
+        ]);
+
+        $model = $request->type === 'university' ? University::class : Faculty::class;
+
+        $favorite = Favorite::where('user_id', $request->user()->id)
+            ->where('favoritable_type', $model)
             ->where('favoritable_id', $request->id)
-            ->where('favoritable_type', $type)
             ->first();
 
         if ($favorite) {
-            // Already liked, so remove
             $favorite->delete();
-            return response()->json(['liked' => false]);
-        } else {
-            // Not yet liked, so add
-            $user->favorites()->create([
-                'favoritable_id' => $request->id,
-                'favoritable_type' => $type,
-            ]);
-            return response()->json(['liked' => true]);
+            return response()->json(['message' => 'Unfavorited']);
         }
+
+        return response()->json(['message' => 'Favorite not found'], 404);
     }
 
-    public function check(Request $request)
+    /*public function isFavorited($facultyId)
     {
-        $user = $request->user();
+        $userId = auth()->id(); // Získáme ID přihlášeného uživatele
 
-        $exists = $user->favorites()
-            ->where('favoritable_id', $request->id)
-            ->where('favoritable_type', $request->type === 'university' ? \App\Models\University::class : \App\Models\Faculty::class)
-            ->exists();
+        // Zkontrolujeme, zda existuje záznam pro tuto fakultu a uživatele
+        $isFavorited = Favorite::where('user_id', $userId)
+                                ->where('faculty_id', $facultyId)
+                                ->exists();
 
-        return response()->json(['liked' => $exists]);
+        return response()->json(['isFavorited' => $isFavorited]);
+    }
+
+    public function addFavorite($facultyId)
+    {
+        $userId = auth()->id(); // Získáme ID přihlášeného uživatele
+
+        // Přidáme do databáze
+        Favorite::create([
+            'user_id' => $userId,
+            'faculty_id' => $facultyId,
+        ]);
+
+        return response()->json(['message' => 'Added to favorites']);
+    }
+
+    public function removeFavorite($facultyId)
+    {
+        $userId = auth()->id(); // Získáme ID přihlášeného uživatele
+
+        // Odstraníme z databáze
+        Favorite::where('user_id', $userId)
+                ->where('faculty_id', $facultyId)
+                ->delete();
+
+        return response()->json(['message' => 'Removed from favorites']);
     }*/
+
 
 }

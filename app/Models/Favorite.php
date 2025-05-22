@@ -2,17 +2,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Favorite extends Model
 {
-    /*protected $fillable = ['user_id', 'favoritable_id', 'favoritable_type'];
+    protected $fillable = ['user_id', 'favoritable_id', 'favoritable_type'];
 
-    public function favoritable(): MorphTo {
+    public function favoritable()
+    {
         return $this->morphTo();
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
-    }*/
+    }
 }
+

@@ -15,8 +15,8 @@
   
   <script setup>
   import UniversitySlider from '../components/UniversitySlider.vue'
-  import FacultySlider from '../components/FacultySlider.vue';
   import ProfileLink from '../Components/ProfileLink.vue';
   import SearchBar from '../Components/SearchBar.vue';
+  import FacultySlider from '../Components/FacultySlider.vue';
 
   </script>
