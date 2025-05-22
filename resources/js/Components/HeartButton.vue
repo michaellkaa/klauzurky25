@@ -42,7 +42,7 @@ async function toggleFavorite() {
   }
 }
 </script>
-
+ 
 <template>
   <button @click.stop.prevent="toggleFavorite">
     <svg
