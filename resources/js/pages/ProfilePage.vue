@@ -49,9 +49,27 @@
       </div>
     </div>
 
+    <!-- Vaše fakulty -->
     <div>
       <h2 class="text-xl font-semibold mb-2">Vaše fakulty</h2>
-      <div class="bg-gray-50 border border-dashed border-gray-300 p-4 rounded-xl text-gray-500 text-sm text-center">
+      <div v-if="faculties && faculties.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+ 
+        <div
+          v-for="faculty in faculties"
+          :key="faculty.id"
+          class="border rounded-xl p-4 bg-white shadow-sm hover:shadow-md transition"
+        >
+          <h3 class="text-lg font-semibold">{{ faculty.name }}</h3>
+          <p class="text-sm text-gray-600">{{ faculty.university_name }}</p>
+          <RouterLink :to="`/faculty/${faculty.id}`" class="text-blue-600 text-sm hover:underline mt-2 block">
+            Zobrazit detail
+          </RouterLink>
+        </div>
+      </div>
+      <div
+        v-else
+        class="bg-gray-50 border border-dashed border-gray-300 p-4 rounded-xl text-gray-500 text-sm text-center"
+      >
         Zatím nemáte žádné přidané fakulty.
       </div>
     </div>
@@ -75,12 +93,12 @@ const router = useRouter()
 const fileInput = ref(null)
 const previewPhoto = ref(null)
 
-onMounted(async () => {
+/*onMounted(async () => {
   const response = await fetch('/api/user', { credentials: 'include' })
   if (response.ok) {
     user.value = await response.json()
   }
-})
+})*/
 
 const triggerFileInput = () => {
   fileInput.value?.click()
@@ -166,5 +184,25 @@ async function logout() {
     console.error('Logout selhal', error);
   }
 }
+
+const faculties = ref([])
+const universities = ref([])
+
+onMounted(async () => {
+  const response = await fetch('/api/user', { credentials: 'include' })
+  if (response.ok) {
+    user.value = await response.json()
+  }
+
+  const facRes = await fetch('/api/user/favorites/faculties', { credentials: 'include' })
+  if (facRes.ok) {
+    faculties.value = await facRes.json()
+  }
+
+  const uniRes = await fetch('/api/user/favorites/universities', { credentials: 'include' })
+  if (uniRes.ok) {
+    universities.value = await uniRes.json()
+  }
+})
 
 </script>

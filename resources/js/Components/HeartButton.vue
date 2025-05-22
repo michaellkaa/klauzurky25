@@ -55,7 +55,7 @@ async function toggleFavorite() {
       fill="currentColor"
       :class="[
         'w-6 h-6 transition-all duration-200 ease-in-out transform',
-        isFavorited ? 'text-red-500 scale-110' : 'text-gray-400',
+        isFavorited ? 'text-red-500 scale-110' : 'text-gray-200',
         'hover:scale-125 hover:text-red-400 cursor-pointer'
       ]"
     >

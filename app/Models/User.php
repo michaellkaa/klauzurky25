@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Faculty;
 
 class User extends Authenticatable
 {
@@ -40,5 +41,14 @@ class User extends Authenticatable
     return $this->morphedByMany(Faculty::class, 'favoritable', 'favorites');
 }
 
+public function favoriteFaculties()
+{
+    return $this->morphedByMany(Faculty::class, 'favoritable', 'favorites');
+}
+
+public function favoriteUniversities()
+{
+    return $this->morphedByMany(University::class, 'favoritable', 'favorites');
+}
 
 }

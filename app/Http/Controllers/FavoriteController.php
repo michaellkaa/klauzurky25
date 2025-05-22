@@ -197,4 +197,13 @@ class FavoriteController extends Controller
 
         return response()->json(['message' => 'Unfavorited']);
     }
+
+    public function userFavoriteFaculties(Request $request)
+    {
+        $user = $request->user();
+        $faculties = $user->favoriteFaculties()->with('university')->get(); // nebo bez `with` pokud nechceš eager-load
+
+        return response()->json($faculties);
+    }
+
 }
