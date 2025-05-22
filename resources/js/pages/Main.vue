@@ -3,7 +3,7 @@
     <div class="space-y-8 p-6">
       <div class="flex justify-between mb-20">
         <img src="../../../public/logo-sfyns.png" alt="" class="w-40 h-auto">
-        <ProfileLink :user="user" />
+        <ProfileLink  />
       </div>
           <SearchBar />
 

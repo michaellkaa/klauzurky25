@@ -10,6 +10,8 @@ const error = ref(null)
 const handleLogin = async () => {
   error.value = null
   try {
+
+
     const response = await fetch('/api/login', {
       method: 'POST',
       headers: {
