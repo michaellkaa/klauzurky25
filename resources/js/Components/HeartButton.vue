@@ -44,20 +44,26 @@ async function toggleFavorite() {
 </script>
  
 <template>
-  <button @click.stop.prevent="toggleFavorite">
+  <button
+    @click.stop.prevent="toggleFavorite"
+    class="focus:outline-none"
+    aria-label="Toggle favorite"
+  >
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      :class="['w-6 h-6 transition-colors duration-200', isFavorited ? 'text-red-500' : 'text-gray-400']"
-      fill="currentColor"
       viewBox="0 0 24 24"
+      fill="currentColor"
+      :class="[
+        'w-6 h-6 transition-all duration-200 ease-in-out transform',
+        isFavorited ? 'text-red-500 scale-110' : 'text-gray-400',
+        'hover:scale-125 hover:text-red-400 cursor-pointer'
+      ]"
     >
       <path
-        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 
-           6 3.5 4 6 4c1.54 0 3.04.99 
-           3.57 2.36h.87C14.96 4.99 16.46 4 
-           18 4c2.5 0 4 2 4 4.5 0 3.78-3.4 
-           6.86-8.55 11.54L12 21.35z"
+        d="M12 20.5s-7.5-5-9-9.5c-1.1-3.2 0.9-6.5 4.1-6.9 2-.3 4 1.2 4.9 2.8 0.9-1.6 2.9-3.1 4.9-2.8 3.2 0.4 5.2 3.7 4.1 6.9-1.5 4.5-9 9.5-9 9.5z"
       />
     </svg>
   </button>
 </template>
+
+
