@@ -59,17 +59,6 @@ class FavoriteController extends Controller
         return response()->json(['message' => 'Favorite not found'], 404);
     }
 
-    public function isFavorited($facultyId)
-    {
-        $userId = auth()->id(); // Získáme ID přihlášeného uživatele
-
-        // Zkontrolujeme, zda existuje záznam pro tuto fakultu a uživatele
-        $isFavorited = Favorite::where('user_id', $userId)
-                                ->where('faculty_id', $facultyId)
-                                ->exists();
-
-        return response()->json(['isFavorited' => $isFavorited]);
-    }
 
     public function addFavorite($facultyId)
     {
@@ -113,4 +102,99 @@ class FavoriteController extends Controller
         return response()->json(['favorited' => $isFavorited]);
     }
 
+
+    public function isFavorited(Request $request)
+    {
+        $user = Auth::user();
+        $id = $request->id;
+        $type = $request->type;
+
+        if (!$user) {
+            return response()->json(['favorited' => false]);
+        }
+
+        // Map 'faculty' or 'university' to model class
+        $modelClass = match ($type) {
+            'faculty' => \App\Models\Faculty::class,
+            'university' => \App\Models\University::class,
+            default => null,
+        };
+
+        if (!$modelClass) {
+            return response()->json(['favorited' => false]);
+        }
+
+        $item = $modelClass::find($id);
+        if (!$item) {
+            return response()->json(['favorited' => false]);
+        }
+
+        $favorited = $item->favoritedByUsers()->where('user_id', $user->id)->exists();
+
+        return response()->json(['favorited' => $favorited]);
+    }
+
+    public function favorite(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $id = $request->id;
+        $type = $request->type;
+
+        $modelClass = match ($type) {
+            'faculty' => \App\Models\Faculty::class,
+            'university' => \App\Models\University::class,
+            default => null,
+        };
+
+        if (!$modelClass) {
+            return response()->json(['message' => 'Invalid type'], 400);
+        }
+
+        $item = $modelClass::find($id);
+        if (!$item) {
+            return response()->json(['message' => 'Item not found'], 404);
+        }
+
+        // Attach favorite if not already favorited
+        if (!$item->favoritedByUsers()->where('user_id', $user->id)->exists()) {
+            $item->favoritedByUsers()->attach($user->id);
+        }
+
+        return response()->json(['message' => 'Favorited']);
+    }
+
+    public function unfavorite(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $id = $request->id;
+        $type = $request->type;
+
+        $modelClass = match ($type) {
+            'faculty' => \App\Models\Faculty::class,
+            'university' => \App\Models\University::class,
+            default => null,
+        };
+
+        if (!$modelClass) {
+            return response()->json(['message' => 'Invalid type'], 400);
+        }
+
+        $item = $modelClass::find($id);
+        if (!$item) {
+            return response()->json(['message' => 'Item not found'], 404);
+        }
+
+        // Detach favorite if exists
+        $item->favoritedByUsers()->detach($user->id);
+
+        return response()->json(['message' => 'Unfavorited']);
+    }
 }

@@ -51,46 +51,11 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->get('/favorites/check', [FavoriteController::class, 'check']);
-Route::middleware('auth:sanctum')->get('/is-favorited', function (Illuminate\Http\Request $request) {
-    $user = $request->user();
 
-    $isFavorited = Favorite::where('user_id', $user->id)
-        ->where('favoritable_id', $request->id)
-        ->where('favoritable_type', 'App\\Models\\' . ucfirst($request->type))
-        ->exists();
 
-    return response()->json(['favorited' => $isFavorited]);
-});
-
-Route::middleware('auth:sanctum')->post('/favorite', function (Illuminate\Http\Request $request) {
-    $request->validate([
-        'id' => 'required|integer',
-        'type' => 'required|string'
-    ]);
-
-    $user = $request->user();
-
-    Favorite::firstOrCreate([
-        'user_id' => $user->id,
-        'favoritable_id' => $request->id,
-        'favoritable_type' => 'App\\Models\\' . ucfirst($request->type),
-    ]);
-
-    return response()->json(['status' => 'favorited']);
-});
-
-Route::middleware('auth:sanctum')->post('/unfavorite', function (Illuminate\Http\Request $request) {
-    $request->validate([
-        'id' => 'required|integer',
-        'type' => 'required|string'
-    ]);
-
-    $user = $request->user();
-
-    Favorite::where('user_id', $user->id)
-        ->where('favoritable_id', $request->id)
-        ->where('favoritable_type', 'App\\Models\\' . ucfirst($request->type))
-        ->delete();
-
-    return response()->json(['status' => 'unfavorited']);
+Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/is-favorited', [FavoriteController::class, 'isFavorited'])->withoutMiddleware('throttle:api');
+    Route::get('/is-favorited', [FavoriteController::class, 'isFavorited']);
+    Route::post('/favorite', [FavoriteController::class, 'favorite']);
+    Route::post('/unfavorite', [FavoriteController::class, 'unfavorite']);
 });
