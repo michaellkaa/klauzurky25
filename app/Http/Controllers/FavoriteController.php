@@ -201,7 +201,7 @@ class FavoriteController extends Controller
     public function userFavoriteFaculties(Request $request)
     {
         $user = $request->user();
-        $faculties = $user->favoriteFaculties()->with('university')->get(); // nebo bez `with` pokud nechceš eager-load
+$faculties = $user->favoriteFaculties()->get(); // bez ->with('university')
 
         return response()->json($faculties);
     }

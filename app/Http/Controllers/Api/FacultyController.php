@@ -21,7 +21,7 @@ class FacultyController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'university' => 'required|integer|exists:universities,id',
+            'university' => 'required|string|exists:universities,id',
             'name' => 'required|string',
             'description' => 'nullable|string',
             'address' => 'nullable|string',

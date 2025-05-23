@@ -54,17 +54,37 @@
       <h2 class="text-xl font-semibold mb-2">Vaše fakulty</h2>
       <div v-if="faculties && faculties.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
  
-        <div
-          v-for="faculty in faculties"
-          :key="faculty.id"
-          class="border rounded-xl p-4 bg-white shadow-sm hover:shadow-md transition"
-        >
-          <h3 class="text-md font-semibold">{{ faculty.name }}</h3>
-          <p class="text-sm text-gray-600">{{ faculty.university }}</p>
-          <RouterLink :to="`/faculty/${faculty.id}`" class="text-blue-600 text-sm hover:underline mt-2 block">
-            Zobrazit detail
-          </RouterLink>
-        </div>
+<div
+  v-for="faculty in faculties"
+  :key="faculty.id"
+  class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 transition hover:shadow-md hover:border-blue-400 group flex flex-col"
+>
+  <div class="flex items-center gap-4 mb-4">
+    <img
+      :src="faculty.logo_url || '/default-faculty-logo.png'"
+      alt="Logo fakulty"
+      class="w-12 h-12 rounded-md object-contain "
+    />
+    <div>
+      <h3 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition">
+        {{ faculty.name }}
+      </h3>
+      <p class="text-sm text-gray-500">{{ faculty.university }}</p>
+    </div>
+  </div>
+
+  <RouterLink
+    :to="`/faculty/${faculty.id}`"
+    class="mt-auto inline-flex items-center text-sm font-medium text-blue-600 hover:underline"
+  >
+    Zobrazit detail
+    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </RouterLink>
+</div>
+
+
       </div>
       <div
         v-else
