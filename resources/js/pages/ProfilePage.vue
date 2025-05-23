@@ -59,8 +59,8 @@
           :key="faculty.id"
           class="border rounded-xl p-4 bg-white shadow-sm hover:shadow-md transition"
         >
-          <h3 class="text-lg font-semibold">{{ faculty.name }}</h3>
-          <p class="text-sm text-gray-600">{{ faculty.university_name }}</p>
+          <h3 class="text-md font-semibold">{{ faculty.name }}</h3>
+          <p class="text-sm text-gray-600">{{ faculty.university }}</p>
           <RouterLink :to="`/faculty/${faculty.id}`" class="text-blue-600 text-sm hover:underline mt-2 block">
             Zobrazit detail
           </RouterLink>
@@ -178,7 +178,7 @@ async function logout() {
     console.log('Logout úspěšný');
     
     
-    window.location.href = '/';
+    window.location.href = '/login';
 
   } catch (error) {
     console.error('Logout selhal', error);
@@ -197,6 +197,8 @@ onMounted(async () => {
   const facRes = await fetch('/api/user/favorites/faculties', { credentials: 'include' })
   if (facRes.ok) {
     faculties.value = await facRes.json()
+        console.log('Fakulty:', faculties.value) // 👈 zde ověříš výstup
+
   }
 
   const uniRes = await fetch('/api/user/favorites/universities', { credentials: 'include' })
