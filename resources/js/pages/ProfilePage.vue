@@ -74,7 +74,7 @@
           alt="Logo fakulty"
           class="w-12 h-12 rounded-md object-contain"
         />
-<div class="max-w-[80%] pr-1">
+<div class="max-w-[80%] pr-3">
   <h3 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition">
     {{ faculty.name }}
   </h3>
