@@ -51,4 +51,10 @@ public function favoriteUniversities()
     return $this->morphedByMany(University::class, 'favoritable', 'favorites');
 }
 
+public function events()
+{
+    return $this->hasMany(Event::class);
+}
+
+
 }

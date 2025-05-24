@@ -206,4 +206,35 @@ $faculties = $user->favoriteFaculties()->get(); // bez ->with('university')
         return response()->json($faculties);
     }
 
+
+
+public function addFavouriteFaculty(Request $request)
+{
+    $faculty = Faculty::findOrFail($request->faculty_id);
+    $user = Auth::user();
+    $user->favouriteFaculties()->attach($faculty->id);
+
+    // Nyní vyextrahujeme datumy
+    $eventText = $faculty->open_day_dates; // Třeba ten sloupec s daty
+
+    preg_match_all('/\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b/', $eventText, $matches, PREG_SET_ORDER);
+
+    foreach ($matches as $match) {
+        $day = str_pad($match[1], 2, '0', STR_PAD_LEFT);
+        $month = str_pad($match[2], 2, '0', STR_PAD_LEFT);
+        $year = $match[3];
+
+        $date = "$year-$month-$day";
+        $title = "Den otevřených dveří – {$faculty->name} ({$faculty->university->name})";
+
+        Event::create([
+            'user_id' => $user->id,
+            'title' => $title,
+            'date' => $date,
+        ]);
+    }
+
+    return response()->json(['message' => 'Fakulta přidána a události uloženy.']);
+}
+
 }

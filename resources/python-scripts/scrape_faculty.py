@@ -59,7 +59,7 @@ def insert_into_database(faculty):
 
             cursor.execute(query, values)
             connection.commit()
-            #nekam sem pridej spanek
+            
     except Exception as e:
         print(f"Chyba při ukládání: {e}")
     finally:

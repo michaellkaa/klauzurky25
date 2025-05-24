@@ -8,6 +8,9 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\FavoriteController;
 use App\Models\Favorite;
+use App\Models\Event;
+use App\Models\Faculty;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -54,10 +57,40 @@ Route::middleware('auth:sanctum')->get('/favorites/check', [FavoriteController::
 
 
 Route::middleware('auth:sanctum')->group(function () {
-        Route::get('/is-favorited', [FavoriteController::class, 'isFavorited'])->withoutMiddleware('throttle:api');
     Route::get('/is-favorited', [FavoriteController::class, 'isFavorited']);
     Route::post('/favorite', [FavoriteController::class, 'favorite']);
     Route::post('/unfavorite', [FavoriteController::class, 'unfavorite']);
 });
 
 Route::middleware('auth:sanctum')->get('/user/favorites/faculties', [FavoriteController::class, 'userFavoriteFaculties']);
+
+Route::middleware('auth:sanctum')->get('/events', function (Request $request) {
+    return Event::where('user_id', $request->user()->id)->orderBy('date')->get();
+});
+
+Route::post('/sync-events', [EventSyncController::class, 'store']);
+Route::get('/user-events', [EventSyncController::class, 'index']); // Pro Vue kalendář
+
+Route::middleware('auth:sanctum')->get('/favorite-events', function (Request $request) {
+    $user = $request->user();
+
+    // Get the names of favorite faculties directly
+    $facultyNames = $user->favoriteFaculties()->pluck('name')->unique();
+
+    // Find events matching these faculty names
+    $events = Event::whereIn('faculty', $facultyNames)
+    ->orderBy('date')
+    ->get()
+    ->map(function ($event) {
+        return [
+            'title' => ($event->type ?? 'Událost') . ' - ' . $event->faculty,
+            'university'=> $event->university,
+            'faculty' => $event->faculty,
+            'date' => \Carbon\Carbon::parse($event->date)->format('d-m-Y'),
+        ];
+    });
+
+
+    return $events;
+});
+
