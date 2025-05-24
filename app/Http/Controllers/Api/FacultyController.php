@@ -57,4 +57,18 @@ class FacultyController extends Controller
 
         return response()->json(['message' => 'Faculty deleted']);
     }
+
+    public function zamereni()
+{
+    $zamereni = Faculty::pluck('fields_of_study') // vezme všechny hodnoty z sloupce
+        ->flatMap(function ($item) {
+            return array_map('trim', explode(',', $item)); // rozdělí hodnoty podle čárek
+        })
+        ->filter() // odstraní null / prázdné
+        ->unique()
+        ->values();
+
+    return response()->json($zamereni);
+}
+
 }

@@ -94,3 +94,5 @@ Route::middleware('auth:sanctum')->get('/favorite-events', function (Request $re
     return $events;
 });
 
+Route::get('/zamereni', [FacultyController::class, 'zamereni']);
+//Route::middleware('auth:sanctum')->get('/are-favorites', [FavoriteController::class, 'areFavorites']);

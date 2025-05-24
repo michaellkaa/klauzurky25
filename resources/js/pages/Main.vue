@@ -10,6 +10,8 @@
   
       <UniversitySlider title="All Universities" />
       <FacultySlider title="All faculties" />
+      <FieldSlider
+  />
     </div>
   </template>
   
@@ -18,5 +20,18 @@
   import ProfileLink from '../Components/ProfileLink.vue';
   import SearchBar from '../Components/SearchBar.vue';
   import FacultySlider from '../Components/FacultySlider.vue';
+  import FieldSlider from '../Components/FieldSLider.vue';
+import { ref, onMounted } from 'vue'
 
+const fields = ref([])
+
+onMounted(async () => {
+  const res = await fetch('/api/zamereni')
+  fields.value = await res.json()
+})
+
+function filterByField(field) {
+  // Např. redirect na stránku se seznamem fakult podle zaměření
+  console.log('Vybrané zaměření:', field)
+}
   </script>
