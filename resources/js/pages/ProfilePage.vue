@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-4xl mx-auto py-16 px-6 text-gray-800 space-y-10">
+<div class="max-w-6xl mx-auto py-16 px-6 text-gray-800 space-y-10">
     <!-- Profilová hlavička -->
     <div class="flex items-center gap-8">
       <div class="relative group">
@@ -49,50 +49,50 @@
       </div>
     </div>
 
-    <!-- Vaše fakulty -->
-    <div>
-      <h2 class="text-xl font-semibold mb-2">Vaše fakulty</h2>
-      <div v-if="faculties && faculties.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
- 
-<div
-  v-for="faculty in faculties"
-  :key="faculty.id"
-  class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 transition hover:shadow-md hover:border-blue-400 group flex flex-col"
->
-  <div class="flex items-center gap-4 mb-4">
-    <img
-      :src="faculty.logo_url || '/default-faculty-logo.png'"
-      alt="Logo fakulty"
-      class="w-12 h-12 rounded-md object-contain "
-    />
-    <div>
-      <h3 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition">
-        {{ faculty.name }}
-      </h3>
-      <p class="text-sm text-gray-500">{{ faculty.university }}</p>
-    </div>
-  </div>
-
-  <RouterLink
-    :to="`/faculty/${faculty.id}`"
-    class="mt-auto inline-flex items-center text-sm font-medium text-blue-600 hover:underline"
+<!-- Vaše fakulty -->
+<div>
+  <h2 class="text-xl font-semibold mb-2">Vaše fakulty</h2>
+  <div
+    v-if="faculties && faculties.length > 0"
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
   >
-    Zobrazit detail
-    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-    </svg>
-  </RouterLink>
+    <RouterLink
+      v-for="faculty in faculties"
+      :key="faculty.id"
+      :to="`/faculty/${faculty.id}`"
+      class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 transition hover:shadow-md hover:border-blue-400 group flex flex-col relative cursor-pointer"
+    >
+      <!-- Heart button -->
+      <div class="absolute top-3 right-3 z-10">
+        <HeartButton :id="faculty.id" type="faculty" />
+      </div>
+
+      <!-- Logo + text -->
+      <div class="flex items-start gap-4 mb-4">
+        <img
+          :src="faculty.logo_url || '/default-faculty-logo.png'"
+          alt="Logo fakulty"
+          class="w-12 h-12 rounded-md object-contain"
+        />
+<div class="max-w-[80%] pr-1">
+  <h3 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition">
+    {{ faculty.name }}
+  </h3>
+  <p class="text-sm text-gray-500">{{ faculty.university }}</p>
 </div>
 
+      </div>
+    </RouterLink>
+  </div>
 
-      </div>
-      <div
-        v-else
-        class="bg-gray-50 border border-dashed border-gray-300 p-4 rounded-xl text-gray-500 text-sm text-center"
-      >
-        Zatím nemáte žádné přidané fakulty.
-      </div>
-    </div>
+  <div
+    v-else
+    class="bg-gray-50 border border-dashed border-gray-300 p-4 rounded-xl text-gray-500 text-sm text-center"
+  >
+    Zatím nemáte žádné přidané fakulty.
+  </div>
+</div>
+
 
     <div class="flex justify-end pt-6 border-t border-gray-200">
     <Button type="logout" :onClick="logout">Odhlásit se</Button>
@@ -105,6 +105,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import Button from '../Components/Button.vue'
+import HeartButton from '../Components/HeartButton.vue'
 
 
 const user = ref({}) 
