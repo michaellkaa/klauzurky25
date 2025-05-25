@@ -39,18 +39,31 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        try {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        // Laravel to už vrací ve správném formátu, takže můžeme jen přeposlat
+        return response()->json([
+            'message' => 'Neplatná data.',
+            'errors' => $e->errors(),
+        ], 422);
+    }
 
-        if (!Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Špatné přihlašovací údaje'], 401);
-        }
+    if (!Auth::attempt($credentials)) {
+        return response()->json([
+            'message' => 'Neplatné přihlašovací údaje.',
+            'errors' => [
+                'email' => ['Zadaný e-mail nebo heslo není správně.']
+            ],
+        ], 422);
+    }
 
-        $request->session()->regenerate();
+    $request->session()->regenerate();
 
-        return response()->json(['message' => 'Přihlášení úspěšné']);
+    return response()->json(['message' => 'Přihlášení úspěšné.'], 200);
     }
 
 

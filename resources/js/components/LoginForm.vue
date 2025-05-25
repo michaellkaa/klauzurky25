@@ -9,9 +9,8 @@ const error = ref(null)
 
 const handleLogin = async () => {
   error.value = null
+
   try {
-
-
     const response = await fetch('/api/login', {
       method: 'POST',
       headers: {
@@ -25,17 +24,25 @@ const handleLogin = async () => {
       }),
     })
 
-    const data = await response.json()
+    const data = await response.json().catch(() => {
+      throw new Error('Backend nevrátil platný JSON')
+    })
 
     if (!response.ok) {
-      throw new Error(data.message || 'Chyba při přihlášení')
+      if (data.errors && data.errors.email) {
+        error.value = data.errors.email[0] // Např. "Zadané údaje nejsou správné."
+      } else {
+        error.value = data.message || 'Chyba při přihlášení'
+      }
+      return
     }
 
-    router.push('/')  // přesměrování po úspěchu
+    router.push('/')
   } catch (err) {
     error.value = err.message
   }
 }
+
 </script>
 
 <template>
@@ -56,10 +63,10 @@ const handleLogin = async () => {
       class="input w-full"
       required
     />
+<p v-if="error" class="text-red-500 text-sm text-center">{{ error }}</p>
 
     <button class=" w-full bg-purple-800 hover:bg-purple-600 text-white rounded-md px-4 py-2">Přihlásit se</button>
 
-    <p v-if="error" class="text-red-500 text-sm text-center">{{ error }}</p>
 
     <p class="text-sm text-center text-gray-600">
       Nemáš účet?
