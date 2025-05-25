@@ -11,13 +11,19 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $validated = $request->validate([
-            'username' => 'required|string|max:255|unique:users,username',
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email',
-            'region' => 'required|string|max:255',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+        $validated = $request->validate( [
+        'username' => 'required|string|max:255|unique:users,username',
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:users,email',
+        'region' => 'required|string|max:255',
+        'password' => 'required|string|min:8|confirmed',
+    ],
+    [
+        'username.unique' => 'Toto uživatelské jméno je již zabrané.',
+        'email.unique' => 'Tento email je již použitý.',
+        'password.min' => 'Heslo musí mít alespoň 8 znaků.',
+        'password.confirmed' => 'Hesla se neshodují.',
+    ]);
 
         $user = User::create([
             'username' => $validated['username'],

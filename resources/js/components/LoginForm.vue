@@ -40,7 +40,7 @@ const handleLogin = async () => {
 
 <template>
   <form @submit.prevent="handleLogin" class="bg-white shadow-md rounded px-8 pt-6 pb-8 w-full max-w-sm space-y-4">
-    <h2 class="text-2xl font-bold text-center">Login</h2>
+    <h2 class="text-2xl font-bold text-center">Přihlášení</h2>
 
     <input
       v-model="email"

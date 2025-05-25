@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="register" class="bg-white shadow-md rounded px-8 pt-6 pb-8 w-full max-w-sm space-y-6">
-    <h2 class="text-2xl font-bold text-center mb-4">Register</h2>
+    <h2 class="text-2xl font-bold text-center mb-4">Registrace</h2>
 
     <div class="flex gap-4">
       <div class="flex-1">
@@ -47,7 +47,7 @@
     </div>
 
     <button class="w-full bg-purple-800 hover:bg-purple-600 text-white rounded-md px-4 py-2" type="submit">
-      Register
+      Registrovat se
     </button>
   </form>
 </template>
@@ -70,32 +70,40 @@ const form = ref({
 const errors = ref({})
 
 async function register() {
-  errors.value = {}  // reset chyb před novým pokusem
+  errors.value = {}
 
-  // Frontend validace hesla (min 8 znaků)
   if (form.value.password.length < 8) {
     errors.value.password = 'Heslo musí mít alespoň 8 znaků.'
     return
   }
 
   try {
-    const res = await fetch('/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form.value),
-    })
+    // DŮLEŽITÉ: nejdřív CSRF cookie
+    await fetch('/sanctum/csrf-cookie', { credentials: 'include' })
 
-    const data = await res.json()
+    const res = await fetch('/api/register', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json' // ← důležité!
+  },
+  credentials: 'include',
+  body: JSON.stringify(form.value),
+})
+
+
+    const data = await res.json().catch(() => {
+      throw new Error('Backend nevrátil platný JSON')
+    })
+    console.log(data)
 
     if (!res.ok) {
       if (data.errors) {
-        // Předpokládáme, že data.errors má tvar { fieldName: ["chyba1", "chyba2", ...], ... }
-        // Pro lepší zobrazení vezmeme jen první chybu z pole
         for (const key in data.errors) {
           errors.value[key] = data.errors[key][0]
         }
       } else {
-        alert('Něco není v pořádku: ' + JSON.stringify(data))
+        alert('Chyba: ' + JSON.stringify(data))
       }
       return
     }
@@ -106,4 +114,5 @@ async function register() {
     console.error('Chyba při registraci:', error)
   }
 }
+
 </script>
