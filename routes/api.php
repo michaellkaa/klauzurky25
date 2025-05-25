@@ -100,13 +100,13 @@ Route::get('/zamereni', [FacultyController::class, 'zamereni']);
 //Route::middleware('auth:sanctum')->get('/are-favorites', [FavoriteController::class, 'areFavorites']);
 Route::get('/field-faculties', [FacultyController::class, 'getByField']);
 
-Route::middleware(['auth:sanctum', 'admin'])->get('/admin/stats', function () {
+/*Route::middleware(['auth:sanctum', 'admin'])->get('/admin/stats', function () {
     return [
         'total_users' => User::count(),
         'total_universities' => University::count(),
         'total_favorites' => Favorite::count(),
     ];
-});
+});*/
 
 Route::middleware('auth:sanctum')->get('/admin/stats', function (Request $request) {
     $total_users = DB::table('users')->count('id');
@@ -124,7 +124,7 @@ Route::middleware('auth:sanctum')->get('/admin/stats', function (Request $reques
     Route::get('/users', [AdminUserController::class, 'index']);
     Route::delete('/users/{id}', [AdminUserController::class, 'destroy']);
 });*/
-Route::middleware(['auth:sanctum', 'isAdmin'])->get('/admin/users', [AdminUserController::class, 'index']);
+//Route::middleware(['auth:sanctum', 'isAdmin'])->get('/admin/users', [AdminUserController::class, 'index']);
 Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
     Route::get('/users', [AdminUserController::class, 'index']);
     Route::delete('/users/{id}', [AdminUserController::class, 'destroy']);

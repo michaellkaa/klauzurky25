@@ -21,7 +21,6 @@
               <th class="px-6 py-4">ID</th>
               <th class="px-6 py-4">Jméno</th>
               <th class="px-6 py-4">Email</th>
-              <th class="px-6 py-4">Poslední přihlášení</th>
               <th class="px-6 py-4">Akce</th>
             </tr>
           </thead>
@@ -30,7 +29,6 @@
               <td class="px-6 py-3">{{ user.id }}</td>
               <td class="px-6 py-3">{{ user.name }}</td>
               <td class="px-6 py-3">{{ user.email }}</td>
-              <td class="px-6 py-3">{{ formatDate(user.last_login) }}</td>
               <td class="px-6 py-3 flex gap-2">
                 <button @click="deleteUser(user.id)" class="text-red-600 hover:underline">
                   Smazat
@@ -57,7 +55,7 @@ const users = ref([])
 
 const fetchUsers = async () => {
   try {
-    const res = await fetch('/api/admin/users', { credentials: 'include' })
+    const res = await fetch('/api/admin/users', { credentials: 'include' , })
     if (res.ok) {
       users.value = await res.json()
     } else {
@@ -68,31 +66,32 @@ const fetchUsers = async () => {
   }
 }
 
-const formatDate = (dateStr) => {
-  if (!dateStr) return ''
-  const d = new Date(dateStr)
-  return d.toLocaleString('cs-CZ', { dateStyle: 'medium', timeStyle: 'short' })
-}
-
 const deleteUser = async (id) => {
   if (!confirm('Opravdu chcete smazat tohoto uživatele?')) return
 
   try {
     const res = await fetch(`/api/admin/users/${id}`, {
       method: 'DELETE',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include', // DŮLEŽITÉ kvůli session cookie
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
     })
+
     if (res.ok) {
       alert('Uživatel smazán')
-      await fetchUsers() // refresh list
+      await fetchUsers()
     } else {
+      const data = await res.json()
+      console.error('Chyba při mazání uživatele', data)
       alert('Chyba při mazání uživatele')
     }
   } catch (err) {
     console.error('Chyba při mazání uživatele', err)
   }
 }
+
 
 onMounted(() => {
   fetchUsers()
