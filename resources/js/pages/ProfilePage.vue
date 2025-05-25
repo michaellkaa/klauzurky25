@@ -11,7 +11,7 @@
     <div class="flex items-center gap-8">
       <div class="relative group">
         <div class="w-20 h-20 md:w-28 md:h-28 rounded-full bg-gray-200 overflow-hidden">
-          <img :src="user.avatar_path ? `/${user.avatar_path}` : '/default-avatar.png'" alt="Profilový obrázek"
+          <img :src="user.avatar_path ? `/${user.avatar_path}` : '/default-avatar.png'" alt=""
             class="w-full h-full object-cover" />
         </div>
         <button @click="triggerFileInput"

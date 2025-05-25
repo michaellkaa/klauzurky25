@@ -77,12 +77,12 @@ const deleteUser = async (id) => {
     })
 
     if (res.ok) {
-      alert('Uživatel smazán')
+      console.log('Uživatel smazán')
       await fetchUsers()
     } else {
       const data = await res.json()
       console.error('Chyba při mazání uživatele', data)
-      alert('Chyba při mazání uživatele')
+      console.log('Chyba při mazání uživatele')
     }
   } catch (err) {
     console.error('Chyba při mazání uživatele', err)

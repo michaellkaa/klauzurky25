@@ -63,3 +63,13 @@ Route::post('/logout', function (Request $request) {
 
     return response()->json(['message' => 'Logged out']);
 })->middleware('auth');
+
+Route::middleware(['auth', 'verified'])->get('/calendar', function () {
+    return Inertia::render('CalendarPage');
+})->name('calendar');
+
+Route::middleware(['auth', 'verified'])->get('/profile', function () {
+    return Inertia::render('ProfilePage');
+})->name('profile');
+
+

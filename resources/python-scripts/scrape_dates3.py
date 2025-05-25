@@ -81,7 +81,7 @@ for row in rows:
                 iso_date = date_obj.strftime("%Y-%m-%d")
             except ValueError as e:
                 print(f"Neplatné datum: {aktualni_datum} – {e}")
-                continue  # přeskočí tento záznam
+                continue
 
             event_data = {
                 'university': univerzita_nazev,

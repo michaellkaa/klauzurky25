@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import HeartButton from '@/components/HeartButton.vue'
+import HeartButton from '../Components/HeartButton.vue'
 
 const route = useRoute()
 const faculty = ref(null)

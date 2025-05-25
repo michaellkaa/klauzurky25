@@ -70,7 +70,7 @@ Route::middleware('auth:sanctum')->get('/events', function (Request $request) {
 });
 
 Route::post('/sync-events', [EventSyncController::class, 'store']);
-Route::get('/user-events', [EventSyncController::class, 'index']); // Pro Vue kalendář
+Route::get('/user-events', [EventSyncController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/favorite-events', function (Request $request) {
     $user = $request->user();

@@ -92,13 +92,12 @@ async function register() {
           errors.value[key] = data.errors[key][0]
         }
       } else {
-        alert('Chyba: ' + JSON.stringify(data))
+        console.log('Chyba: ' + JSON.stringify(data))
       }
       return
     }
 
-    alert('Registrace proběhla úspěšně!')
-    router.push('/')
+    router.push('/login')
   } catch (error) {
     console.error('Chyba při registraci:', error)
   }

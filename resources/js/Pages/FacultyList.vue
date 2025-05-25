@@ -14,7 +14,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import FacultyCard from '@/components/FacultyCard.vue'
+import FacultyCard from '../Components/FacultyCard.vue'
 
 const route = useRoute()
 const field = ref(route.query.field || '')

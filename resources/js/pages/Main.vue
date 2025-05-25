@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import UniversitySlider from '../components/UniversitySlider.vue'
+import UniversitySlider from '../Components/UniversitySlider.vue'
 import ProfileLink from '../Components/ProfileLink.vue';
 import SearchBar from '../Components/SearchBar.vue';
 import FacultySlider from '../Components/FacultySlider.vue';

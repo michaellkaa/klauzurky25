@@ -5,5 +5,5 @@
 </template>
 
 <script setup>
-import RegisterForm from '../components/RegisterForm.vue'
+import RegisterForm from '../Components/RegisterForm.vue';
 </script>

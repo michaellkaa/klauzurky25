@@ -46,7 +46,6 @@ const goToResult = (result) => {
     router.push(`/faculty/${result.id}`)
   }
 
-  // Clear input and results
   query.value = ''
   results.value = []
 }
