@@ -10,8 +10,7 @@
   
       <UniversitySlider title="All Universities" />
       <FacultySlider title="All faculties" />
-      <FieldSlider
-  />
+      <FieldSlider title="All fields"/>
     </div>
   </template>
   

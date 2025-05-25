@@ -1,30 +1,78 @@
-<!-- components/FieldSlider.vue -->
 <template>
-  <section>
+  <div>
     <h2 class="text-2xl font-semibold mb-4">{{ title }}</h2>
-    <div class="flex overflow-x-auto gap-4 pb-4">
-      <div
-        v-for="field in fields"
+
+    <div class="grid grid-cols-3 gap-4">
+      <FieldCard
+        v-for="field in visibleFields"
         :key="field"
-        class="min-w-[200px] flex-shrink-0"
-      >
-        <FieldCard :field="field" @click="onFieldClick" />
-      </div>
+        :field="field"
+        @click="handleClick"
+      />
     </div>
-  </section>
+
+    <Button
+      v-if="fields.length > maxVisible"
+      @click="toggleShowAll"
+      :type="'primary'"
+      class="mt-4"
+    >
+      {{ showAll ? 'Zobrazit méně' : 'Zobrazit více' }}
+    </Button>
+  </div>
 </template>
 
 <script setup>
-import FieldCard from './FieldCard.vue'
+import { ref, computed } from 'vue';
+import FieldCard from './FieldCard.vue';
+import Button from './Button.vue';
 
 defineProps({
-  title: String,
-  fields: Array
+  title: String
 })
 
-const emit = defineEmits(['select'])
+const fields = [
+  "biologie",
+  "biomedicína a zdravotnické obory",
+  "chemie",
+  "doprava",
+  "ekonomie",
+  "ekologické",
+  "elektro",
+  "farmacie",
+  "filozofie",
+  "fyzika",
+  "IT",
+  "jazyky",
+  "lékařské obory",
+  "matematika",
+  "ostatní humanitní",
+  "ostatní přírodovědné",
+  "ostatní technické",
+  "pedagogika",
+  "policejní a vojenské obory",
+  "právo",
+  "psychologie",
+  "sport",
+  "stavebnictví",
+  "strojařina",
+  "umělecké obory",
+  "veterinářství",
+  "zemědělské obory"
+];
 
-function onFieldClick(field) {
-  emit('select', field)
+const maxVisible = 12;
+const showAll = ref(false);
+
+const visibleFields = computed(() => {
+  return showAll.value ? fields : fields.slice(0, maxVisible);
+});
+
+function toggleShowAll() {
+  showAll.value = !showAll.value;
+}
+
+function handleClick(field) {
+  console.log('Kliknul jsi na:', field);
 }
 </script>

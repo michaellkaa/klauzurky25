@@ -28,7 +28,7 @@ const buttonClasses = computed(() => {
       return 'bg-red-600 hover:bg-red-700 text-white'
     case 'primary':
     default:
-      return 'bg-blue-600 hover:bg-blue-700 text-white'
+      return 'bg-gray-400 hover:bg-blue-700 text-white'
   }
 })
 </script>

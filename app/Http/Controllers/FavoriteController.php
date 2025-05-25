@@ -236,5 +236,46 @@ public function addFavouriteFaculty(Request $request)
 
     return response()->json(['message' => 'Fakulta přidána a události uloženy.']);
 }
+/*public function checkMultiple(Request $request)
+{
+    $user = auth()->user();
+    if (!$user) {
+        return response()->json([]);
+    }
 
+    $items = $request->input('items'); // očekává pole objektů {id, type}
+
+    // Připrav pole pro filtrování
+    $facultyIds = [];
+    $universityIds = [];
+
+    foreach ($items as $item) {
+        if ($item['type'] === 'faculty') {
+            $facultyIds[] = $item['id'];
+        } elseif ($item['type'] === 'university') {
+            $universityIds[] = $item['id'];
+        }
+    }
+
+    $favorites = \DB::table('favorites')
+        ->where('user_id', $user->id)
+        ->where(function ($query) use ($facultyIds, $universityIds) {
+            if ($facultyIds) {
+                $query->where(function ($q) use ($facultyIds) {
+                    $q->where('type', 'faculty')->whereIn('item_id', $facultyIds);
+                });
+            }
+            if ($universityIds) {
+                $query->orWhere(function ($q) use ($universityIds) {
+                    $q->where('type', 'university')->whereIn('item_id', $universityIds);
+                });
+            }
+        })
+        ->get()
+        ->map(fn($fav) => $fav->type . '-' . $fav->item_id)
+        ->toArray();
+
+    return response()->json($favorites); // vrátí pole typu ["faculty-12", "university-5", ...]
+}
+*/
 }
