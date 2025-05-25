@@ -10,6 +10,7 @@ use App\Http\Controllers\FavoriteController;
 use App\Models\Favorite;
 use App\Models\Event;
 use App\Models\Faculty;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,3 +98,23 @@ Route::middleware('auth:sanctum')->get('/favorite-events', function (Request $re
 Route::get('/zamereni', [FacultyController::class, 'zamereni']);
 //Route::middleware('auth:sanctum')->get('/are-favorites', [FavoriteController::class, 'areFavorites']);
 Route::get('/field-faculties', [FacultyController::class, 'getByField']);
+
+Route::middleware(['auth:sanctum', 'admin'])->get('/admin/stats', function () {
+    return [
+        'total_users' => User::count(),
+        'total_universities' => University::count(),
+        'total_favorites' => Favorite::count(),
+    ];
+});
+
+Route::middleware('auth:sanctum')->get('/admin/stats', function (Request $request) {
+    $total_users = DB::table('users')->count('id');
+    $total_universities = DB::table('universities')->count('id');
+    $total_faculties = DB::table('faculties')->count('id');
+
+    return response()->json([
+        'total_users' => $total_users,
+        'total_universities' => $total_universities,
+        'total_faculties' => $total_faculties,
+    ]);
+});
