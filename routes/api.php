@@ -11,7 +11,8 @@ use App\Models\Favorite;
 use App\Models\Event;
 use App\Models\Faculty;
 use Illuminate\Support\Facades\DB;
-
+//use App\Http\Controllers\Api\Admin\AdminUserController;
+use App\Http\Controllers\AdminUserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -117,4 +118,14 @@ Route::middleware('auth:sanctum')->get('/admin/stats', function (Request $reques
         'total_universities' => $total_universities,
         'total_faculties' => $total_faculties,
     ]);
+});
+
+/*Route::middleware(['auth:sanctum', 'isAdmin'])->prefix('admin')->group(function () {
+    Route::get('/users', [AdminUserController::class, 'index']);
+    Route::delete('/users/{id}', [AdminUserController::class, 'destroy']);
+});*/
+Route::middleware(['auth:sanctum', 'isAdmin'])->get('/admin/users', [AdminUserController::class, 'index']);
+Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/users', [AdminUserController::class, 'index']);
+    Route::delete('/users/{id}', [AdminUserController::class, 'destroy']);
 });

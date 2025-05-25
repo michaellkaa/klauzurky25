@@ -19,7 +19,7 @@
     </div>
 
     <div>
-      <input v-model="form.region" type="text" placeholder="Region" class="input w-full" required />
+      <input v-model="form.region" type="text" placeholder="Region (Zlínský, Středočeský,..)" class="input w-full" required />
       <p v-if="errors.region" class="text-red-600 text-sm mt-1">{{ errors.region }}</p>
     </div>
 
