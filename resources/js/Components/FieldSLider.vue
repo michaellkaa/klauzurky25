@@ -2,15 +2,19 @@
   <div>
     <h2 class="text-2xl font-semibold mb-4">{{ title }}</h2>
 
-  <div class="grid grid-cols-3 gap-4 max-h-[18rem] overflow-hidden relative">
-    <FieldCard
-  v-for="field in fields"
-  :key="field"
-  :field="field"
-  @click="handleClick(field)"
-/>
-    </div>
+    <div
+  class="grid grid-cols-3 gap-4 relative overflow-hidden"
+  :class="{'max-h-[18rem]': !showAll}"
+>
+  <FieldCard
+    v-for="field in visibleFields"
+    :key="field"
+    :field="field"
+    @click="handleClick(field)"
+  />
+</div>
 
+    
     <Button
       v-if="fields.length > maxVisible"
       @click="toggleShowAll"
@@ -29,7 +33,6 @@ import Button from './Button.vue';
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-
 
 defineProps({
   title: String
@@ -65,7 +68,7 @@ const fields = [
   "zemědělské obory"
 ];
 
-const maxVisible = 12;
+const maxVisible = 9;
 const showAll = ref(false);
 
 const visibleFields = computed(() => {
@@ -79,6 +82,5 @@ function toggleShowAll() {
 function handleClick(field) {
   console.log('Kliknul jsi na:', field);
   router.push({ path: '/field-faculties', query: { field } })
-
 }
 </script>

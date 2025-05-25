@@ -36,7 +36,7 @@
         <div>
           <RouterLink
             to=""
-            class="text-sm text-blue-600 hover:underline"
+            class="text-sm text-purple-600 hover:underline"
           >Změnit heslo</RouterLink>
         </div>
       </div>
@@ -60,7 +60,7 @@
       v-for="faculty in faculties"
       :key="faculty.id"
       :to="`/faculty/${faculty.id}`"
-      class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 transition hover:shadow-md hover:border-blue-400 group flex flex-col relative cursor-pointer"
+      class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 transition hover:shadow-md hover:border-purple-400 group flex flex-col relative cursor-pointer"
     >
       <!-- Heart button -->
       <div class="absolute top-3 right-3 z-10">
@@ -75,7 +75,7 @@
           class="w-12 h-12 rounded-md object-contain"
         />
 <div class="max-w-[80%] pr-3">
-  <h3 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition">
+  <h3 class="text-lg font-semibold text-gray-800 group-hover:text-purple-600 transition">
     {{ faculty.name }}
   </h3>
   <p class="text-sm text-gray-500">{{ faculty.university }}</p>

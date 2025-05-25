@@ -57,13 +57,13 @@ const handleLogin = async () => {
       required
     />
 
-    <button class="btn w-full bg-blue-500 hover:bg-blue-600 text-white">Přihlásit se</button>
+    <button class="btn w-full bg-purple-400 hover:bg-purple-600 text-white">Přihlásit se</button>
 
     <p v-if="error" class="text-red-500 text-sm text-center">{{ error }}</p>
 
     <p class="text-sm text-center text-gray-600">
       Nemáš účet?
-      <router-link to="/register" class="text-blue-500 hover:underline">Registruj se</router-link>
+      <router-link to="/register" class="text-purple-900 hover:underline">Registruj se</router-link>
     </p>
   </form>
 </template>

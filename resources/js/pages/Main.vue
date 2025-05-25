@@ -8,9 +8,9 @@
           <SearchBar />
 
   
-      <UniversitySlider title="All Universities" />
-      <FacultySlider title="All faculties" />
-      <FieldSlider title="All fields"/>
+      <UniversitySlider title="Univerzity" />
+      <FacultySlider title="Fakulty" />
+      <FieldSlider title="Zaměření"/>
     </div>
   </template>
   
