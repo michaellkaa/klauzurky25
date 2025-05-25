@@ -43,10 +43,7 @@ Route::middleware('auth:sanctum')->get('/user', function(Request $request) {
 
 Route::middleware('auth:sanctum')->post('/user/photo', [AuthController::class, 'updatePhoto']);
 
-/*Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
-    Auth::logout();
-    return response()->json(['message' => 'Logged out']);
-});*/
+
 
 Route::get('/search', [SearchController::class, 'search']);
 
@@ -78,10 +75,8 @@ Route::get('/user-events', [EventSyncController::class, 'index']); // Pro Vue ka
 Route::middleware('auth:sanctum')->get('/favorite-events', function (Request $request) {
     $user = $request->user();
 
-    // Get the names of favorite faculties directly
     $facultyNames = $user->favoriteFaculties()->pluck('name')->unique();
 
-    // Find events matching these faculty names
     $events = Event::whereIn('faculty', $facultyNames)
     ->orderBy('date')
     ->get()
@@ -99,16 +94,9 @@ Route::middleware('auth:sanctum')->get('/favorite-events', function (Request $re
 });
 
 Route::get('/zamereni', [FacultyController::class, 'zamereni']);
-//Route::middleware('auth:sanctum')->get('/are-favorites', [FavoriteController::class, 'areFavorites']);
 Route::get('/field-faculties', [FacultyController::class, 'getByField']);
 
-/*Route::middleware(['auth:sanctum', 'admin'])->get('/admin/stats', function () {
-    return [
-        'total_users' => User::count(),
-        'total_universities' => University::count(),
-        'total_favorites' => Favorite::count(),
-    ];
-});*/
+
 
 Route::middleware('auth:sanctum')->get('/admin/stats', function (Request $request) {
     $total_users = DB::table('users')->count('id');
@@ -122,11 +110,7 @@ Route::middleware('auth:sanctum')->get('/admin/stats', function (Request $reques
     ]);
 });
 
-/*Route::middleware(['auth:sanctum', 'isAdmin'])->prefix('admin')->group(function () {
-    Route::get('/users', [AdminUserController::class, 'index']);
-    Route::delete('/users/{id}', [AdminUserController::class, 'destroy']);
-});*/
-//Route::middleware(['auth:sanctum', 'isAdmin'])->get('/admin/users', [AdminUserController::class, 'index']);
+
 Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
     Route::get('/users', [AdminUserController::class, 'index']);
     Route::delete('/users/{id}', [AdminUserController::class, 'destroy']);

@@ -6,7 +6,6 @@ import os
 
 def insert_into_database(uni):
     try:
-        # Kontrola povinných polí
         if not uni.get('name') or not uni.get('location'):
             print(f"Přeskočeno (chybí jméno nebo město): {uni.get('name')} / {uni.get('location')}")
             return
@@ -101,7 +100,6 @@ for blok in bloky_skol:
     popis_element = detail_soup.select_one(".BoxAnot p")
     popis = popis_element.get_text(strip=True) if popis_element else "Popis nenalezen"
 
-    # Web
     web = ""
     for a in detail_soup.select("p.kontakty2 a[href^='http']"):
         href = a.get("href", "")
@@ -109,7 +107,6 @@ for blok in bloky_skol:
             web = href
             break
 
-    # Kontakt
     email = telefon = ""
     kontakty = detail_soup.select(".kontakty2")
     for kontakt_blok in kontakty:
@@ -121,7 +118,6 @@ for blok in bloky_skol:
         if telefon_match:
             telefon = telefon_match.group(0)
 
-    # Sociální sítě
     facebook = instagram = twitter = youtube = linkedin = ""
     social_links = detail_soup.select("ul.FKsocial a")
     for link in social_links:
@@ -138,8 +134,6 @@ for blok in bloky_skol:
         elif "ico-linkedin" in classes:
             linkedin = href
 
-    # Logo a banner
-        # Logo a banner
     banner_url = logo_url = ""
     banner_elem = detail_soup.select_one(".FullBigBanner .big-skolaImg img")
     if banner_elem:
@@ -149,7 +143,6 @@ for blok in bloky_skol:
     if logo_elem:
         logo_url = "https://www.vysokeskoly.com" + logo_elem.get("src", "")
 
-    # ✅ Tady vytvoříme uni_data bez ohledu na logo/banner
     uni_data = {
         'name': nazev,
         'address': lokace,
@@ -169,25 +162,21 @@ for blok in bloky_skol:
         'field': fakulty_text,
     }
 
-    # ✅ Zavoláme insert funkci
     insert_into_database(uni_data)
 
-
-
-    # Výpis
-    print(f"Název: {nazev}")
-    print(f"Odkaz: {odkaz}")
-    print(f"Lokace: {lokace}")
-    print(f"Město: {mesto}")
-    print(f"Typ školy: {stitek}")
-    print(f"Obory: {fakulty_text}")
-    print(f"Popis: {popis}")
-    print(f"Web: {web}")
-    print(f"E-mail: {email}")
-    print(f"Telefon: {telefon}")
-    print(f"Facebook: {facebook}")
-    print(f"Instagram: {instagram}")
-    print(f"Twitter: {twitter}")
-    print(f"YouTube: {youtube}")
-    print(f"LinkedIn: {linkedin}")
+    #print(f"Název: {nazev}")
+    #print(f"Odkaz: {odkaz}")
+    #print(f"Lokace: {lokace}")
+    #print(f"Město: {mesto}")
+    #print(f"Typ školy: {stitek}")
+    #print(f"Obory: {fakulty_text}")
+    #print(f"Popis: {popis}")
+    #print(f"Web: {web}")
+    #print(f"E-mail: {email}")
+    #print(f"Telefon: {telefon}")
+    #print(f"Facebook: {facebook}")
+    #print(f"Instagram: {instagram}")
+    #print(f"Twitter: {twitter}")
+    #print(f"YouTube: {youtube}")
+    #print(f"LinkedIn: {linkedin}")
     #print(f"Obrázky: {banner_path if banner_elem else 'žádný banner'}, {logo_path if logo_elem else 'žádné logo'}\n")

@@ -32,17 +32,9 @@ function onWheel(event) {
 <template>
   <section>
     <h2 class="text-2xl font-semibold mb-4">{{ title }}</h2>
-    <div
-      ref="scrollContainer"
-      class="flex overflow-x-auto gap-4 pb-4 no-scrollbar"
-      @wheel="onWheel"
-    >
-      <router-link
-        v-for="faculty in faculties"
-        :key="faculty.id"
-        :to="`/faculty/${faculty.id}`"
-        class="min-w-[250px] p-2 flex-shrink-0"
-      >
+    <div ref="scrollContainer" class="flex overflow-x-auto gap-4 pb-4 no-scrollbar" @wheel="onWheel">
+      <router-link v-for="faculty in faculties" :key="faculty.id" :to="`/faculty/${faculty.id}`"
+        class="min-w-[250px] p-2 flex-shrink-0">
         <FacultyCard :faculty="faculty" />
       </router-link>
     </div>
@@ -53,6 +45,7 @@ function onWheel(event) {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   scrollbar-width: none;
 }

@@ -8,81 +8,58 @@
   </div>
 
   <div class="max-w-6xl mx-auto py-16 px-6 text-gray-800 space-y-10">
-    <!-- Profilová hlavička -->
     <div class="flex items-center gap-8">
       <div class="relative group">
         <div class="w-20 h-20 md:w-28 md:h-28 rounded-full bg-gray-200 overflow-hidden">
-          <img
-            :src="user.avatar_path ? `/${user.avatar_path}` : '/default-avatar.png'"
-            alt="Profilový obrázek"
-            class="w-full h-full object-cover"
-          />
+          <img :src="user.avatar_path ? `/${user.avatar_path}` : '/default-avatar.png'" alt="Profilový obrázek"
+            class="w-full h-full object-cover" />
         </div>
-        <button
-          @click="triggerFileInput"
-          class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition text-white text-xs flex items-center justify-center"
-        >
+        <button @click="triggerFileInput"
+          class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition text-white text-xs flex items-center justify-center">
           Změnit
         </button>
-        <input
-          ref="fileInput"
-          type="file"
-          accept="image/*"
-          class="hidden"
-          @change="handlePhotoChange"
-        />
+        <input ref="fileInput" type="file" accept="image/*" class="hidden" @change="handlePhotoChange" />
       </div>
 
       <div class="flex-1 space-y-2">
-<h1 class="text-3xl font-bold flex items-center gap-3">
-  {{ user.name }}
-  <span v-if="user.role === 'admin'" class="px-2 py-1 text-xs font-semibold text-white bg-purple-600 rounded-full">
-    Admin
-  </span>
-</h1>
+        <h1 class="text-3xl font-bold flex items-center gap-3">
+          {{ user.name }}
+          <span v-if="user.role === 'admin'"
+            class="px-2 py-1 text-xs font-semibold text-white bg-purple-600 rounded-full">
+            Admin
+          </span>
+        </h1>
 
         <div class="text-gray-600 flex items-center gap-2" v-if="user.email">
           <span class="font-medium">E-mail:</span>
           <span>{{ user.email }}</span>
         </div>
         <div>
-          <RouterLink v-if="$router.hasRoute('change-password')" :to="{ name: 'change-password' }" class="text-sm text-purple-600 hover:underline">
-  Změnit heslo
-</RouterLink>
+          <RouterLink v-if="$router.hasRoute('change-password')" :to="{ name: 'change-password' }"
+            class="text-sm text-purple-600 hover:underline">
+            Změnit heslo
+          </RouterLink>
 
         </div>
       </div>
     </div>
 
-    <!-- Admin sekce -->
     <div v-if="user.role === 'admin'" class="bg-gray-50 border border-gray-300 p-6 rounded-xl text-gray-700">
-  <AdminDashboard />
-</div>
+      <AdminDashboard />
+    </div>
 
 
-    <!-- Oblíbené univerzity a fakulty -->
     <div v-else>
       <div>
         <h2 class="text-xl font-semibold mb-2">Vaše univerzity</h2>
-        <div
-          v-if="universities.length > 0"
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-10"
-        >
-          <RouterLink
-            v-for="university in universities"
-            :key="university.id"
-            :to="`/university/${university.id}`"
-            class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 transition hover:shadow-md hover:border-purple-400 group flex flex-col relative cursor-pointer"
-          >
+        <div v-if="universities.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-10">
+          <RouterLink v-for="university in universities" :key="university.id" :to="`/university/${university.id}`"
+            class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 transition hover:shadow-md hover:border-purple-400 group flex flex-col relative cursor-pointer">
             <div class="absolute top-3 right-3 z-10">
               <HeartButton :id="university.id" type="university" />
             </div>
             <div class="flex items-start gap-4 mb-4">
-              <img
-                :src="university.logo_url"
-                alt="Logo univezity"
-                class="w-12 h-12 rounded-md object-contain"
-              />
+              <img :src="university.logo_url" alt="Logo univezity" class="w-12 h-12 rounded-md object-contain" />
               <div class="max-w-[80%] pr-3">
                 <h3 class="text-lg font-semibold text-gray-800 group-hover:text-purple-600 transition">
                   {{ university.name }}
@@ -91,35 +68,22 @@
             </div>
           </RouterLink>
         </div>
-        <div
-          v-else
-          class="bg-gray-50 border border-dashed border-gray-300 p-4 rounded-xl text-gray-500 text-sm text-center"
-        >
+        <div v-else
+          class="bg-gray-50 border border-dashed border-gray-300 p-4 rounded-xl text-gray-500 text-sm text-center">
           Zatím nemáte žádné přidané fakulty.
         </div>
       </div>
 
       <div>
         <h2 class="text-xl font-semibold mb-2">Vaše fakulty</h2>
-        <div
-          v-if="faculties.length > 0"
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
-        >
-          <RouterLink
-            v-for="faculty in faculties"
-            :key="faculty.id"
-            :to="`/faculty/${faculty.id}`"
-            class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 transition hover:shadow-md hover:border-purple-400 group flex flex-col relative cursor-pointer"
-          >
+        <div v-if="faculties.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <RouterLink v-for="faculty in faculties" :key="faculty.id" :to="`/faculty/${faculty.id}`"
+            class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 transition hover:shadow-md hover:border-purple-400 group flex flex-col relative cursor-pointer">
             <div class="absolute top-3 right-3 z-10">
               <HeartButton :id="faculty.id" type="faculty" />
             </div>
             <div class="flex items-start gap-4 mb-4">
-              <img
-                :src="faculty.logo_url"
-                alt="Logo fakulty"
-                class="w-12 h-12 rounded-md object-contain"
-              />
+              <img :src="faculty.logo_url" alt="Logo fakulty" class="w-12 h-12 rounded-md object-contain" />
               <div class="max-w-[80%] pr-3">
                 <h3 class="text-lg font-semibold text-gray-800 group-hover:text-purple-600 transition">
                   {{ faculty.name }}
@@ -129,10 +93,8 @@
             </div>
           </RouterLink>
         </div>
-        <div
-          v-else
-          class="bg-gray-50 border border-dashed border-gray-300 p-4 rounded-xl text-gray-500 text-sm text-center"
-        >
+        <div v-else
+          class="bg-gray-50 border border-dashed border-gray-300 p-4 rounded-xl text-gray-500 text-sm text-center">
           Zatím nemáte žádné přidané fakulty.
         </div>
       </div>

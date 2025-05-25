@@ -36,28 +36,9 @@ class Faculty extends Model
 
     ];
     
-   public function favoritedByUsers()
-{
-    return $this->morphToMany(User::class, 'favoritable', 'favorites');
-}
-
-    /*public function getUniversityNameAttribute()
+    public function favoritedByUsers()
     {
-        return $this->university;
-    }*/
-
-
-
-    /*public function university()
-    {
-        return $this->belongsTo(University::class);
+        return $this->morphToMany(User::class, 'favoritable', 'favorites');
     }
-
-    public function universityRelation()
-{
-    return $this->belongsTo(University::class);
-}*/
-
-
 
 }

@@ -2,10 +2,7 @@
   <div class="p-6 space-y-8">
     <div class="flex justify-between items-center">
       <h1 class="text-3xl font-bold">Admin Dashboard</h1>
-      <router-link
-        to="/"
-        class="text-sm text-purple-600 hover:underline"
-      >
+      <router-link to="/" class="text-sm text-purple-600 hover:underline">
         Zpět na hlavní stránku
       </router-link>
     </div>
@@ -55,7 +52,7 @@ const users = ref([])
 
 const fetchUsers = async () => {
   try {
-    const res = await fetch('/api/admin/users', { credentials: 'include' , })
+    const res = await fetch('/api/admin/users', { credentials: 'include', })
     if (res.ok) {
       users.value = await res.json()
     } else {
@@ -72,7 +69,7 @@ const deleteUser = async (id) => {
   try {
     const res = await fetch(`/api/admin/users/${id}`, {
       method: 'DELETE',
-      credentials: 'include', // DŮLEŽITÉ kvůli session cookie
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',

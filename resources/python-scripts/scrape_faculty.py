@@ -278,36 +278,5 @@ for blok in bloky_skol:
         }
         
         insert_into_database(faculty_data)
-        time.sleep(1)
+        time.sleep(1) #protoze jsem cekala ze fakult bude vic nez 144
 
-
-
-        print("=======================================")
-        print(f"Univerzita: {univerzita_nazev}")
-        print(f"Název fakulty: {nazev}")
-        print(f"Lokace: {lokace}")
-        print(f"Popis: {popis}")
-        print(f"Typ studia: {typ_studia}")
-        print(f"Web: {web}")
-        print(f"E-mail: {email}")
-        print(f"Telefon: {telefon}")
-        print(f"Facebook: {facebook}")
-        print(f"Instagram: {instagram}")
-        print(f"Twitter: {twitter}")
-        print(f"YouTube: {youtube}")
-        print(f"LinkedIn: {linkedin}")
-        print(f"Logo URL: {logo_url}")
-        print(f"Banner URL: {banner_url}")
-        print("---- Přijímací řízení ----")
-        print(f"Den otevřených dveří: {den_odveri_datum}")
-        print(f"Odkaz na DOD: {den_odveri_odkaz}")
-        print(f"Termín přihlášek: {prihlasky_datum}")
-        print(f"Datum přijímaček: {prijimacky_datum}")
-        print(f"Cena přihlášky: {prijimacky_cena_prihlasky}")
-        print(f"Odkaz na přihlášku: {prihlaska_odkaz}")
-        print("---- Studijní programy ----")
-        print(f"Bakalářské programy: {bc_programs}")
-        print(f"Magisterské programy: {mgr_programs}")
-        print(f"Doktorské programy: {phd_programs}")
-        print(f"Zaměření: {zamereni}")
-        print("=======================================")

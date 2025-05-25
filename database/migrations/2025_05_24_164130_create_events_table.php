@@ -13,10 +13,10 @@ return new class extends Migration
     {
        Schema::create('events', function (Blueprint $table) {
     $table->id();
-    $table->string('university'); // název univerzity jako ve scraperu
-    $table->string('faculty');    // název fakulty
-    $table->date('date');         // datum události
-    $table->string('type')->nullable(); // typ akce: DOD, deadline apod.
+    $table->string('university');
+    $table->string('faculty');
+    $table->date('date');
+    $table->string('type')->nullable();
     $table->timestamps();
 });
 

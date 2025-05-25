@@ -2,25 +2,13 @@
   <div>
     <h2 class="text-2xl font-semibold mb-4">{{ title }}</h2>
 
-    <div
-      class="grid gap-4 relative overflow-hidden 
+    <div class="grid gap-4 relative overflow-hidden 
              grid-cols-1 sm:grid-cols-2 md:grid-cols-3"
-      :class="{'max-h-[18rem]': !showAll, 'max-h-[24rem] sm:max-h-[30rem]': !showAll}"
-    >
-      <FieldCard
-        v-for="field in visibleFields"
-        :key="field"
-        :field="field"
-        @click="handleClick(field)"
-      />
+      :class="{ 'max-h-[18rem]': !showAll, 'max-h-[24rem] sm:max-h-[30rem]': !showAll }">
+      <FieldCard v-for="field in visibleFields" :key="field" :field="field" @click="handleClick(field)" />
     </div>
 
-    <Button
-      v-if="fields.length > maxVisible"
-      @click="toggleShowAll"
-      :type="'primary'"
-      class="mt-4"
-    >
+    <Button v-if="fields.length > maxVisible" @click="toggleShowAll" :type="'primary'" class="mt-4">
       {{ showAll ? 'Zobrazit méně' : 'Zobrazit více' }}
     </Button>
   </div>

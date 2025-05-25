@@ -19,12 +19,10 @@ class SearchController extends Controller
             ]);
         }
 
-        // Search universities by name or location
         $universities = University::where('name', 'like', "%{$query}%")
             ->orWhere('location', 'like', "%{$query}%")
             ->get();
 
-        // Search faculties by name or address
         $faculties = Faculty::where('name', 'like', "%{$query}%")
             ->orWhere('address', 'like', "%{$query}%")
             ->get();

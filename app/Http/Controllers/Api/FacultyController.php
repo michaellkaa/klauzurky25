@@ -15,7 +15,6 @@ public function index(Request $request)
         if ($request->has('field')) {
             $field = $request->get('field');
 
-            // Filtrování podle oboru studia v JSON poli fields_of_study
             $query->whereJsonContains('fields_of_study', $field);
         }
 
@@ -70,11 +69,11 @@ public function index(Request $request)
 
     public function zamereni()
 {
-    $zamereni = Faculty::pluck('fields_of_study') // vezme všechny hodnoty z sloupce
+    $zamereni = Faculty::pluck('fields_of_study')
         ->flatMap(function ($item) {
-            return array_map('trim', explode(',', $item)); // rozdělí hodnoty podle čárek
+            return array_map('trim', explode(',', $item));
         })
-        ->filter() // odstraní null / prázdné
+        ->filter()
         ->unique()
         ->values();
 
@@ -88,7 +87,6 @@ public function getByField(Request $request)
         return response()->json(['error' => 'Missing field parameter'], 400);
     }
 
-    // Najdeme všechny fakulty, které v poli 'fields' obsahují daný obor
     $faculties = Faculty::where('fields_of_study', 'LIKE', "%$field%")->get();
 
     return response()->json($faculties);

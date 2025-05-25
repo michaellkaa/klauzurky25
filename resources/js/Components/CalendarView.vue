@@ -17,14 +17,14 @@ import cs from 'date-fns/locale/cs'
 const props = defineProps({
   events: {
     type: Array,
-    default: () => [], // [{ date: '23-11-2025', title: 'Událost', faculty: 'Fakulta', university: 'Univerzita' }]
+    default: () => [],
   },
 })
 
 const today = new Date()
 const currentMonth = ref(new Date())
 
-const selectedEvents = ref([])  // Vybrané eventy pro sidebar
+const selectedEvents = ref([])
 const selectedDate = ref(null)
 
 function nextMonth() {
@@ -41,7 +41,6 @@ const days = computed(() => {
   return eachDayOfInterval({ start, end })
 })
 
-// Převod datumu na Date objekt (podobně jako máš)
 function parseEventDate(dateStr) {
   if (!dateStr) return null;
   if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
@@ -54,14 +53,12 @@ function parseEventDate(dateStr) {
   return null;
 }
 
-// Vrátí eventy pro daný den
 function getEventsForDay(day) {
   return props.events.filter(event =>
     isSameDay(parseEventDate(event.date), day)
   )
 }
 
-// Po kliknutí na den nastavíme vybrané eventy do sidebaru
 function selectDay(day) {
   selectedDate.value = day
   selectedEvents.value = getEventsForDay(day)
@@ -72,10 +69,9 @@ console.log('Events props:', props.events)
 </script>
 
 <template>
-<div class="flex flex-col md:flex-row gap-6 p-4 mt-[6%] bg-white rounded-xl shadow max-w-full overflow-x-hidden">
-    <!-- Kalendář -->
-  <div class="w-[100%] md:flex-1 md:max-w-4xl">
-      <!-- Horní lišta -->
+  <div class="flex flex-col md:flex-row gap-6 p-4 mt-[6%] bg-white rounded-xl shadow max-w-full overflow-x-hidden">
+    <div class="w-[100%] md:flex-1 md:max-w-4xl">
+
       <div class="flex justify-between items-center mb-4 px-2 md:px-0">
         <button @click="prevMonth" class="text-gray-600 hover:text-black font-black text-lg">&lt;</button>
         <h2 class="text-xl font-bold capitalize">
@@ -84,33 +80,22 @@ console.log('Events props:', props.events)
         <button @click="nextMonth" class="text-gray-600 hover:text-black font-black text-lg">&gt;</button>
       </div>
 
-      <!-- Dny v týdnu -->
       <div class="grid grid-cols-7 text-center text-gray-500 font-semibold mb-2 px-2 md:px-0">
-        <div v-for="day in ['Po','Út','St','Čt','Pá','So','Ne']" :key="day">{{ day }}</div>
+        <div v-for="day in ['Po', 'Út', 'St', 'Čt', 'Pá', 'So', 'Ne']" :key="day">{{ day }}</div>
       </div>
 
-      <!-- Kalendář dny -->
       <div class="grid grid-cols-7 gap-1 text-sm px-2 md:px-0">
-        <div
-          v-for="day in days"
-          :key="day"
-          class="p-2 rounded border min-h-[80px] flex flex-col relative cursor-pointer"
-          :class="{
+        <div v-for="day in days" :key="day"
+          class="p-2 rounded border min-h-[80px] flex flex-col relative cursor-pointer" :class="{
             'bg-gray-50 text-gray-400 border-gray-200': !isSameMonth(day, currentMonth),
             'bg-gray-100 border-gray-400': isSameDay(day, today),
             'border-gray-300': isSameMonth(day, currentMonth) && !isSameDay(day, today),
             'ring-2 ring-black': selectedDate && isSameDay(day, selectedDate),
-          }"
-          @click="selectDay(day)"
-        >
+          }" @click="selectDay(day)">
           <div class="font-semibold text-right mb-1 select-none">{{ format(day, 'd') }}</div>
           <ul class="flex flex-col space-y-1 overflow-visible max-h-[60px]">
-            <li
-              v-for="event in getEventsForDay(day)"
-              :key="event.title + event.date"
-              class="text-xs block bg-blue-400 text-white rounded px-2 py-0.5 truncate shadow-sm"
-              :title="event.title"
-            >
+            <li v-for="event in getEventsForDay(day)" :key="event.title + event.date"
+              class="text-xs block bg-blue-400 text-white rounded px-2 py-0.5 truncate shadow-sm" :title="event.title">
               {{ event.title }}
             </li>
           </ul>
@@ -118,14 +103,15 @@ console.log('Events props:', props.events)
       </div>
     </div>
 
-    <!-- Sidebar s detaily -->
-  <aside class="w-full md:w-80 p-4 bg-gray-50 rounded-xl shadow-inner overflow-auto max-h-[400px] md:max-h-[600px]">
+    <aside class="w-full md:w-80 p-4 bg-gray-50 rounded-xl shadow-inner overflow-auto max-h-[400px] md:max-h-[600px]">
       <h3 class="text-lg font-semibold mb-4">Detaily vybraného dne</h3>
-      
+
       <template v-if="selectedEvents.length > 0">
-        <p class="mb-2 font-medium">Datum: {{ selectedDate ? format(selectedDate, 'd. LLLL yyyy', { locale: cs }) : '' }}</p>
+        <p class="mb-2 font-medium">Datum: {{ selectedDate ? format(selectedDate, 'd. LLLL yyyy', { locale: cs }) : ''
+          }}</p>
         <ul>
-          <li v-for="(event, index) in selectedEvents" :key="index" class="mb-4 border-b border-gray-300 pb-2 last:border-b-0">
+          <li v-for="(event, index) in selectedEvents" :key="index"
+            class="mb-4 border-b border-gray-300 pb-2 last:border-b-0">
             <h4 class="font-semibold text-blue-400">{{ event.title }}</h4>
             <p><strong>Univerzita:</strong> {{ event.university }}</p>
           </li>
@@ -144,4 +130,3 @@ console.log('Events props:', props.events)
     </aside>
   </div>
 </template>
-

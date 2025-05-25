@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('favoritable_type');
             $table->timestamps();
 
-            $table->unique(['user_id', 'favoritable_id', 'favoritable_type']); // prevent duplicates
+            $table->unique(['user_id', 'favoritable_id', 'favoritable_type']);
         });
     }
 

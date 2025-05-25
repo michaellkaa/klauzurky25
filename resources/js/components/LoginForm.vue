@@ -30,7 +30,7 @@ const handleLogin = async () => {
 
     if (!response.ok) {
       if (data.errors && data.errors.email) {
-        error.value = data.errors.email[0] // Např. "Zadané údaje nejsou správné."
+        error.value = data.errors.email[0]
       } else {
         error.value = data.message || 'Chyba při přihlášení'
       }
@@ -49,21 +49,9 @@ const handleLogin = async () => {
   <form @submit.prevent="handleLogin" class="bg-white shadow-md rounded px-8 pt-6 pb-8 w-full max-w-sm space-y-4">
     <h2 class="text-2xl font-bold text-center">Přihlášení</h2>
 
-    <input
-      v-model="email"
-      type="email"
-      placeholder="Email"
-      class="input w-full"
-      required
-    />
-    <input
-      v-model="password"
-      type="password"
-      placeholder="Heslo"
-      class="input w-full"
-      required
-    />
-<p v-if="error" class="text-red-500 text-sm text-center">{{ error }}</p>
+    <input v-model="email" type="email" placeholder="Email" class="input w-full" required />
+    <input v-model="password" type="password" placeholder="Heslo" class="input w-full" required />
+    <p v-if="error" class="text-red-500 text-sm text-center">{{ error }}</p>
 
     <button class=" w-full bg-purple-800 hover:bg-purple-600 text-white rounded-md px-4 py-2">Přihlásit se</button>
 

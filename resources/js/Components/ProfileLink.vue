@@ -1,11 +1,8 @@
 <template>
   <router-link v-if="user" to="/profile" class="flex items-center space-x-2 cursor-pointer">
     <span class="hidden sm:inline text-sm text-black font-medium pr-2">{{ user.email }}</span>
-    <img
-      :src="user.avatar_path || defaultAvatar"
-      alt="Profilová fotka"
-      class="w-10 h-10 rounded-full object-cover  border-gray-300 border"
-    />
+    <img :src="user.avatar_path || defaultAvatar" alt="Profilová fotka"
+      class="w-10 h-10 rounded-full object-cover  border-gray-300 border" />
   </router-link>
 </template>
 
@@ -14,7 +11,7 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
 const user = ref(null)
-const defaultAvatar = '/images/default-avatar.png' // nastav cestu k výchozímu avataru
+const defaultAvatar = '/images/default-avatar.png'
 
 onMounted(async () => {
   try {

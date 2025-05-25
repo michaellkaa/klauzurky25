@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('location')->nullable();
             $table->string('website')->nullable();
-            $table->string('field')->nullable();
+            $table->string('field')->nullable(); //jakoze fakulty
             $table->string('language')->nullable();
             $table->string('type')->nullable(); //verejna nebo soukroma
             $table->timestamps();

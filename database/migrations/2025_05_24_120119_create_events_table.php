@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Kdo má fakultu oblíbenou
-            $table->string('title'); // Např. "Den otevřených dveří - 1. lékařská fakulta"
-            $table->date('date'); // Např. 2025-06-11
-            $table->string('type')->nullable(); // den otevrenych dveri,..
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('title');
+            $table->date('date');
+            $table->string('type')->nullable();
             $table->timestamps();
         });
 

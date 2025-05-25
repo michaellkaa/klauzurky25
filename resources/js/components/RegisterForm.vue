@@ -19,29 +19,19 @@
     </div>
 
     <div>
-      <input v-model="form.region" type="text" placeholder="Region (Zlínský, Středočeský,..)" class="input w-full" required />
+      <input v-model="form.region" type="text" placeholder="Region (Zlínský, Středočeský,..)" class="input w-full"
+        required />
       <p v-if="errors.region" class="text-red-600 text-sm mt-1">{{ errors.region }}</p>
     </div>
 
     <div class="flex gap-4">
       <div class="flex-1">
-        <input
-          v-model="form.password"
-          type="password"
-          placeholder="Password"
-          class="input w-full"
-          required
-        />
+        <input v-model="form.password" type="password" placeholder="Password" class="input w-full" required />
         <p v-if="errors.password" class="text-red-600 text-sm mt-1">{{ errors.password }}</p>
       </div>
       <div class="flex-1">
-        <input
-          v-model="form.password_confirmation"
-          type="password"
-          placeholder="Confirm Password"
-          class="input w-full"
-          required
-        />
+        <input v-model="form.password_confirmation" type="password" placeholder="Confirm Password" class="input w-full"
+          required />
         <p v-if="errors.password_confirmation" class="text-red-600 text-sm mt-1">{{ errors.password_confirmation }}</p>
       </div>
     </div>
@@ -78,18 +68,17 @@ async function register() {
   }
 
   try {
-    // DŮLEŽITÉ: nejdřív CSRF cookie
     await fetch('/sanctum/csrf-cookie', { credentials: 'include' })
 
     const res = await fetch('/api/register', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json' // ← důležité!
-  },
-  credentials: 'include',
-  body: JSON.stringify(form.value),
-})
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify(form.value),
+    })
 
 
     const data = await res.json().catch(() => {

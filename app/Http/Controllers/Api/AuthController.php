@@ -40,30 +40,29 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         try {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-    } catch (\Illuminate\Validation\ValidationException $e) {
-        // Laravel to už vrací ve správném formátu, takže můžeme jen přeposlat
-        return response()->json([
-            'message' => 'Neplatná data.',
-            'errors' => $e->errors(),
-        ], 422);
-    }
+            $credentials = $request->validate([
+                'email' => ['required', 'email'],
+                'password' => ['required'],
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'message' => 'Neplatná data.',
+                'errors' => $e->errors(),
+            ], 422);
+        }
 
-    if (!Auth::attempt($credentials)) {
-        return response()->json([
-            'message' => 'Neplatné přihlašovací údaje.',
-            'errors' => [
-                'email' => ['Zadaný e-mail nebo heslo není správně.']
-            ],
-        ], 422);
-    }
+        if (!Auth::attempt($credentials)) {
+            return response()->json([
+                'message' => 'Neplatné přihlašovací údaje.',
+                'errors' => [
+                    'email' => ['Zadaný e-mail nebo heslo není správně.']
+                ],
+            ], 422);
+        }
 
-    $request->session()->regenerate();
+        $request->session()->regenerate();
 
-    return response()->json(['message' => 'Přihlášení úspěšné.'], 200);
+        return response()->json(['message' => 'Přihlášení úspěšné.'], 200);
     }
 
 
@@ -86,23 +85,10 @@ class AuthController extends Controller
         ]);
     }
 
-    /*public function logout(Request $request)
-    {
-        Auth::guard('web')->logout(); // odhlásí uživatele
-        $request->session()->invalidate(); // zneplatní session
-        $request->session()->regenerateToken(); // nový CSRF token
-
-        return response()->json(['message' => 'Odhlášení úspěšné']);
-    }*/
-
     public function logout(Request $request)
     {
-        // Pokud používáš session-based auth
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        // Pokud používáš tokeny (sanctum personal access tokens), tak můžeš také smazat token
-        // auth()->user()->currentAccessToken()->delete();
 
         return response()->json(['message' => 'Odhlášení proběhlo úspěšně']);
     }
