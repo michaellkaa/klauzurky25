@@ -28,4 +28,10 @@ class University extends Model
         'logo_url',
         'banner_url',
     ];
+
+       public function favoritedByUsers()
+{
+    return $this->morphToMany(User::class, 'favoritable', 'favorites');
+}
+
 }

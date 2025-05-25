@@ -1,16 +1,41 @@
 <template>
-    <div class="space-y-8 p-6">
-      <section class="text-center">
-        <h1 class="text-4xl font-bold">Start Finding Your Next Step</h1>
-        <p class="text-gray-600 mt-2">Explore top universities in the Czech Republic</p>
-      </section>
+    
+    <div class="space-y-8 p-3 md:p-6">
+  <div class="flex justify-between">
+    <router-link to="/">
+      <img src="../../../public/logo-sfyns.png" alt="Logo" class="w-28 md:w-40 h-auto" />
+    </router-link>
+        <div class="flex flex-row">
+        <ProfileLink  />
+        <CalendarLink/></div>
+      </div>
+          <SearchBar />
+
   
-      <UniversitySlider title="All Universities" />
-      <FacultySlider title="All faculties"/>
+      <UniversitySlider title="Univerzity" />
+      <FacultySlider title="Fakulty" />
+      <FieldSlider title="Zaměření"/>
     </div>
   </template>
   
   <script setup>
   import UniversitySlider from '../components/UniversitySlider.vue'
-  import FacultySlider from '../components/FacultySlider.vue';
+  import ProfileLink from '../Components/ProfileLink.vue';
+  import SearchBar from '../Components/SearchBar.vue';
+  import FacultySlider from '../Components/FacultySlider.vue';
+  import FieldSlider from '../Components/FieldSLider.vue';
+  import CalendarLink from '../Components/CalendarLink.vue';
+import { ref, onMounted } from 'vue'
+
+const fields = ref([])
+
+onMounted(async () => {
+  const res = await fetch('/api/zamereni')
+  fields.value = await res.json()
+})
+
+function filterByField(field) {
+  // Např. redirect na stránku se seznamem fakult podle zaměření
+  console.log('Vybrané zaměření:', field)
+}
   </script>

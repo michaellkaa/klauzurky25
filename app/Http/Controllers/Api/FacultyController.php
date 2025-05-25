@@ -8,10 +8,20 @@ use App\Models\Faculty;
 
 class FacultyController extends Controller
 {
-    public function index()
+public function index(Request $request)
     {
-        return response()->json(Faculty::all());
+        $query = Faculty::query();
+
+        if ($request->has('field')) {
+            $field = $request->get('field');
+
+            // Filtrování podle oboru studia v JSON poli fields_of_study
+            $query->whereJsonContains('fields_of_study', $field);
+        }
+
+        return response()->json($query->get());
     }
+
 
     public function show($id)
     {
@@ -21,7 +31,7 @@ class FacultyController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'university' => 'required|integer|exists:universities,id',
+            'university' => 'required|string|exists:universities,id',
             'name' => 'required|string',
             'description' => 'nullable|string',
             'address' => 'nullable|string',
@@ -57,4 +67,31 @@ class FacultyController extends Controller
 
         return response()->json(['message' => 'Faculty deleted']);
     }
+
+    public function zamereni()
+{
+    $zamereni = Faculty::pluck('fields_of_study') // vezme všechny hodnoty z sloupce
+        ->flatMap(function ($item) {
+            return array_map('trim', explode(',', $item)); // rozdělí hodnoty podle čárek
+        })
+        ->filter() // odstraní null / prázdné
+        ->unique()
+        ->values();
+
+    return response()->json($zamereni);
+}
+public function getByField(Request $request)
+{
+    $field = $request->query('field');
+
+    if (!$field) {
+        return response()->json(['error' => 'Missing field parameter'], 400);
+    }
+
+    // Najdeme všechny fakulty, které v poli 'fields' obsahují daný obor
+    $faculties = Faculty::where('fields_of_study', 'LIKE', "%$field%")->get();
+
+    return response()->json($faculties);
+}
+
 }
