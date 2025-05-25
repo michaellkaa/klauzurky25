@@ -8,10 +8,19 @@ use App\Models\Faculty;
 
 class FacultyController extends Controller
 {
-    public function index()
-    {
-        return response()->json(Faculty::all());
+public function index(Request $request)
+{
+    $query = Faculty::query();
+
+    if ($request->has('field')) {
+        $field = $request->get('field');
+
+        $query->whereJsonContains('fields', $field);
     }
+
+    return response()->json($query->get());
+}
+
 
     public function show($id)
     {
@@ -69,6 +78,19 @@ class FacultyController extends Controller
         ->values();
 
     return response()->json($zamereni);
+}
+public function getByField(Request $request)
+{
+    $field = $request->query('field');
+
+    if (!$field) {
+        return response()->json(['error' => 'Missing field parameter'], 400);
+    }
+
+    // Najdeme všechny fakulty, které v poli 'fields' obsahují daný obor
+    $faculties = Faculty::where('fields_of_study', 'LIKE', "%$field%")->get();
+
+    return response()->json($faculties);
 }
 
 }

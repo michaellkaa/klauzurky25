@@ -2,13 +2,13 @@
   <div>
     <h2 class="text-2xl font-semibold mb-4">{{ title }}</h2>
 
-    <div class="grid grid-cols-3 gap-4">
-      <FieldCard
-        v-for="field in visibleFields"
-        :key="field"
-        :field="field"
-        @click="handleClick"
-      />
+  <div class="grid grid-cols-3 gap-4 max-h-[18rem] overflow-hidden relative">
+    <FieldCard
+  v-for="field in fields"
+  :key="field"
+  :field="field"
+  @click="handleClick(field)"
+/>
     </div>
 
     <Button
@@ -26,6 +26,10 @@
 import { ref, computed } from 'vue';
 import FieldCard from './FieldCard.vue';
 import Button from './Button.vue';
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 
 defineProps({
   title: String
@@ -74,5 +78,7 @@ function toggleShowAll() {
 
 function handleClick(field) {
   console.log('Kliknul jsi na:', field);
+  router.push({ path: '/field-faculties', query: { field } })
+
 }
 </script>
