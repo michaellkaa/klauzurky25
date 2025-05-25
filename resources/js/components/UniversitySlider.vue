@@ -1,6 +1,6 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import UniversityCard from './UniversityCard.vue'
+import { ref, onMounted } from 'vue';
+import UniversityCard from './UniversityCard.vue';
 const universities = ref([])
 
 defineProps({

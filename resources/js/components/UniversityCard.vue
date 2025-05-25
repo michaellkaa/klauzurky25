@@ -1,9 +1,27 @@
 <script setup>
-defineProps({ university: Object })
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+import HeartButton from './HeartButton.vue';
+
+const props = defineProps({
+  university: Object
+})
+
+
 </script>
 
 <template>
-  <router-link :to="`/university/${university.id}`">
+  <div class="relative w-72">
+    <!-- Heart button OUTSIDE of clickable card -->
+    <div class="absolute top-2 right-2 z-50">
+      <HeartButton
+        :type="'university'"
+        :id="university.id"
+      />
+
+  </div>
+  </div>
+  <router-link :to="`/university/${university.id}`" class="block relative">
     <div class="bg-white rounded-2xl shadow-md w-72 overflow-hidden hover:shadow-lg transition-shadow duration-200">
       <!-- Banner -->
       <div class="h-24 w-full bg-gray-100">
@@ -35,8 +53,8 @@ defineProps({ university: Object })
           <p v-if="university.type"><strong>Typ:</strong> {{ university.type }}</p>
           <p v-if="university.language"><strong>Jazyk výuky:</strong> {{ university.language }}</p>
         </div>
-
       </div>
     </div>
   </router-link>
+
 </template>

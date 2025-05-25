@@ -206,9 +206,15 @@ $faculties = $user->favoriteFaculties()->get(); // bez ->with('university')
         return response()->json($faculties);
     }
 
+public function userFavoriteUniversities(Request $request)
+    {
+        $user = $request->user();
+$universities = $user->favoriteUniversities()->get(); 
 
+        return response()->json($universities);
+    }
 
-public function addFavouriteFaculty(Request $request)
+/*public function addFavouriteFaculty(Request $request)
 {
     $faculty = Faculty::findOrFail($request->faculty_id);
     $user = Auth::user();
@@ -235,7 +241,7 @@ public function addFavouriteFaculty(Request $request)
     }
 
     return response()->json(['message' => 'Fakulta přidána a události uloženy.']);
-}
+}*/
 /*public function checkMultiple(Request $request)
 {
     $user = auth()->user();

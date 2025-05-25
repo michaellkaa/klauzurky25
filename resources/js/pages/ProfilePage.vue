@@ -66,21 +66,36 @@
         <h2 class="text-xl font-semibold mb-2">Vaše univerzity</h2>
         <div
           v-if="universities.length > 0"
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-10"
         >
-          <div
+          <RouterLink
             v-for="university in universities"
             :key="university.id"
-            class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5"
+            :to="`/university/${university.id}`"
+            class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 transition hover:shadow-md hover:border-purple-400 group flex flex-col relative cursor-pointer"
           >
-            {{ university.name }}
-          </div>
+            <div class="absolute top-3 right-3 z-10">
+              <HeartButton :id="university.id" type="university" />
+            </div>
+            <div class="flex items-start gap-4 mb-4">
+              <img
+                :src="university.logo_url"
+                alt="Logo univezity"
+                class="w-12 h-12 rounded-md object-contain"
+              />
+              <div class="max-w-[80%] pr-3">
+                <h3 class="text-lg font-semibold text-gray-800 group-hover:text-purple-600 transition">
+                  {{ university.name }}
+                </h3>
+              </div>
+            </div>
+          </RouterLink>
         </div>
         <div
           v-else
           class="bg-gray-50 border border-dashed border-gray-300 p-4 rounded-xl text-gray-500 text-sm text-center"
         >
-          Zatím nemáte žádné přidané univerzity.
+          Zatím nemáte žádné přidané fakulty.
         </div>
       </div>
 
@@ -101,7 +116,7 @@
             </div>
             <div class="flex items-start gap-4 mb-4">
               <img
-                :src="faculty.logo_url || '/default-faculty-logo.png'"
+                :src="faculty.logo_url"
                 alt="Logo fakulty"
                 class="w-12 h-12 rounded-md object-contain"
               />

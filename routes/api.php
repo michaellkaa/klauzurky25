@@ -65,6 +65,8 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->get('/user/favorites/faculties', [FavoriteController::class, 'userFavoriteFaculties']);
+Route::middleware('auth:sanctum')->get('/user/favorites/universities', [FavoriteController::class, 'userFavoriteUniversities']);
+
 
 Route::middleware('auth:sanctum')->get('/events', function (Request $request) {
     return Event::where('user_id', $request->user()->id)->orderBy('date')->get();

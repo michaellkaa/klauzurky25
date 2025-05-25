@@ -29,9 +29,9 @@ class University extends Model
         'banner_url',
     ];
 
-    public function favorites()
-    {
-        return $this->morphMany(Favorite::class, 'favoritable');
-    }
+       public function favoritedByUsers()
+{
+    return $this->morphToMany(User::class, 'favoritable', 'favorites');
+}
 
 }

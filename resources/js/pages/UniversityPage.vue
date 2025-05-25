@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import HeartButton from '../Components/HeartButton.vue'
 
 const loading = ref(true)
 
@@ -32,6 +33,9 @@ try {
     <!-- Banner + sociální sítě vlevo -->
     <div class="relative rounded-xl overflow-hidden mb-6 shadow flex items-center">
       <img :src="university.banner_url" alt="Banner" class="w-full h-48 object-cover rounded-xl" />
+      <div class="absolute top-4 right-4">
+          <HeartButton :type="'university'" :id="university.id" />
+        </div>
       <div class="absolute top-3 left-4 flex gap-4 text-purple-600">
         <a v-if="university.facebook" :href="university.facebook" target="_blank" aria-label="Facebook" class="hover:text-purple-400 italic">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5.012 3.676 9.164 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.845c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.772-1.63 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.324 21.164 22 17.012 22 12z"/></svg>
