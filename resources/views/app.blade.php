@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Moje aplikace</title>
+    <title>SFYNS</title>
 
     {{-- Vite CSS --}}
     @vite('resources/css/app.css')

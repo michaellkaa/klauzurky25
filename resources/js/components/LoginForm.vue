@@ -57,7 +57,7 @@ const handleLogin = async () => {
       required
     />
 
-    <button class="btn w-full bg-purple-400 hover:bg-purple-600 text-white">Přihlásit se</button>
+    <button class=" w-full bg-purple-800 hover:bg-purple-600 text-white rounded-md px-4 py-2">Přihlásit se</button>
 
     <p v-if="error" class="text-red-500 text-sm text-center">{{ error }}</p>
 

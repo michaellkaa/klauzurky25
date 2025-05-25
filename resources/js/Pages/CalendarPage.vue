@@ -2,6 +2,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import CalendarView from '../Components/CalendarView.vue'
+import ProfileLink from '../Components/ProfileLink.vue'
 
 const events = ref([])
 
@@ -35,7 +36,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="max-w-4xl mx-auto p-6">
+  <div class="space-y-8 p-3 md:p-6">
+  <div class="flex justify-between">
+    <router-link to="/">
+      <img src="../../../public/logo-sfyns.png" alt="Logo" class="w-28 md:w-40 h-auto" />
+    </router-link>
+    <ProfileLink  />
+
+  </div>
+</div>
+  <div class="md:max-w-4xl mx-auto md:p-6 max-w-full">
     <CalendarView :events="events" />
   </div>
 </template>

@@ -5,7 +5,7 @@
     <div v-if="loading" class="text-gray-500">Načítání fakult...</div>
     <div v-else-if="faculties.length === 0" class="text-gray-500">Žádné fakulty nenalezeny.</div>
 
-    <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
       <FacultyCard
         v-for="faculty in faculties"
         :key="faculty.id"

@@ -72,11 +72,11 @@ console.log('Events props:', props.events)
 </script>
 
 <template>
-  <div class="flex gap-6 p-4 mt-[10%] bg-white rounded-xl shadow">
+<div class="flex flex-col md:flex-row gap-6 p-4 mt-[6%] bg-white rounded-xl shadow max-w-full overflow-x-hidden">
     <!-- Kalendář -->
-    <div class="flex-1 max-w-4xl">
+  <div class="w-[100%] md:flex-1 md:max-w-4xl">
       <!-- Horní lišta -->
-      <div class="flex justify-between items-center mb-4">
+      <div class="flex justify-between items-center mb-4 px-2 md:px-0">
         <button @click="prevMonth" class="text-gray-600 hover:text-black font-black text-lg">&lt;</button>
         <h2 class="text-xl font-bold capitalize">
           {{ format(currentMonth, 'LLLL yyyy', { locale: cs }) }}
@@ -85,12 +85,12 @@ console.log('Events props:', props.events)
       </div>
 
       <!-- Dny v týdnu -->
-      <div class="grid grid-cols-7 text-center text-gray-500 font-semibold mb-2">
+      <div class="grid grid-cols-7 text-center text-gray-500 font-semibold mb-2 px-2 md:px-0">
         <div v-for="day in ['Po','Út','St','Čt','Pá','So','Ne']" :key="day">{{ day }}</div>
       </div>
 
       <!-- Kalendář dny -->
-      <div class="grid grid-cols-7 gap-1 text-sm">
+      <div class="grid grid-cols-7 gap-1 text-sm px-2 md:px-0">
         <div
           v-for="day in days"
           :key="day"
@@ -119,7 +119,7 @@ console.log('Events props:', props.events)
     </div>
 
     <!-- Sidebar s detaily -->
-    <aside class="w-80 p-4 bg-gray-50 rounded-xl shadow-inner overflow-auto max-h-[600px]">
+  <aside class="w-full md:w-80 p-4 bg-gray-50 rounded-xl shadow-inner overflow-auto max-h-[400px] md:max-h-[600px]">
       <h3 class="text-lg font-semibold mb-4">Detaily vybraného dne</h3>
       
       <template v-if="selectedEvents.length > 0">
@@ -144,3 +144,4 @@ console.log('Events props:', props.events)
     </aside>
   </div>
 </template>
+

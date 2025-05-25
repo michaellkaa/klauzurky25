@@ -10,16 +10,22 @@ class FacultyController extends Controller
 {
 public function index(Request $request)
 {
-    $query = Faculty::query();
+    $faculties = Faculty::with('university')->get();
 
-    if ($request->has('field')) {
-        $field = $request->get('field');
+    // Převod na pole s potřebnými daty:
+    $result = $faculties->map(function ($faculty) {
+        return [
+            'id' => $faculty->id,
+            'name' => $faculty->name,
+            'university_id' => $faculty->university_id,
+            'university_name' => $faculty->university ? $faculty->university->name : null,
+            // další pole dle potřeby
+        ];
+    });
 
-        $query->whereJsonContains('fields', $field);
-    }
-
-    return response()->json($query->get());
+    return response()->json($result);
 }
+
 
 
     public function show($id)

@@ -1,31 +1,37 @@
 <template>
+<div class="space-y-8 p-3 md:p-6">
+  <div class="flex justify-between">
+    <router-link to="/">
+      <img src="../../../public/logo-sfyns.png" alt="Logo" class="w-28 md:w-40 h-auto" />
+    </router-link>
+  </div>
+</div>
 <div class="max-w-6xl mx-auto py-16 px-6 text-gray-800 space-y-10">
     <!-- Profilová hlavička -->
     <div class="flex items-center gap-8">
-      <div class="relative group">
-        <div class="w-28 h-28 rounded-full bg-gray-200 overflow-hidden">
-          <img
-            :src="user.avatar_path ? `/${user.avatar_path}` : `/${user.avatar_path}`"
-            alt="Profilový obrázek"
-            class="w-full h-full object-cover"
-          />
+<div class="relative group">
+  <div class="w-20 h-20 md:w-28 md:h-28 rounded-full bg-gray-200 overflow-hidden">
+    <img
+      :src="user.avatar_path ? `/${user.avatar_path}` : `/${user.avatar_path}`"
+      alt="Profilový obrázek"
+      class="w-full h-full object-cover"
+    />
+  </div>
+  <button
+    @click="triggerFileInput"
+    class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition text-white text-xs flex items-center justify-center"
+  >
+    Změnit
+  </button>
+  <input
+    ref="fileInput"
+    type="file"
+    accept="image/*"
+    class="hidden"
+    @change="handlePhotoChange"
+  />
+</div>
 
-
-        </div>
-        <button
-          @click="triggerFileInput"
-          class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition text-white text-xs flex items-center justify-center"
-        >
-          Změnit
-        </button>
-        <input
-          ref="fileInput"
-          type="file"
-          accept="image/*"
-          class="hidden"
-          @change="handlePhotoChange"
-        />
-      </div>
       <div class="flex-1 space-y-2">
         <h1 class="text-3xl font-bold">{{ user.name }}</h1>
         <div class="text-gray-600 flex items-center gap-2">
@@ -99,6 +105,7 @@
 
     </div>
   </div>
+
 </template>
 
 <script setup>

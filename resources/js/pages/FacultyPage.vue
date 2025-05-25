@@ -37,13 +37,13 @@ function truncatedText(text, maxLength = 120) {
 </script>
 
 <template>
-  <div class="space-y-8 p-6">
-    <div class="flex justify-between">
-      <router-link to="/">
-        <img src="../../../public/logo-sfyns.png" alt="Logo" class="w-40 h-auto" />
-      </router-link>
-    </div>
+<div class="space-y-8 p-3 md:p-6">
+  <div class="flex justify-between">
+    <router-link to="/">
+      <img src="../../../public/logo-sfyns.png" alt="Logo" class="w-28 md:w-40 h-auto" />
+    </router-link>
   </div>
+</div>
   <main class="max-w-3xl mx-auto p-8 font-sans text-gray-900">
     <div v-if="loading" class="text-center py-20 text-gray-500 text-sm">Načítám data...</div>
     <article v-else-if="faculty" class="space-y-8">
