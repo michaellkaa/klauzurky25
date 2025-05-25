@@ -9,23 +9,18 @@ use App\Models\Faculty;
 class FacultyController extends Controller
 {
 public function index(Request $request)
-{
-    $faculties = Faculty::with('university')->get();
+    {
+        $query = Faculty::query();
 
-    // Převod na pole s potřebnými daty:
-    $result = $faculties->map(function ($faculty) {
-        return [
-            'id' => $faculty->id,
-            'name' => $faculty->name,
-            'university_id' => $faculty->university_id,
-            'university_name' => $faculty->university ? $faculty->university->name : null,
-            // další pole dle potřeby
-        ];
-    });
+        if ($request->has('field')) {
+            $field = $request->get('field');
 
-    return response()->json($result);
-}
+            // Filtrování podle oboru studia v JSON poli fields_of_study
+            $query->whereJsonContains('fields_of_study', $field);
+        }
 
+        return response()->json($query->get());
+    }
 
 
     public function show($id)
