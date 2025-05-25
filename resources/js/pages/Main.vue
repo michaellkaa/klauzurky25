@@ -3,7 +3,9 @@
     <div class="space-y-8 p-6">
       <div class="flex justify-between mb-20">
         <img src="../../../public/logo-sfyns.png" alt="" class="w-40 h-auto">
+        <div class="flex flex-row">
         <ProfileLink  />
+        <CalendarLink/></div>
       </div>
           <SearchBar />
 
@@ -20,6 +22,7 @@
   import SearchBar from '../Components/SearchBar.vue';
   import FacultySlider from '../Components/FacultySlider.vue';
   import FieldSlider from '../Components/FieldSLider.vue';
+  import CalendarLink from '../Components/CalendarLink.vue';
 import { ref, onMounted } from 'vue'
 
 const fields = ref([])

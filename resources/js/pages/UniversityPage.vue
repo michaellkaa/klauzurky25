@@ -2,12 +2,19 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
+const loading = ref(true)
+
 const route = useRoute()
 const university = ref(null)
 
 onMounted(async () => {
+    loading.value = true
+try {
   const res = await fetch(`/api/universities/${route.params.id}`)
   university.value = await res.json()
+ } finally {
+    loading.value = false
+  }
 })
 </script>
 
@@ -19,6 +26,8 @@ onMounted(async () => {
       </router-link>
     </div>
   </div>
+    <main class="max-w-3xl mx-auto p-8 font-sans text-gray-900">
+    <div v-if="loading" class="text-center py-20 text-gray-500 text-sm">Načítám data...</div>
   <div class="p-6 max-w-4xl mx-auto" v-if="university">
     <!-- Banner + sociální sítě vlevo -->
     <div class="relative rounded-xl overflow-hidden mb-6 shadow flex items-center">
@@ -76,6 +85,8 @@ onMounted(async () => {
       </div>
     </section>
   </div>
+  </main>
+
 </template>
 
 <style scoped>
