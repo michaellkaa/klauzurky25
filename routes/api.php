@@ -13,6 +13,8 @@ use App\Models\Faculty;
 use Illuminate\Support\Facades\DB;
 //use App\Http\Controllers\Api\Admin\AdminUserController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\QuizController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -115,3 +117,7 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
     Route::get('/users', [AdminUserController::class, 'index']);
     Route::delete('/users/{id}', [AdminUserController::class, 'destroy']);
 });
+
+Route::get('/quiz', [QuizController::class, 'getQuestions']);
+Route::post('/quiz/result', [QuizController::class, 'calculateResult']);
+

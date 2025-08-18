@@ -9,7 +9,7 @@ import AdminDashboard from '../js/pages/AdminDashboard.vue'
 import FacultyPage from './pages/FacultyPage.vue'
 import CalendarPage from './Pages/CalendarPage.vue'
 import FacultyList from './Pages/FacultyList.vue'
-
+import QuizPage from './Pages/QuizPage.vue'
 
 const routes = [
   { path: '/', component: Main },
@@ -21,6 +21,8 @@ const routes = [
   { path: '/faculty/:id', component: FacultyPage },
   { path: '/calendar', component: CalendarPage},
   { path: '/field-faculties', component: FacultyList},
+  { path: '/quiz', component: QuizPage},
+
 ]
 
 const router = createRouter({

@@ -91,6 +91,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', fn() => Inertia::render('Dashboard'))->name('home');
     Route::get('/dashboard', fn() => Inertia::render('Dashboard'))->name('dashboard');
     Route::get('/calendar', fn() => Inertia::render('CalendarPage'))->name('calendar');
+    Route::get('/calendar', fn() => Inertia::render('QuizPage'))->name('quiz');
+
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
