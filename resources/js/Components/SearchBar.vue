@@ -61,23 +61,36 @@ const goToResult = (result) => {
 </script>
 
 <template>
-  <div class="relative max-w-xl mx-auto mt-6 z-100">
-    <input v-model="query" @input="search" type="text" placeholder="Hledat univerzitu nebo fakultu…"
-      class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400" />
+  <div class="relative max-w-xl mx-auto mt-6 z-50">
+    <input
+      v-model="query"
+      @input="search"
+      type="text"
+      placeholder="hledat univerzitu nebo fakultu…"
+      class="w-full px-4 py-2 border border-gray-800 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black placeholder-gray-500 text-gray-900 font-semibold uppercase"
+    />
 
-    <ul v-if="query && results.length"
-      class="absolute z-10 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-md divide-y">
-      <li v-for="(result, index) in results" :key="index"
+    <ul
+      v-if="query && results.length"
+      class="absolute z-10 w-full bg-white border border-gray-800 rounded-lg mt-1 shadow-md divide-y"
+    >
+      <li
+        v-for="(result, index) in results"
+        :key="index"
         class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center"
-        @click="goToResult(result)">
-        <span class="font-medium">{{ result.name }}</span>
-        <span class="text-sm text-gray-500">{{ result.location }}</span>
+        @click="goToResult(result)"
+      >
+        <span class="font-bold text-gray-900 uppercase">{{ result.name }}</span>
+        <span class="text-sm text-gray-600">{{ result.location }}</span>
       </li>
     </ul>
 
-    <div v-if="query && !results.length && !loading"
-      class="absolute w-full mt-1 text-sm text-gray-500 bg-white border border-gray-200 rounded-md p-2">
-      Žádné výsledky
+    <div
+      v-if="query && !results.length && !loading"
+      class="absolute w-full mt-1 text-sm text-gray-700 bg-white border border-gray-800 rounded-md p-2 font-medium"
+    >
+      ŽÁDNÉ VÝSLEDKY
     </div>
   </div>
 </template>
+
