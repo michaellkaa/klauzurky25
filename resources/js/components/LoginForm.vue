@@ -42,23 +42,56 @@ const handleLogin = async () => {
     error.value = err.message
   }
 }
-
 </script>
 
 <template>
-  <form @submit.prevent="handleLogin" class="bg-white shadow-md rounded px-8 pt-6 pb-8 w-full max-w-sm space-y-4">
-    <h2 class="text-2xl font-bold text-center">Přihlášení</h2>
+  <div class="min-h-screen flex items-center justify-center  p-6">
+    <form
+      @submit.prevent="handleLogin"
+      class="w-full max-w-md flex flex-col space-y-8"
+    >
+      <!-- Nadpis -->
+      <h1 class="text-5xl font-extrabold tracking-tight text-black text-center uppercase">
+        Přihlášení
+      </h1>
 
-    <input v-model="email" type="email" placeholder="Email" class="input w-full" required />
-    <input v-model="password" type="password" placeholder="Heslo" class="input w-full" required />
-    <p v-if="error" class="text-red-500 text-sm text-center">{{ error }}</p>
+      <!-- Inputy -->
+      <div class="flex flex-col space-y-4">
+        <input
+          v-model="email"
+          type="email"
+          placeholder="Email"
+          class="w-full px-4 py-4 border-2 border-black text-lg font-semibold focus:outline-none focus:ring-4 focus:ring-black"
+          required
+        />
+        <input
+          v-model="password"
+          type="password"
+          placeholder="Heslo"
+          class="w-full px-4 py-4 border-2 border-black text-lg font-semibold focus:outline-none focus:ring-4 focus:ring-black"
+          required
+        />
+      </div>
 
-    <button class=" w-full bg-purple-800 hover:bg-purple-600 text-white rounded-md px-4 py-2">Přihlásit se</button>
+      <!-- Error -->
+      <p v-if="error" class="text-red-600 font-semibold text-center">
+        {{ error }}
+      </p>
 
+      <!-- Button -->
+      <button
+        class="w-full bg-black text-white py-4 text-xl font-extrabold uppercase tracking-wider hover:bg-white hover:text-black hover:border-black hover:border-2 transition-all duration-200"
+      >
+        Přihlásit se
+      </button>
 
-    <p class="text-sm text-center text-gray-600">
-      Nemáš účet?
-      <router-link to="/register" class="text-purple-900 hover:underline">Registruj se</router-link>
-    </p>
-  </form>
+      <!-- Register link -->
+      <p class="text-center text-lg font-medium text-gray-700">
+        Nemáš účet?
+        <router-link to="/register" class="underline font-bold hover:text-black">
+          Registruj se
+        </router-link>
+      </p>
+    </form>
+  </div>
 </template>
