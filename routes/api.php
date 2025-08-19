@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 //use App\Http\Controllers\Api\Admin\AdminUserController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\FieldController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -131,3 +133,5 @@ Route::get('/all-universities-and-faculties', function () {
         'faculties' => $faculties,
     ]);
 });
+
+Route::get('/fields', [FieldController::class, 'index']);

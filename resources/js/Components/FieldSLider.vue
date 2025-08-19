@@ -6,7 +6,7 @@
     <div class="grid gap-4 relative overflow-hidden 
              grid-cols-1 sm:grid-cols-2 md:grid-cols-3"
       :class="{ 'max-h-[18rem]': !showAll, 'max-h-[24rem] sm:max-h-[30rem]': !showAll }">
-      <FieldCard v-for="field in visibleFields" :key="field" :field="field" @click="handleClick(field)" />
+      <FieldCard v-for="field in visibleFields" :key="field" :field="field.name" @click="handleClick(field)" />
     </div>
 
     <Button v-if="fields.length > maxVisible" @click="toggleShowAll" :type="'primary'" class="mt-4">
@@ -17,52 +17,31 @@
 
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import FieldCard from './FieldCard.vue';
 import Button from './Button.vue';
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const fields = ref([])
+const maxVisible = 9;
+const showAll = ref(false);
 
 defineProps({
   title: String
 })
 
-const fields = [
-  "biologie",
-  "biomedicína a zdravotnické obory",
-  "chemie",
-  "doprava",
-  "ekonomie",
-  "ekologické",
-  "elektro",
-  "farmacie",
-  "filozofie",
-  "fyzika",
-  "IT",
-  "jazyky",
-  "lékařské obory",
-  "matematika",
-  "ostatní humanitní",
-  "ostatní přírodovědné",
-  "ostatní technické",
-  "pedagogika",
-  "policejní a vojenské obory",
-  "právo",
-  "psychologie",
-  "sport",
-  "stavebnictví",
-  "strojařina",
-  "umělecké obory",
-  "veterinářství",
-  "zemědělské obory"
-];
-
-const maxVisible = 9;
-const showAll = ref(false);
+onMounted(async () => {
+  try {
+    const res = await fetch('/api/fields')
+    fields.value = await res.json()
+  } catch (err) {
+    console.error("Chyba při načítání oborů:", err)
+  }
+})
 
 const visibleFields = computed(() => {
-  return showAll.value ? fields : fields.slice(0, maxVisible);
+  return showAll.value ? fields.value : fields.value.slice(0, maxVisible);
 });
 
 function toggleShowAll() {
@@ -70,7 +49,6 @@ function toggleShowAll() {
 }
 
 function handleClick(field) {
-  console.log('Kliknul jsi na:', field);
-  router.push({ path: '/field-faculties', query: { field } })
+  router.push({ path: '/field-faculties', query: { field: field.name } })
 }
 </script>

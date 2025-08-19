@@ -1,6 +1,6 @@
 <template>
   <div class="p-6">
-    <h1 class="text-2xl font-bold mb-6">Fakulty pro obor: {{ decodedField }}</h1>
+    <h2 class="text-2xl font-bold uppercase tracking-wide mb-4 ml-2"> {{ decodedField }}</h2>
 
     <div v-if="loading" class="text-gray-500">Načítání fakult...</div>
     <div v-else-if="faculties.length === 0" class="text-gray-500">Žádné fakulty nenalezeny.</div>
