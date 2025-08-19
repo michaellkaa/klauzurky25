@@ -56,7 +56,7 @@ END:VEVENT`.trim())
   const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' })
   const link = document.createElement('a')
   link.href = URL.createObjectURL(blob)
-  link.download = `moje_udalosti.ics`
+  link.download = `sfyns_kalendar.ics`
   link.click()
 }
 
@@ -74,7 +74,12 @@ END:VEVENT`.trim())
   </div>
   <div class="md:max-w-7xl mx-auto md:p-6 max-w-full">
     <CalendarView :events="events" />
-    <button @click="downloadAllICS(events)">Stáhnout všechny události</button>
-
+    <button class="ml-3 px-5 py-2.5 bg-black text-white font-bold rounded-xl shadow hover:bg-gray-800 transition flex items-center" @click="downloadAllICS(events)">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" />
+        </svg>
+        Stáhnout všechny události
+      </button>
   </div>
+  
 </template>
