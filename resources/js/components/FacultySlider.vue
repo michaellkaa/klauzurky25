@@ -30,8 +30,8 @@ function onWheel(event) {
 </script>
 
 <template>
-  <section>
-    <h2 class="text-2xl font-semibold mb-4">{{ title }}</h2>
+  <section >
+    <h2 class="text-2xl font-bold uppercase tracking-wide mb-4 ml-3">{{ title }}</h2>
     <div ref="scrollContainer" class="flex overflow-x-auto gap-4 pb-4 no-scrollbar" @wheel="onWheel">
       <router-link v-for="faculty in faculties" :key="faculty.id" :to="`/faculty/${faculty.id}`"
         class="min-w-[250px] p-2 flex-shrink-0">

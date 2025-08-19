@@ -31,7 +31,7 @@ function onWheel(event) {
 
 <template>
   <section>
-    <h2 class="text-2xl font-semibold mb-4">{{ title }}</h2>
+    <h2 class="text-2xl font-bold uppercase tracking-wide mb-4 ml-3">{{ title }}</h2>
     <div
       ref="scrollContainer"
       class="flex overflow-x-auto gap-4 pb-4  no-scrollbar"
