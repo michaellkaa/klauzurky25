@@ -1,13 +1,22 @@
 <script setup>
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+
+import { ref, watch } from 'vue'
 
 const query = ref('')
 const results = ref([])
 const loading = ref(false)
 const error = ref(null)
-
 const router = useRouter()
+
+let debounceTimeout = null
+
+watch(query, (newQuery) => {
+  clearTimeout(debounceTimeout)
+  debounceTimeout = setTimeout(() => {
+    search()
+  }, 300) // wait 300ms after typing stops
+})
 
 const search = async () => {
   const trimmed = query.value.trim()

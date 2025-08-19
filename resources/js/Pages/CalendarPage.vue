@@ -72,7 +72,7 @@ END:VEVENT`.trim())
 
     </div>
   </div>
-  <div class="md:max-w-4xl mx-auto md:p-6 max-w-full">
+  <div class="md:max-w-7xl mx-auto md:p-6 max-w-full">
     <CalendarView :events="events" />
     <button @click="downloadAllICS(events)">Stáhnout všechny události</button>
 

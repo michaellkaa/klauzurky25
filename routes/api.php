@@ -121,3 +121,13 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
 Route::get('/quiz', [QuizController::class, 'getQuestions']);
 Route::post('/quiz/result', [QuizController::class, 'calculateResult']);
 
+//tohle mi snad pomuze s rychlejsim loadingem??
+Route::get('/all-universities-and-faculties', function () {
+    $universities = \App\Models\University::all(['id', 'name', 'location']);
+    $faculties = \App\Models\Faculty::all(['id', 'name', 'address']);
+
+    return response()->json([
+        'universities' => $universities,
+        'faculties' => $faculties,
+    ]);
+});

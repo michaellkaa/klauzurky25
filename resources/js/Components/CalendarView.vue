@@ -66,11 +66,36 @@ function selectDay(day) {
 
 console.log('Events props:', props.events)
 
+
+
+function getEventColor(event) {
+  if (event.title && event.title.toLowerCase().includes('den otevřených dveří')) {
+    return 'bg-indigo-600 text-white'
+  }
+  if (event.title && event.title.toLowerCase().includes('přijímací zkoušky')) {
+    return 'bg-amber-500 text-white'
+  }
+  if (event.title && event.title.toLowerCase().includes('podání přihlášky')) {
+    return 'bg-green-600 text-white'
+  }
+}
+
+function getEventColorText(event) {
+  if (event.title && event.title.toLowerCase().includes('den otevřených dveří')) {
+    return 'text-indigo-600'
+  }
+  if (event.title && event.title.toLowerCase().includes('přijímací zkoušky')) {
+    return 'text-amber-500'
+  }
+  if (event.title && event.title.toLowerCase().includes('podání přihlášky')) {
+    return 'text-green-600'
+  }
+}
 </script>
 
 <template>
   <div class="flex flex-col md:flex-row gap-6 p-4 mt-[6%]  rounded-xl  max-w-full overflow-x-hidden">
-    <div class="w-[100%] md:flex-1 md:max-w-4xl">
+    <div class="w-[100%] md:flex-1 ">
 
       <div class="flex justify-between items-center mb-4 px-2 md:px-0">
         <button @click="prevMonth" class="text-gray-600 hover:text-black font-black text-lg">&lt;</button>
@@ -80,7 +105,7 @@ console.log('Events props:', props.events)
         <button @click="nextMonth" class="text-gray-600 hover:text-black font-black text-lg">&gt;</button>
       </div>
 
-      <div class="grid grid-cols-7 text-center text-gray-500 font-semibold mb-2 px-2 md:px-0">
+      <div class="grid grid-cols-7 text-center text-gray-900 font-semibold mb-2 px-2 md:px-0">
         <div v-for="day in ['Po', 'Út', 'St', 'Čt', 'Pá', 'So', 'Ne']" :key="day">{{ day }}</div>
       </div>
 
@@ -95,7 +120,7 @@ console.log('Events props:', props.events)
           <div class="font-semibold text-right mb-1 select-none">{{ format(day, 'd') }}</div>
           <ul class="flex flex-col space-y-1 overflow-visible max-h-[60px]">
             <li v-for="event in getEventsForDay(day)" :key="event.title + event.date"
-              class="text-xs block bg-blue-400 text-white rounded px-2 py-0.5 truncate shadow-sm" :title="event.title">
+              class="text-xs block  text-white rounded px-2 py-0.5 truncate shadow-sm" :title="event.title" :class="getEventColor(event)">
               {{ event.title }}
             </li>
           </ul>
@@ -103,30 +128,22 @@ console.log('Events props:', props.events)
       </div>
     </div>
 
-    <aside class="w-full md:w-80 p-4 bg-gray-50 rounded-xl shadow-inner overflow-auto max-h-[400px] md:max-h-[600px]">
-      <h3 class="text-lg font-semibold mb-4">Detaily vybraného dne</h3>
+    <aside 
+  v-if="selectedDate && selectedEvents.length > 0"
+  class="w-full md:w-80 p-4 bg-gray-50 rounded-xl shadow-inner overflow-auto max-h-[400px] md:max-h-[600px]">
 
-      <template v-if="selectedEvents.length > 0">
-        <p class="mb-2 font-medium">Datum: {{ selectedDate ? format(selectedDate, 'd. LLLL yyyy', { locale: cs }) : ''
-          }}</p>
-        <ul>
-          <li v-for="(event, index) in selectedEvents" :key="index"
-            class="mb-4 border-b border-gray-300 pb-2 last:border-b-0">
-            <h4 class="font-semibold text-blue-400">{{ event.title }}</h4>
-            <p><strong>Univerzita:</strong> {{ event.university }}</p>
-          </li>
-        </ul>
-      </template>
+  <p class="mb-2 font-medium">
+    Datum: {{ format(selectedDate, 'd. LLLL yyyy', { locale: cs }) }}
+  </p>
+  <ul>
+    <li v-for="(event, index) in selectedEvents" :key="index"
+      class="mb-4 border-b border-gray-300 pb-2 last:border-b-0">
+      <h4 class="font-semibold "  :class="getEventColorText(event)">{{ event.title }}</h4>
+      <p><strong>Univerzita:</strong> {{ event.university }}</p>
+    </li>
+  </ul>
 
-      <template v-else>
-        <p class="mb-2 font-medium">Datum: </p>
-        <ul>
-          <li class="mb-4 border-b border-gray-300 pb-2 last:border-b-0">
-            <h4 class="font-semibold text-blue-400">Název události</h4>
-            <p><strong>Univerzita:</strong> </p>
-          </li>
-        </ul>
-      </template>
-    </aside>
+</aside>
+
   </div>
 </template>
