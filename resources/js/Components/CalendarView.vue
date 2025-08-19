@@ -69,7 +69,7 @@ console.log('Events props:', props.events)
 </script>
 
 <template>
-  <div class="flex flex-col md:flex-row gap-6 p-4 mt-[6%] bg-white rounded-xl shadow max-w-full overflow-x-hidden">
+  <div class="flex flex-col md:flex-row gap-6 p-4 mt-[6%]  rounded-xl  max-w-full overflow-x-hidden">
     <div class="w-[100%] md:flex-1 md:max-w-4xl">
 
       <div class="flex justify-between items-center mb-4 px-2 md:px-0">

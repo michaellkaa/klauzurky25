@@ -18,14 +18,12 @@ class QuizController extends Controller
     {
         $answers = $request->input('answers'); 
         $scores = [];
-        $maxScores = []; // pro normalizaci
 
         foreach ($answers as $questionId => $answerId) {
             $answer = Answer::with('fields')->find($answerId);
             if ($answer) {
                 foreach ($answer->fields as $field) {
                     $scores[$field->id] = ($scores[$field->id] ?? 0) + $field->pivot->points;
-                    $maxScores[$field->id] = ($maxScores[$field->id] ?? 0) + $field->pivot->points; // kumulace max bodů
                 }
             }
         }
@@ -34,26 +32,31 @@ class QuizController extends Controller
             return response()->json(['error' => 'Nepodařilo se spočítat skóre', 'answers' => $answers]);
         }
 
-        // normalizace na procenta
-        $relativeScores = [];
+        // nahrajeme názvy oborů
+        $resultScores = [];
         foreach ($scores as $fieldId => $score) {
-            $relativeScores[$fieldId] = $maxScores[$fieldId] > 0 ? $score / $maxScores[$fieldId] : 0;
+            $field = Field::find($fieldId);
+            if ($field) {
+                $resultScores[$field->name] = $score;
+            }
         }
 
-        arsort($relativeScores);
-        $bestFieldId = array_key_first($relativeScores);
-        $bestField = Field::find($bestFieldId);
+        // vyřadíme "ostatní ..." z doporučení
+        $filteredScores = array_filter($resultScores, function($name) {
+            return stripos($name, 'ostatní') === false;
+        }, ARRAY_FILTER_USE_KEY);
 
-        // pokud žádný field nemá aspoň 50% skóre, doporučíme "ostatní"
-        if (($relativeScores[$bestFieldId] ?? 0) < 0.5) {
-            $bestField = Field::where('name', 'like', 'ostatní%')->first();
-        }
+        // když po odfiltrování nic nezbyde, použijeme původní
+        $finalScores = !empty($filteredScores) ? $filteredScores : $resultScores;
+
+        // seřadíme podle bodů
+        arsort($finalScores);
+        $bestFieldName = array_key_first($finalScores);
 
         return response()->json([
-            'scores' => $relativeScores,
-            'recommended' => $bestField ? $bestField->name : null,
+            'scores' => $resultScores,     // ukážeš celé body, včetně ostatních
+            'recommended' => $bestFieldName, // doporučení už jen bez "ostatních"
         ]);
     }
-
 
 }
