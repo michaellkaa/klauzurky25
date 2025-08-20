@@ -44,11 +44,11 @@
           </button>
         </div>
 
-        <!-- Result 
+        <!-- vysledek 
         <div v-else>
         <h2 class="text-2xl font-black uppercase mb-4 text-black text-center">Výsledek</h2>-->
 
-        <!-- Skóre raw
+        <!-- testovani
         <div class="p-6 bg-gray-50 rounded-xl border border-gray-200 mb-6">
           <pre class="font-black uppercase text-black">{{ result }}</pre>
         </div> -->
