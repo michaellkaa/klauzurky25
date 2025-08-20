@@ -41,12 +41,7 @@ class UniversityController extends Controller
     public function index()
     {
         $universities = University::with('favoritedByUsers')->get();
-        foreach ($universities as $uni) {
-            $uni->is_favorite = $uni->favoritedByUsers()->where('user_id', Auth::id())->exists();
-        }
-
         return response()->json(UniversityResource::collection($universities));
-     //   return response()->json(University::all());
     }
 
 

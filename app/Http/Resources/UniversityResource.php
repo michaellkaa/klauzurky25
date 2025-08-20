@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class UniversityResource extends JsonResource
 {
@@ -33,7 +34,7 @@ class UniversityResource extends JsonResource
             'language' => $this->language,
             'logo_url' => $this->logo_url,
             'banner_url' => $this->banner_url,
-            'is_favorite' => $this->is_favorite,
+            'is_favorite' => $this->favoritedByUsers()->where('user_id', Auth::id())->exists()
         ];
     }
 }
