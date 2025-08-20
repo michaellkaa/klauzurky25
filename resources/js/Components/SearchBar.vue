@@ -15,7 +15,7 @@ watch(query, (newQuery) => {
   clearTimeout(debounceTimeout)
   debounceTimeout = setTimeout(() => {
     search()
-  }, 300) // wait 300ms after typing stops
+  }, 300) //tady cekej a az dopises tak ti to hodi result
 })
 
 const search = async () => {

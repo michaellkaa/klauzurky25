@@ -8,22 +8,18 @@ const props = defineProps({
 
 <template>
   <div class="relative w-72">
-    <!-- Heart button -->
     <div class="absolute top-2 right-2 z-50">
       <HeartButton :type="'university'" :id="university.id" />
     </div>
 
-    <!-- Card -->
     <router-link :to="`/university/${university.id}`" class="block">
       <div class="bg-white rounded-xl border-b-5 border-r-5 border-black shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer">
         
-        <!-- Banner -->
         <div class="h-24 w-full bg-gray-100 border-b-2 border-black">
           <img v-if="university.banner_url" :src="university.banner_url" alt="University Banner"
                class="w-full h-full object-cover" />
         </div>
 
-        <!-- Content -->
         <div class="p-4">
           <div class="flex items-center gap-3 mb-2">
             <img v-if="university.logo_url" :src="university.logo_url" alt="University Logo"

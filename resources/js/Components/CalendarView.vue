@@ -96,7 +96,7 @@ function getEventColorText(event) {
 <template>
   <div class="flex flex-col md:flex-row gap-6 p-4 mt-[6%] rounded-xl max-w-full overflow-x-hidden">
 
-    <!-- Kalendář -->
+    <!-- tady kalendar -->
     <div class="w-full md:flex-1">
       <div class="flex justify-between items-center mb-4 px-2 md:px-0">
         <button @click="prevMonth" class="text-gray-600 hover:text-black font-black text-lg">&lt;</button>
@@ -135,7 +135,7 @@ function getEventColorText(event) {
       </div>
     </div>
 
-    <!-- Sidebar s vybranými událostmi -->
+    <!-- trady vedlejsi kalendar -->
     <aside v-if="selectedDate && selectedEvents.length > 0"
       class="w-full md:w-80 p-4 bg-gray-50 rounded-xl shadow-inner overflow-auto max-h-[400px] md:max-h-[600px]">
       <p class="mb-2 font-medium">

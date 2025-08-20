@@ -4,12 +4,10 @@
       @submit.prevent="register" 
       class="w-full max-w-2xl flex flex-col space-y-8"
     >
-      <!-- Nadpis -->
       <h1 class="text-5xl font-extrabold tracking-tight text-black text-center uppercase">
         Registrace
       </h1>
 
-      <!-- Username + Full Name -->
       <div class="grid grid-cols-2 gap-6">
         <div>
           <input 
@@ -33,7 +31,6 @@
         </div>
       </div>
 
-      <!-- Email -->
       <div>
         <input 
           v-model="form.email" 
@@ -45,7 +42,6 @@
         <p v-if="errors.email" class="text-red-600 font-semibold mt-1">{{ errors.email }}</p>
       </div>
 
-      <!-- Region -->
       <div>
         <input 
           v-model="form.region" 
@@ -57,7 +53,6 @@
         <p v-if="errors.region" class="text-red-600 font-semibold mt-1">{{ errors.region }}</p>
       </div>
 
-      <!-- Password + Confirm -->
       <div class="grid grid-cols-2 gap-6">
         <div>
           <input 
@@ -81,7 +76,6 @@
         </div>
       </div>
 
-      <!-- Submit -->
       <button 
         class="w-full bg-black text-white py-4 text-xl font-extrabold uppercase tracking-wider hover:bg-white hover:text-black hover:border-black hover:border-2 transition-all duration-200"
         type="submit"
@@ -89,7 +83,6 @@
         Registrovat se
       </button>
 
-      <!-- Login link -->
       <p class="text-center text-lg font-medium text-gray-700">
         Už máš účet?
         <router-link to="/login" class="underline font-bold hover:text-black">

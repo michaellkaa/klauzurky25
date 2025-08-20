@@ -50,12 +50,10 @@ const handleLogin = async () => {
       @submit.prevent="handleLogin"
       class="w-full max-w-md flex flex-col space-y-8"
     >
-      <!-- Nadpis -->
       <h1 class="text-5xl font-extrabold tracking-tight text-black text-center uppercase">
         Přihlášení
       </h1>
 
-      <!-- Inputy -->
       <div class="flex flex-col space-y-4">
         <input
           v-model="email"
@@ -73,19 +71,16 @@ const handleLogin = async () => {
         />
       </div>
 
-      <!-- Error -->
       <p v-if="error" class="text-red-600 font-semibold text-center">
         {{ error }}
       </p>
 
-      <!-- Button -->
       <button
         class="w-full bg-black text-white py-4 text-xl font-extrabold uppercase tracking-wider hover:bg-white hover:text-black hover:border-black hover:border-2 transition-all duration-200"
       >
         Přihlásit se
       </button>
 
-      <!-- Register link -->
       <p class="text-center text-lg font-medium text-gray-700">
         Nemáš účet?
         <router-link to="/register" class="underline font-bold hover:text-black">

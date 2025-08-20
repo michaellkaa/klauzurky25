@@ -31,8 +31,7 @@ onMounted(() => {
 })
 
 function formatDateForICS(dateStr) {
-  // očekává 'DD-MM-YYYY' nebo 'D-M-YYYY'
-  const parts = dateStr.split('-') // ['08','11','2025']
+  const parts = dateStr.split('-')
   if (parts.length !== 3) return '00000000'
   const [day, month, year] = parts
   return `${year}${month.padStart(2,'0')}${day.padStart(2,'0')}`

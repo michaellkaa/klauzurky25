@@ -1,7 +1,6 @@
 <template>
   <div class="space-y-8 p-4 md:p-8 bg-gray-100 min-h-screen">
 
-    <!-- Header -->
     <div class="flex justify-between items-center mb-8">
       <router-link to="/">
         <img src="../../../public/logo-sfyns.png" alt="Logo" class="w-32 md:w-40 h-auto" />
