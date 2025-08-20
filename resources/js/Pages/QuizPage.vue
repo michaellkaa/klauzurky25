@@ -70,8 +70,8 @@
             v-for="obor in topObory" 
             :key="obor.name" 
             class="bg-black text-white p-4 rounded-xl uppercase font-black text-center hover:bg-gray-800 transition">
-            <router-link :to="`/field/${obor.name}`">{{ obor.name }}</router-link>
-            <span class="ml-2 text-sm font-normal">({{ obor.score }} bodů)</span>
+            <router-link :to="`/field-faculties?field=${encodeURIComponent(obor.name)}`">{{ obor.name }}</router-link>
+            <!--<span class="ml-2 text-sm font-normal">({{ obor.score }} bodů)</span>-->
             </div>
         </div>
         </div>
@@ -141,4 +141,5 @@ export default {
     }
   }
 }
+
 </script>

@@ -165,5 +165,11 @@ function truncatedText(text, maxLength = 120) {
       </section>
 
     </div>
+    <div v-else-if="!faculty" class="flex flex-col items-center justify-center min-h-[50vh] text-center space-y-4">
+      <h1 class="text-3xl font-extrabold uppercase ">FAKULTA NENALEZENA</h1>
+      <router-link to="/" class="font-bold uppercase no-underline hover:underline text-gray-800">
+        Zpět na hlavní stránku
+      </router-link>
+    </div>
   </main>
 </template>

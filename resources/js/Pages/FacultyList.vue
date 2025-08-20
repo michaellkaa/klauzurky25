@@ -1,9 +1,14 @@
 <template>
   <div class="p-6">
-    <h2 class="text-2xl font-bold uppercase tracking-wide mb-4 ml-2"> {{ decodedField }}</h2>
+    <h2 v-if="faculties.length > 0" class="text-2xl font-bold uppercase tracking-wide mb-4 ml-2"> {{ decodedField }}</h2>
 
     <div v-if="loading" class="text-gray-500">Načítání fakult...</div>
-    <div v-else-if="faculties.length === 0" class="text-gray-500">Žádné fakulty nenalezeny.</div>
+    <div v-else-if="faculties.length === 0" class="flex flex-col items-center justify-center min-h-[50vh] text-center space-y-4">
+      <h1 class="text-3xl font-extrabold uppercase ">ŽÁDNÁ FAKULTA NENALEZENA</h1>
+      <router-link to="/" class="font-bold uppercase underline hover:no-underline text-gray-800">
+        Zpět na hlavní stránku
+      </router-link>
+    </div>
 
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
       <FacultyCard v-for="faculty in faculties" :key="faculty.id" :faculty="faculty" />
