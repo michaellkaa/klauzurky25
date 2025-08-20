@@ -50,7 +50,7 @@ function truncatedText(text, maxLength = 120) {
       Načítám data...
     </div>
 
-    <article v-else-if="faculty" class="space-y-10">
+    <div v-else-if="faculty" class="space-y-10">
 
       <!-- Banner + heart -->
       <section class="relative rounded-xl overflow-hidden border border-gray-300 shadow-sm">
@@ -86,42 +86,42 @@ function truncatedText(text, maxLength = 120) {
 
       <!-- Description -->
       <section>
-        <p class="leading-relaxed text-gray-800 font-medium">{{ faculty.description }}</p>
+        <p class="text-gray-800 font-medium">{{ faculty.description }}</p>
       </section>
 
       <!-- Contact info -->
       <section class="grid grid-cols-1 sm:grid-cols-2 gap-y-2 text-sm text-gray-800 border-t border-gray-300 pt-6 font-medium">
         <p><span class="font-bold uppercase">Adresa:</span> {{ faculty.address }}</p>
-        <p v-if="faculty.website"><span class="font-bold uppercase">Web:</span> 
+        <p v-if="faculty.website"><span class="font-bold uppercase">Web: </span> 
           <a :href="faculty.website" target="_blank" rel="noopener" class="text-black font-semibold hover:underline break-words">
             {{ faculty.website }}
           </a>
         </p>
-        <p v-if="faculty.email"><span class="font-bold uppercase">Email:</span> 
+        <p v-if="faculty.email"><span class="font-bold uppercase">Email: </span> 
           <a :href="`mailto:${faculty.email}`" class="text-black font-semibold hover:underline">
             {{ faculty.email }}
           </a>
         </p>
-        <p v-if="faculty.phone"><span class="font-bold uppercase">Telefon:</span> {{ faculty.phone }}</p>
+        <p v-if="faculty.phone"><span class="font-bold uppercase">Telefon: </span> {{ faculty.phone }}</p>
       </section>
 
       <!-- Admissions -->
       <section class="space-y-2 text-sm text-gray-800 border-t border-gray-300 pt-6 font-medium">
-        <p v-if="faculty.application_link"><span class="font-bold uppercase">Přihláška:</span> 
+        <p v-if="faculty.application_link"><span class="font-bold uppercase">Přihláška: </span> 
           <a :href="faculty.application_link" target="_blank" rel="noopener" class="text-black font-semibold hover:underline">
             Podat přihlášku
           </a>
         </p>
-        <p v-if="faculty.admission_notes"><span class="font-bold uppercase">Poznámky:</span> {{ faculty.admission_notes }}</p>
-        <p v-if="faculty.open_day_dates"><span class="font-bold uppercase">Dny otevřených dveří:</span> {{ faculty.open_day_dates }}</p>
+        <p v-if="faculty.admission_notes"><span class="font-bold uppercase">Poznámky: </span> {{ faculty.admission_notes }}</p>
+        <p v-if="faculty.open_day_dates"><span class="font-bold uppercase">Dny otevřených dveří: </span> {{ faculty.open_day_dates }}</p>
         <p v-if="faculty.open_day_url">
           <a :href="faculty.open_day_url" target="_blank" rel="noopener" class="text-black font-semibold hover:underline">
             Více o dnech otevřených dveří
           </a>
         </p>
-        <p v-if="faculty.exam_dates"><span class="font-bold uppercase">Termíny zkoušek:</span> {{ faculty.exam_dates }}</p>
-        <p v-if="faculty.application_fee"><span class="font-bold uppercase">Poplatek:</span> {{ faculty.application_fee }}</p>
-        <p v-if="faculty.application_deadlines"><span class="font-bold uppercase">Deadline:</span> {{ faculty.application_deadlines }}</p>
+        <p v-if="faculty.exam_dates"><span class="font-bold uppercase">Termíny zkoušek: </span> {{ faculty.exam_dates }}</p>
+        <p v-if="faculty.application_fee"><span class="font-bold uppercase">Poplatek: </span> {{ faculty.application_fee }}</p>
+        <p v-if="faculty.application_deadlines"><span class="font-bold uppercase">Deadline: </span> {{ faculty.application_deadlines }}</p>
       </section>
 
       <!-- Programs -->
@@ -164,6 +164,6 @@ function truncatedText(text, maxLength = 120) {
         </div>
       </section>
 
-    </article>
+    </div>
   </main>
 </template>
