@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UniversityResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Favorite;
@@ -181,7 +182,7 @@ class FavoriteController extends Controller
         $user = $request->user();
         $universities = $user->favoriteUniversities()->get(); 
 
-        return response()->json($universities);
+        return response()->json(UniversityResource::collection($universities));
     }
 
 
