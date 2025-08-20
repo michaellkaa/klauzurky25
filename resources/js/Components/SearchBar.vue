@@ -67,7 +67,7 @@ const goToResult = (result) => {
       @input="search"
       type="text"
       placeholder="hledat univerzitu nebo fakultu..."
-      class="w-full px-4 py-2 border border-gray-800 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black placeholder-gray-500 text-gray-900 font-semibold "
+      class="w-full px-4 py-2 border-b-2 border-black  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black placeholder-gray-500 text-gray-900 font-semibold "
     />
 
     <ul

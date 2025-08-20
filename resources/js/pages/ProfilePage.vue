@@ -51,17 +51,17 @@
 
     <div v-else>
       <div>
-        <h2 class="text-xl font-semibold mb-2">Vaše univerzity</h2>
+        <h2 class="text-2xl font-bold uppercase tracking-wide mb-4 ml-2">Vaše univerzity</h2>
         <div v-if="universities.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-10">
           <RouterLink v-for="university in universities" :key="university.id" :to="`/university/${university.id}`"
-            class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 transition hover:shadow-md hover:border-purple-400 group flex flex-col relative cursor-pointer">
+            class="bg-white rounded-2xl shadow-sm border-b-5 border-r-5 border-black hover:border-gray-600 hover:text-gray-600 p-5 transition hover:shadow-md duration-500 ease-in-out group flex flex-col relative cursor-pointer">
             <div class="absolute top-3 right-3 z-10">
               <HeartButton :id="university.id" type="university" />
             </div>
             <div class="flex items-start gap-4 mb-4">
               <img :src="university.logo_url" alt="Logo univezity" class="w-12 h-12 rounded-md object-contain" />
-              <div class="max-w-[80%] pr-3">
-                <h3 class="text-lg font-semibold text-gray-800 group-hover:text-purple-600 transition">
+              <div class="max-w-[75 %] pr-3">
+                <h3 class="text-lg font-bold text-gray-800 group-hover:text-gray-600 transition uppercase ">
                   {{ university.name }}
                 </h3>
               </div>
@@ -75,17 +75,17 @@
       </div>
 
       <div>
-        <h2 class="text-xl font-semibold mb-2">Vaše fakulty</h2>
+        <h2 class="text-2xl font-bold uppercase tracking-wide mb-4 ml-2">Vaše fakulty</h2>
         <div v-if="faculties.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <RouterLink v-for="faculty in faculties" :key="faculty.id" :to="`/faculty/${faculty.id}`"
-            class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 transition hover:shadow-md hover:border-purple-400 group flex flex-col relative cursor-pointer">
+            class="bg-white rounded-2xl shadow-sm border-b-5 border-r-5 border-black  hover:border-gray-600  p-5 transition hover:shadow-md  group flex flex-col relative cursor-pointer">
             <div class="absolute top-3 right-3 z-10">
               <HeartButton :id="faculty.id" type="faculty" />
             </div>
             <div class="flex items-start gap-4 mb-4">
               <img :src="faculty.logo_url" alt="Logo fakulty" class="w-12 h-12 rounded-md object-contain" />
               <div class="max-w-[80%] pr-3">
-                <h3 class="text-lg font-semibold text-gray-800 group-hover:text-purple-600 transition">
+                <h3 class="text-lg font-bold text-gray-800 group-hover:text-gray-600 transition uppercase">
                   {{ faculty.name }}
                 </h3>
                 <p class="text-sm text-gray-500">{{ faculty.university }}</p>

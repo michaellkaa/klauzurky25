@@ -15,7 +15,7 @@ const props = defineProps({
 
     <!-- Card -->
     <router-link :to="`/university/${university.id}`" class="block">
-      <div class="bg-white rounded-xl border-2 border-black shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+      <div class="bg-white rounded-xl border-b-5 border-r-5 border-black shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer">
         
         <!-- Banner -->
         <div class="h-24 w-full bg-gray-100 border-b-2 border-black">

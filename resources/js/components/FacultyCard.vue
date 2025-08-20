@@ -21,7 +21,7 @@ function goToFaculty() {
     </div>
 
     <div
-      class="relative bg-white rounded-xl border-2 border-black shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer"
+      class="relative bg-white rounded-xl border-b-5 border-r-5 border-black shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer"
       @click="goToFaculty">
       <div v-if="faculty.banner_url" class="relative h-24 w-full bg-gray-100">
         <img :src="faculty.banner_url" alt="Faculty Banner" class="w-full h-full object-cover border-b-2 border-black" />
