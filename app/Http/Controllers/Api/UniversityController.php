@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UniversityResource;
 use Illuminate\Http\Request;
 use App\Models\University;
+use Illuminate\Support\Facades\Auth;
 
 class UniversityController extends Controller
 {
@@ -38,13 +40,19 @@ class UniversityController extends Controller
 
     public function index()
     {
-        return response()->json(University::all());
+        $universities = University::with('favoritedByUsers')->get();
+        foreach ($universities as $uni) {
+            $uni->is_favorite = $uni->favoritedByUsers()->where('user_id', Auth::id())->exists();
+        }
+
+        return response()->json(UniversityResource::collection($universities));
+     //   return response()->json(University::all());
     }
 
 
     public function show($id)
     {
-        return response()->json(University::findOrFail($id));
+        return response()->json(UniversityResource::make(University::findOrFail($id)));
     }
 
 }

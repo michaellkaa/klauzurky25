@@ -1,5 +1,5 @@
 <template>
-  <Logo/>>
+  <Logo/>
 
   <div class="max-w-6xl mx-auto py-16 px-6 text-gray-800 space-y-10">
     <div class="flex items-center gap-8">

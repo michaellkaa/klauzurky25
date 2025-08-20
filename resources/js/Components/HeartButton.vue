@@ -5,10 +5,14 @@ import axios from 'axios'
 const props = defineProps({
   id: Number,
   type: String,
+  isFavorite : {
+    type: Boolean,
+    default: false
+  }
 })
 
-const isFavorited = ref(false)
-
+const isFavorited = ref(props.isFavorite)
+/*
 onMounted(async () => {
   try {
     const response = await axios.get('/api/is-favorited', {
@@ -22,7 +26,7 @@ onMounted(async () => {
     console.error('Chyba při získávání informace o oblíbenosti:', error)
   }
 })
-
+*/
 async function toggleFavorite() {
   try {
     if (isFavorited.value) {
