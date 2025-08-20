@@ -1,11 +1,5 @@
 <template>
-  <div class="space-y-8 p-3 md:p-6">
-    <div class="flex justify-between">
-      <router-link to="/">
-        <img src="../../../public/logo-sfyns.png" alt="Logo aplikace SFYNS" class="w-28 md:w-40 h-auto" />
-      </router-link>
-    </div>
-  </div>
+  <Logo/>>
 
   <div class="max-w-6xl mx-auto py-16 px-6 text-gray-800 space-y-10">
     <div class="flex items-center gap-8">
@@ -112,6 +106,9 @@ import { useRouter } from 'vue-router'
 import Button from '../Components/Button.vue'
 import HeartButton from '../Components/HeartButton.vue'
 import AdminDashboard from '../Pages/AdminDashboard.vue';
+import Logo from '../Components/Logo.vue'
+
+
 const user = ref({})
 const fileInput = ref(null)
 

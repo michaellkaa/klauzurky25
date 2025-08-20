@@ -10,6 +10,7 @@
         <CalendarLink />
       </div>
     </div>
+
     <SearchBar />
 
 

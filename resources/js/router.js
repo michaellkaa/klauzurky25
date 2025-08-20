@@ -10,6 +10,8 @@ import FacultyPage from './pages/FacultyPage.vue'
 import CalendarPage from './Pages/CalendarPage.vue'
 import FacultyList from './Pages/FacultyList.vue'
 import QuizPage from './Pages/QuizPage.vue'
+import NotFound from './Pages/NotFound.vue'
+
 
 const routes = [
   { path: '/', component: Main },
@@ -22,6 +24,8 @@ const routes = [
   { path: '/calendar', component: CalendarPage},
   { path: '/field-faculties', component: FacultyList},
   { path: '/quiz', component: QuizPage},
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
+
 
 ]
 

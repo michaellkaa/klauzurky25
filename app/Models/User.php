@@ -56,5 +56,11 @@ public function events()
     return $this->hasMany(Event::class);
 }
 
+public function recommendedFields()
+{
+    return $this->belongsToMany(Field::class, 'user_recommended_fields', 'user_id', 'field_id')
+                ->withTimestamps();
+}
+
 
 }

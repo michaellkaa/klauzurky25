@@ -2,6 +2,8 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import HeartButton from '../Components/HeartButton.vue'
+import Loader from '../Components/Loader.vue'
+import Logo from '../Components/Logo.vue'
 
 const route = useRoute()
 const faculty = ref(null)
@@ -37,22 +39,18 @@ function truncatedText(text, maxLength = 120) {
 </script>
 
 <template>
-  <div class="space-y-8 p-3 md:p-6">
-    <div class="flex justify-between">
-      <router-link to="/">
-        <img src="../../../public/logo-sfyns.png" alt="Logo" class="w-28 md:w-40 h-auto" />
-      </router-link>
-    </div>
-  </div>
+  <Logo/>
 
-  <main class="max-w-3xl mx-auto p-8 font-sans text-gray-900">
-    <div v-if="loading" class="text-center py-20 text-gray-500 text-sm tracking-wider uppercase">
-      Načítám data...
+  <main class="max-w-3xl mx-auto p-8 font-sans text-black">
+    <!--loader stranky-->
+    <div v-if="loading" class="fixed inset-0 bg-white/90 z-[150] flex items-center justify-center">
+      <Loader />
     </div>
+
 
     <div v-else-if="faculty" class="space-y-10">
 
-      <!-- Banner + heart -->
+      <!-- banner cast -->
       <section class="relative rounded-xl overflow-hidden border border-gray-300 shadow-sm">
         <img 
           v-if="faculty.banner_url" 
@@ -78,18 +76,16 @@ function truncatedText(text, maxLength = 120) {
         </nav>
       </section>
 
-      <!-- Title -->
+      <!-- text -->
       <header class="space-y-1 border-b border-gray-300 pb-4">
         <h1 class="text-3xl font-extrabold tracking-tight uppercase">{{ faculty.name }}</h1>
         <p class="text-base font-semibold text-gray-700">{{ faculty.university }}</p>
       </header>
 
-      <!-- Description -->
       <section>
         <p class="text-gray-800 font-medium">{{ faculty.description }}</p>
       </section>
 
-      <!-- Contact info -->
       <section class="grid grid-cols-1 sm:grid-cols-2 gap-y-2 text-sm text-gray-800 border-t border-gray-300 pt-6 font-medium">
         <p><span class="font-bold uppercase">Adresa:</span> {{ faculty.address }}</p>
         <p v-if="faculty.website"><span class="font-bold uppercase">Web: </span> 
@@ -105,7 +101,6 @@ function truncatedText(text, maxLength = 120) {
         <p v-if="faculty.phone"><span class="font-bold uppercase">Telefon: </span> {{ faculty.phone }}</p>
       </section>
 
-      <!-- Admissions -->
       <section class="space-y-2 text-sm text-gray-800 border-t border-gray-300 pt-6 font-medium">
         <p v-if="faculty.application_link"><span class="font-bold uppercase">Přihláška: </span> 
           <a :href="faculty.application_link" target="_blank" rel="noopener" class="text-black font-semibold hover:underline">
@@ -124,7 +119,6 @@ function truncatedText(text, maxLength = 120) {
         <p v-if="faculty.application_deadlines"><span class="font-bold uppercase">Deadline: </span> {{ faculty.application_deadlines }}</p>
       </section>
 
-      <!-- Programs -->
       <section class="border-t border-gray-300 pt-6">
         <h2 class="text-xl font-extrabold mb-6 uppercase text-black">Studijní programy</h2>
 

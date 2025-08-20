@@ -61,7 +61,7 @@ const goToResult = (result) => {
 </script>
 
 <template>
-  <div class="relative max-w-xl mx-auto mt-6 z-50">
+  <div class="relative max-w-xl mx-auto mt-6 z-100">
     <input
       v-model="query"
       @input="search"

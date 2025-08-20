@@ -13,4 +13,10 @@ class Field extends Model {
     public function answers() {
         return $this->hasMany(Answer::class);
     }
+
+    public function usersRecommended()
+    {
+        return $this->belongsToMany(User::class, 'user_recommended_fields');
+    }
+
 }
