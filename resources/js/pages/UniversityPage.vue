@@ -103,8 +103,14 @@ onMounted(async () => {
 
       
     </div>
-    <div v-else-if="!university" class="space-y-10">cau</div>
-  </main>
+    <div v-else-if="!university" class="flex flex-col items-center justify-center min-h-[50vh] text-center space-y-4">
+      <h1 class="text-3xl font-extrabold uppercase ">UNIVERZITA NENALEZENA</h1>
+      <router-link to="/" class="font-bold uppercase underline hover:no-underline text-gray-800">
+        Zpět na hlavní stránku
+      </router-link>
+    </div>
+
+    </main>
 </template>
 
 <style scoped>
