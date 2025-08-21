@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\Response;
 
 Route::get('/login', function () {
     return Inertia::render('LoginPage');
@@ -34,3 +36,28 @@ Route::post('/logout', function (Request $request) {
 
     return response()->json(['message' => 'Logged out']);
 })->middleware('auth');
+
+Route::get('/ical/{username}.ics', function ($username) {
+    $user = User::where('username', $username)->firstOrFail();
+
+    $events = $user->events;
+
+    $ics = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SfYNs//Calendar//EN\r\n";
+
+    foreach ($events as $event) {
+        $date = \Carbon\Carbon::parse($event->date)->format('Ymd');
+        $ics .= "BEGIN:VEVENT\r\n";
+        $ics .= "SUMMARY:{$event->title}\r\n";
+        $ics .= "DTSTART;VALUE=DATE:{$date}\r\n";
+        $ics .= "DTEND;VALUE=DATE:{$date}\r\n";
+        $ics .= "DESCRIPTION:{$event->university} - {$event->faculty}\r\n";
+        $ics .= "END:VEVENT\r\n";
+    }
+
+    $ics .= "END:VCALENDAR\r\n";
+
+    return Response::make($ics, 200, [ //tohle doufam ze pujde, podobnou funkci mam i v calendar page
+        'Content-Type' => 'text/calendar; charset=utf-8',
+        'Content-Disposition' => 'inline; filename="calendar.ics"',
+    ]);
+});
