@@ -81,7 +81,7 @@ const handleLogin = async () => {
         Přihlásit se
       </button>
 
-      <p class="text-center text-lg font-medium text-gray-700">
+      <p class="text-center text-md font-medium text-gray-700">
         Nemáš účet?
         <router-link to="/register" class="underline font-bold hover:text-black">
           Registruj se

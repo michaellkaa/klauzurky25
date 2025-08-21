@@ -11,20 +11,20 @@
     </div>
 
     <div class="flex justify-center">
-      <div class="w-full max-w-2xl bg-white rounded-3xl shadow-lg p-8">
+      <div class="w-full max-w-2xl  rounded-3xl  px-6 sm:px-8 py-20 ">
 
         <div v-if="currentQuestion < questions.length" class="mb-6">
           <div class="w-full bg-gray-300 rounded-full h-4">
             <div class="bg-black h-4 rounded-full transition-all duration-300" :style="{ width: progress + '%' }">
             </div>
           </div>
-          <p class="text-sm text-gray-700 mt-2 font-black uppercase text-right">
+          <p class="text-xs sm:text-sm text-gray-700 mt-2 font-black uppercase text-right">
             Otázka {{ currentQuestion + 1 }} z {{ questions.length }}
           </p>
         </div>
 
         <div v-if="currentQuestion < questions.length">
-          <h2 class="text-2xl md:text-2xl font-black uppercase mb-6 text-black text-center">
+          <h2 class="text-xl md:text-2xl font-black uppercase mb-6 text-black text-center">
             {{ questions[currentQuestion].text }}
           </h2>
 
@@ -38,7 +38,7 @@
           </div>
 
           <button @click="nextQuestion"
-            class="mt-6 w-full bg-black hover:bg-gray-900 text-white uppercase font-black px-6 py-3 rounded-xl shadow-lg transition-all">
+            class="mt-6 w-full bg-black hover:bg-gray-900 text-white uppercase text-sm sm:text-md font-black px-6 py-3 rounded-xl shadow-lg transition-all">
             Další
           </button>
         </div>

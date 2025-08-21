@@ -142,9 +142,7 @@ const handlePhotoChange = async (e) => {
 
 async function logout() {
   try {
-    await fetch('http://127.0.0.1:8000/sanctum/csrf-cookie', {
-      credentials: 'include',
-    })
+    
 
     const response = await fetch('http://127.0.0.1:8000/logout', {
       method: 'POST',

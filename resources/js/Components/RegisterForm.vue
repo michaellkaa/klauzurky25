@@ -83,10 +83,10 @@
         Registrovat se
       </button>
 
-      <p class="text-center text-lg font-medium text-gray-700">
+      <p class="text-center text-md font-medium text-gray-700">
         Už máš účet?
         <router-link to="/login" class="underline font-bold hover:text-black">
-          Přihlaš se
+          Přihlas se
         </router-link>
       </p>
     </form>
