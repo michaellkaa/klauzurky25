@@ -5,16 +5,13 @@ import FacultyCard from './FacultyCard.vue'
 const faculties = ref([])
 const scrollContainer = ref(null)
 
-defineProps({ title: String })
+defineProps({ 
+    title: String 
+})
 
 onMounted(async () => {
   try {
-    
-
-    const res = await fetch('/api/recommended-faculties', {
-      credentials: 'include'
-    });
-
+    const res = await fetch('/api/recommended-faculties')
     faculties.value = await res.json();
   } catch (error) {
     console.error('Chyba při načítání doporučených fakult:', error);

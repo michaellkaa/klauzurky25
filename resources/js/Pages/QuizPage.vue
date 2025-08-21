@@ -1,14 +1,13 @@
 <template>
+<Logo/>
   <div class="space-y-8 p-4 md:p-8 bg-gray-100 min-h-screen">
 
-    <div class="flex justify-between items-center mb-8">
-      <router-link to="/">
-        <img src="../../../public/logo-sfyns.png" alt="Logo" class="w-32 md:w-40 h-auto" />
-      </router-link>
-      <div class="flex space-x-4">
-        <ProfileLink />
-        <CalendarLink />
-      </div>
+    
+
+  
+    <!--loader stranky-->
+    <div v-if="loading" class="fixed inset-0 bg-white/90 z-[150] flex items-center justify-center">
+      <Loader />
     </div>
 
     <div class="flex justify-center">
@@ -66,76 +65,75 @@
 
     </div>
   </div>
-
-
 </template>
 
-<script>
-import ProfileLink from '../Components/ProfileLink.vue';
-import CalendarLink from '../Components/CalendarLink.vue';
+<script setup>
+import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 
-export default {
-  data() {
-    return {
-      questions: [],
-      currentQuestion: 0,
-      selectedAnswer: null,
-      answersSelected: {},
-      result: {},
-      recommendedFieldsArray: []
-    }
-  },
-  computed: {
-    progress() {
-      if (!this.questions.length) return 0
-      return ((this.currentQuestion) / this.questions.length) * 100
-    },
-    topObory() {
-  if (!this.result.scores) return []
-  const entries = Object.entries(this.result.scores)
-    .filter(([name, _]) => !name.startsWith('ostatní'))
+import Logo from '../Components/Logo.vue'
+import Loader from '../Components/Loader.vue'
+
+const loading = ref(true)
+const questions = ref([])
+const currentQuestion = ref(0)
+const selectedAnswer = ref(null)
+const answersSelected = ref({})
+const result = ref({})
+const recommendedFieldsArray = ref([])
+
+onMounted(async () => {
+  loading.value = true
+  try {
+    const res = await axios.get('/api/quiz')
+    questions.value = res.data
+  } catch (err) {
+    console.error('Chyba při načítání otázek:', err)
+  } finally {
+    loading.value = false
+  }
+})
+
+const progress = computed(() => {
+  if (!questions.value.length) return 0
+  return ((currentQuestion.value) / questions.value.length) * 100
+})
+
+const topObory = computed(() => {
+  if (!result.value.scores) return []
+  const entries = Object.entries(result.value.scores).filter(([name, _]) => !name.startsWith('ostatní'))
   const maxScore = Math.max(...entries.map(([_, score]) => score))
   return entries
     .filter(([_, score]) => score === maxScore)
     .map(([name, score]) => ({ name, score }))
+})
+
+function nextQuestion() {
+  if (!selectedAnswer.value) return alert('Vyber odpověď')
+  answersSelected.value[questions.value[currentQuestion.value].id] = selectedAnswer.value
+  selectedAnswer.value = null
+  currentQuestion.value++
+  if (currentQuestion.value >= questions.value.length) {
+    submitResult()
+  }
 }
 
+function submitResult() {
+  console.log('Odesílám odpovědi:', answersSelected.value)
 
-  },
-
-  mounted() {
-    axios.get('/api/quiz').then(res => {
-      this.questions = res.data
-    })
-  },
-  methods: {
-    nextQuestion() {
-      if (!this.selectedAnswer) return alert('Vyber odpověď')
-      this.answersSelected[this.questions[this.currentQuestion].id] = this.selectedAnswer
-      this.selectedAnswer = null
-      this.currentQuestion++
-      if (this.currentQuestion >= this.questions.length) {
-        this.submitResult()
-      }
-    },
-    //funkce na ulozeni a odeslani vysledku
-    submitResult() { //uz to funguje, na tohle nesahat
-  console.log('Odesílám odpovědi:', this.answersSelected)
-
-  axios.post('/api/quiz/result', { answers: this.answersSelected })
+  axios.post('/api/quiz/result', { answers: answersSelected.value })
     .then(res => {
       console.log('Raw odpověď z API:', res.data)
-      this.result = res.data
+      result.value = res.data
 
-      this.recommendedFieldsArray = Array.isArray(res.data.recommended_fields)
+      recommendedFieldsArray.value = Array.isArray(res.data.recommended_fields)
         ? res.data.recommended_fields
         : []
 
-      console.log('Pole doporučených oborů:', this.recommendedFieldsArray)
+      console.log('Pole doporučených oborů:', recommendedFieldsArray.value)
 
-      if (this.recommendedFieldsArray.length) {
-        axios.post('/api/quiz/store', { recommended_fields: this.recommendedFieldsArray })
+      if (recommendedFieldsArray.value.length) {
+        axios.post('/api/quiz/store', { recommended_fields: recommendedFieldsArray.value })
           .then(res => console.log('Uloženo do DB:', res.data))
           .catch(err => console.error('Chyba při ukládání do DB:', err.response?.data || err))
       }
@@ -145,10 +143,4 @@ export default {
       alert("Něco se pokazilo, zkontroluj konzoli.")
     })
 }
-
-
-
-  }
-}
-
 </script>

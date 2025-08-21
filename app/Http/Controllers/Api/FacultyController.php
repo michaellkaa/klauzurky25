@@ -27,13 +27,10 @@ class FacultyController extends Controller
 
     public function index(Request $request)
 {
-    // základní query
     $query = Faculty::query();
 
-    // pokud chceš favority načíst hned, přidáš eager loading
     $query->with('favoritedByUsers');
 
-    // pokud chceš filtrovat podle oboru
     if ($request->has('field')) {
         $field = $request->get('field');
         $query->whereJsonContains('fields_of_study', $field);
@@ -41,7 +38,6 @@ class FacultyController extends Controller
 
     $faculties = $query->get();
 
-    // vrací JSON přes Resource
     return response()->json(FacultyResource::collection($faculties));
 }
 
@@ -120,7 +116,12 @@ public function recommendedFaculties(Request $request)
     $user = $request->user();
     $fieldNames = $user->recommendedFields->pluck('name');
 
+    if ($fieldNames->isEmpty()) {
+        return response()->json([]); 
+    }
+    
     $faculties = Faculty::query()
+        ->with('favoritedByUsers')
         ->where(function ($query) use ($fieldNames) {
             foreach ($fieldNames as $name) {
                 $query->orWhere('fields_of_study', 'LIKE', '%' . $name . '%');
@@ -128,8 +129,9 @@ public function recommendedFaculties(Request $request)
         })
         ->get();
 
-    return response()->json($faculties);
+    return response()->json(FacultyResource::collection($faculties));
 }
+
 
 
 

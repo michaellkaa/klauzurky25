@@ -2,16 +2,13 @@
   <div class="p-6 space-y-8">
     <div class="flex justify-between items-center">
       <h1 class="text-3xl font-bold">Admin Dashboard</h1>
-      <router-link to="/" class="text-sm text-purple-600 hover:underline">
-        Zpět na hlavní stránku
-      </router-link>
     </div>
 
     <AdminStats />
 
     <div>
       <h2 class="text-xl font-semibold mb-4">Všichni uživatelé</h2>
-      <div class="overflow-auto rounded-xl shadow-sm border border-gray-200">
+      <div class="overflow-auto rounded-xl shadow-sm border border-gray-800">
         <table class="min-w-full bg-white text-sm">
           <thead class="bg-gray-50 text-left text-gray-700 font-semibold">
             <tr>

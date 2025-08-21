@@ -19,7 +19,7 @@
         <h1 class="text-3xl font-bold flex items-center gap-3">
           {{ user.name }}
           <span v-if="user.role === 'admin'"
-            class="px-2 py-1 text-xs font-semibold text-white bg-purple-600 rounded-full">
+            class="px-2 py-1 text-xs font-semibold text-white bg-gray-600 rounded-full">
             Admin
           </span>
         </h1>
@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <div v-if="user.role === 'admin'" class="bg-gray-50 border border-gray-300 p-6 rounded-xl text-gray-700">
+    <div v-if="user.role === 'admin'" class="bg-gray-50 border border-gray-900 p-6 rounded-xl text-gray-700">
       <AdminDashboard />
     </div>
 

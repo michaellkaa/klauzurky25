@@ -1,4 +1,5 @@
 <template>
+<Banner text="Vyzkoušej náš kvíz!" link="/quiz" />
 
   <div class="space-y-8 p-3 md:p-6">
     <div class="flex justify-between">
@@ -14,9 +15,10 @@
     <SearchBar />
 
     <FieldSlider title="" />
+    <RecommendedFaculties v-if="recommendedFaculties.length > 0" :faculties="recommendedFaculties"  title="Doporučené" />
+
     <UniversitySlider title="Univerzity" />
     <FacultySlider title="Fakulty" />
-    <RecommendedFaculties title="Doporučené" />
     
   </div>
 </template>
@@ -29,6 +31,7 @@ import FacultySlider from '../Components/FacultySlider.vue';
 import FieldSlider from '../Components/FieldSLider.vue';
 import CalendarLink from '../Components/CalendarLink.vue';
 import RecommendedFaculties from '../Components/RecommendedFaculties.vue'
+import Banner from '../Components/Banner.vue'
 import { ref, onMounted } from 'vue'
 
 const fields = ref([])
@@ -41,4 +44,12 @@ onMounted(async () => {
 function filterByField(field) {
   console.log('Vybrané zaměření:', field)
 }
+
+const recommendedFaculties = ref([])
+
+onMounted(async () => {
+  const res = await fetch('/api/recommended-faculties')
+  const data = await res.json()
+  recommendedFaculties.value = data
+})
 </script>

@@ -34,6 +34,9 @@ Route::post('/universities', [UniversityController::class, 'store']);
 Route::get('/universities/{id}', [UniversityController::class, 'show']);
 
 Route::get('/faculties', [FacultyController::class, 'index']);
+Route::get('/recommended-faculties', [FacultyController::class, 'index']);
+Route::post('/recommended-faculties', [FacultyController::class, 'store']);
+
 Route::post('/faculties', [FacultyController::class, 'store']);
 Route::get('/faculties/{id}', [FacultyController::class, 'show']);
 
@@ -67,6 +70,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::middleware('auth:sanctum')->get('/user/favorites/faculties', [FavoriteController::class, 'userFavoriteFaculties']);
 Route::middleware('auth:sanctum')->get('/user/favorites/universities', [FavoriteController::class, 'userFavoriteUniversities']);
+Route::middleware('auth:sanctum')->get('/user/favorites/recommended-faculties', [FavoriteController::class, 'userFavoriteFaculties']);
 
 
 Route::middleware('auth:sanctum')->get('/events', function (Request $request) {
