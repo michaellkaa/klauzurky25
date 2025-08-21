@@ -101,7 +101,7 @@ const promoteToAdmin = async (id) => {
       headers: { 'Accept': 'application/json' }
     });
     if (res.ok) {
-      alert('User promoted to admin');
+      alert('Uživatel je nyní admin');
       await fetchUsers();
     } else {
       const data = await res.json();
