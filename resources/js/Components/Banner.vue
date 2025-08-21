@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible" class="bg-gray-200 text-black py-4 px-10 rounded-md flex justify-between items-center mb-4 transition-all duration-300">
+  <div v-if="visible" class="bg-gray-200 text-black py-4 px-7 sm:px-10 rounded-md flex justify-between items-center mb-4 transition-all duration-300">
     <router-link :to="link" class="font-semibold underline">
       {{ text }}
     </router-link>

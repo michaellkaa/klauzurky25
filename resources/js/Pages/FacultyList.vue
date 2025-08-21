@@ -1,8 +1,12 @@
 <template>
+    <Logo/>
+
   <div class="p-6">
     <h2 v-if="faculties.length > 0" class="text-2xl font-bold uppercase tracking-wide mb-4 ml-2"> {{ decodedField }}</h2>
 
-    <div v-if="loading" class="text-gray-500">Načítání fakult...</div>
+    <div v-if="loading" class="fixed inset-0 bg-white/90 z-[150] flex items-center justify-center">
+      <Loader />
+    </div>
     <div v-else-if="faculties.length === 0" class="flex flex-col items-center justify-center min-h-[50vh] text-center space-y-4">
       <h1 class="text-3xl font-extrabold uppercase ">ŽÁDNÁ FAKULTA NENALEZENA</h1>
       <router-link to="/" class="font-bold uppercase underline hover:no-underline text-gray-800">
@@ -20,6 +24,8 @@
 import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import FacultyCard from '../Components/FacultyCard.vue'
+import Loader from '../Components/Loader.vue'
+import Logo from '../Components/Logo.vue'
 
 const route = useRoute()
 const field = ref(route.query.field || '')
