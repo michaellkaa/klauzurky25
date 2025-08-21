@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UniversityResource;
+use App\Http\Resources\FacultyResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Favorite;
@@ -171,10 +172,14 @@ class FavoriteController extends Controller
 
     public function userFavoriteFaculties(Request $request)
     {
-        $user = $request->user();
+        /*$user = $request->user();
         $faculties = $user->favoriteFaculties()->get();
 
-        return response()->json($faculties);
+        return response()->json($faculties);*/
+        $user = $request->user();
+        $faculties = $user->favoriteFaculties()->get(); 
+
+        return response()->json(FacultyResource::collection($faculties));
     }
 
     public function userFavoriteUniversities(Request $request)

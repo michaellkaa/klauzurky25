@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Field;
+
 
 class Faculty extends Model
 {
@@ -40,5 +42,10 @@ class Faculty extends Model
     {
         return $this->morphToMany(User::class, 'favoritable', 'favorites');
     }
+    public function field()
+{
+    return $this->belongsTo(Field::class);
+}
+
 
 }

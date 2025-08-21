@@ -5,6 +5,7 @@
         <img src="../../../public/logo-sfyns.png" alt="Logo" class="w-28 md:w-40 h-auto" />
       </router-link>
     </div>
+    
   </div>
   <div class="flex flex-col items-center justify-center min-h-[50vh] text-center space-y-4">
       <h1 class="text-3xl font-extrabold uppercase ">OOPS! TATO STRÁNKA NEEXISTUJE</h1>

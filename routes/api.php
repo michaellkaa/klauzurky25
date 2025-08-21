@@ -136,3 +136,5 @@ Route::get('/all-universities-and-faculties', function () {
 
 Route::get('/fields', [FieldController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/quiz/store', [QuizController::class, 'storeResult']);
+Route::middleware('auth:sanctum')->get('/recommended-faculties', [FacultyController::class, 'recommendedFaculties']);
+

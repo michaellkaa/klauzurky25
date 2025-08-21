@@ -13,10 +13,11 @@
 
     <SearchBar />
 
-
+    <FieldSlider title="" />
     <UniversitySlider title="Univerzity" />
     <FacultySlider title="Fakulty" />
-    <FieldSlider title="Zaměření" />
+    <RecommendedFaculties title="Doporučené" />
+    
   </div>
 </template>
 
@@ -27,6 +28,7 @@ import SearchBar from '../Components/SearchBar.vue';
 import FacultySlider from '../Components/FacultySlider.vue';
 import FieldSlider from '../Components/FieldSLider.vue';
 import CalendarLink from '../Components/CalendarLink.vue';
+import RecommendedFaculties from '../Components/RecommendedFaculties.vue'
 import { ref, onMounted } from 'vue'
 
 const fields = ref([])

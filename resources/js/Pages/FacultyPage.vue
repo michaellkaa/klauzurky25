@@ -60,7 +60,9 @@ function truncatedText(text, maxLength = 120) {
           loading="lazy" 
         />
         <div class="absolute top-4 right-4">
-          <HeartButton :type="'faculty'" :id="faculty.id" />
+          <!--<HeartButton :type="'faculty'" :id="faculty.id" />-->
+          <HeartButton :type="'faculty'" :id="faculty.id" :is-favorite="faculty.is_favorite" />
+
         </div>
         <nav class="absolute top-4 left-4 flex gap-4 text-gray-700 text-lg font-bold">
           <a v-if="faculty.facebook_url" :href="faculty.facebook_url" target="_blank" rel="noopener" aria-label="Facebook" class="hover:text-black transition">

@@ -37,7 +37,9 @@ onMounted(async () => {
         <img v-if="university.banner_url" :src="university.banner_url" alt="Banner univerzity"
           class="w-full h-48 object-cover" loading="lazy" />
         <div class="absolute top-4 right-4">
-          <HeartButton :type="'university'" :id="university.id" />
+          <!--<HeartButton :type="'university'" :id="university.id" />-->
+          <HeartButton :type="'university'" :id="university.id" :is-favorite="university.is_favorite" />
+
         </div>
         <nav class="absolute top-4 left-4 flex gap-4 text-gray-700 text-lg font-bold">
           <a v-if="university.facebook" :href="university.facebook" target="_blank" rel="noopener" aria-label="Facebook"

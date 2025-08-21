@@ -15,7 +15,7 @@ onMounted(async () => {
     const res = await fetch('/api/universities')
     universities.value = await res.json()
   } catch (error) {
-    console.error('Error loading universities:', error)
+    console.error('Chyba při načítání fakult:', error)
   }
 })
 

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Faculty;
+
 
 class Field extends Model {
     use HasFactory;
@@ -18,5 +20,11 @@ class Field extends Model {
     {
         return $this->belongsToMany(User::class, 'user_recommended_fields');
     }
+
+    public function faculties()
+{
+    return $this->hasMany(Faculty::class);
+}
+
 
 }

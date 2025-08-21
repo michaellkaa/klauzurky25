@@ -74,7 +74,7 @@
           <RouterLink v-for="faculty in faculties" :key="faculty.id" :to="`/faculty/${faculty.id}`"
             class="bg-white rounded-2xl shadow-sm border-b-5 border-r-5 border-black  hover:border-gray-600  p-5 transition hover:shadow-md  group flex flex-col relative cursor-pointer">
             <div class="absolute top-3 right-3 z-10">
-              <HeartButton :id="faculty.id" type="faculty" />
+              <HeartButton :id="faculty.id" type="faculty" :is-favorite="faculty.is_favorite" />
             </div>
             <div class="flex items-start gap-4 mb-4">
               <img :src="faculty.logo_url" alt="Logo fakulty" class="w-12 h-12 rounded-md object-contain" />
