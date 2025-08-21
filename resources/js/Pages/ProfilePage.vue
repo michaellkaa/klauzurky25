@@ -142,9 +142,7 @@ const handlePhotoChange = async (e) => {
 
 async function logout() {
   try {
-    
-
-    const response = await fetch('http://127.0.0.1:8000/logout', {
+    const response = await fetch('/logout', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -159,6 +157,7 @@ async function logout() {
     console.error('Logout selhal', error)
   }
 }
+
 
 onMounted(async () => {
   const resUser = await fetch('/api/user', { credentials: 'include' })
