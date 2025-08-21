@@ -61,3 +61,4 @@ Route::get('/ical/{username}.ics', function ($username) {
         'Content-Disposition' => 'inline; filename="calendar.ics"',
     ]);
 });
+

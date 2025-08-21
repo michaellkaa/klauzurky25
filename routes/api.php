@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\FieldController;
+use App\Http\Controllers\ProfileController;
+
 
 
 /*
@@ -142,3 +144,4 @@ Route::get('/fields', [FieldController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/quiz/store', [QuizController::class, 'storeResult']);
 Route::middleware('auth:sanctum')->get('/recommended-faculties', [FacultyController::class, 'recommendedFaculties']);
 
+Route::patch('/admin/users/{id}/promote', [ProfileController::class, 'promoteUser'])->middleware('auth:sanctum');

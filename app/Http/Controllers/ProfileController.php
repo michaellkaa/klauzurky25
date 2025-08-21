@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -51,4 +52,21 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+
+public function promoteUser($id)
+{
+    $user = User::findOrFail($id);
+
+    if ($user->role === 'admin') {
+        return response()->json(['message' => 'uživatel už je admin'], 400);
+    }
+
+    $user->role = 'admin';
+    $user->save();
+
+    return response()->json(['message' => 'uživatel je nyní admin']);
+}
+
+
 }

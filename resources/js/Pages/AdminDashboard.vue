@@ -23,10 +23,17 @@
               <td class="px-6 py-3">{{ user.id }}</td>
               <td class="px-6 py-3">{{ user.name }}</td>
               <td class="px-6 py-3">{{ user.email }}</td>
-              <td class="px-6 py-3 flex gap-2">
-                <button @click="deleteUser(user.id)" class="text-red-600 hover:underline">
+              <td class="px-6 py-3 flex gap-6 flex-nowrap items-center">
+                <button @click="deleteUser(user.id)" class="text-red-600 hover:underline whitespace-nowrap">
                   Smazat
                 </button>
+                <button 
+                  v-if="user.role !== 'admin'" 
+                  @click="promoteToAdmin(user.id)" 
+                  class="text-indigo-600 hover:underline whitespace-nowrap">
+                  Změnit na admina
+                </button>
+
               </td>
             </tr>
           </tbody>
@@ -85,6 +92,26 @@ const deleteUser = async (id) => {
     console.error('Chyba při mazání uživatele', err)
   }
 }
+
+const promoteToAdmin = async (id) => {
+  try {
+    const res = await fetch(`/api/admin/users/${id}/promote`, {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      alert('User promoted to admin');
+      await fetchUsers();
+    } else {
+      const data = await res.json();
+      console.error('Chyba při povyšování uživatele', data);
+    }
+  } catch (err) {
+    console.error('Chyba při povyšování uživatele', err);
+  }
+}
+
 
 
 onMounted(() => {
