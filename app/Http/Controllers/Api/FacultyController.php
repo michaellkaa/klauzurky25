@@ -110,7 +110,7 @@ class FacultyController extends Controller
 
         $faculties = Faculty::where('fields_of_study', 'LIKE', "%$field%")->get();
 
-        return response()->json($faculties);
+        return response()->json(FacultyResource::collection($faculties));
     }
 
     //cool, doporucujeme fakulty a funguje to (ja doufam ze aspon moje komentare dokazuji ze nejsem ai)
