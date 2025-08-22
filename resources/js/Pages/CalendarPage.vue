@@ -28,33 +28,8 @@ async function fetchEvents() {
 
 fetchEvents()
 
-async function copyCalendarLink() {
-  if (!username.value) return
-  const icsUrl = `${window.location.origin}/ical/${username.value}.ics`
-  try {
-    await navigator.clipboard.writeText(icsUrl)
-    copied.value = true
-    setTimeout(() => copied.value = false, 2000)
-  } catch (err) {
-    console.error('Kopírování se nepovedlo', err)
-  }
-}
-
-async function fetchUser() {
-  const res = await fetch('/api/user', {
-    headers: {
-      'Accept': 'application/json',
-    },
-  })
-  if (res.ok) {
-    const data = await res.json()
-    username.value = data.username // nebo data.name / data.email → podle toho, co máš
-  }
-}
-
 onMounted(() => {
   fetchEvents()
-  fetchUser()
 })
 
 function formatDateForICS(dateStr) {
@@ -109,16 +84,7 @@ END:VEVENT`.trim())
         </svg>
         Stáhnout všechny události
       </button>
-      <button
-      class="ml-3 px-5 py-2.5 bg-black text-white font-bold rounded-xl shadow hover:bg-gray-800 transition flex items-center"
-      @click="copyCalendarLink"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M8 16h8M8 12h8m-6 8h6a2 2 0 002-2V6a2 2 0 00-2-2h-6l-2-2H6a2 2 0 00-2 2v2" />
-      </svg>
-      {{ copied ? 'Zkopírováno' : 'Uložit odkaz na kalendář' }}
-    </button></div>
+      <!--tady moznost pridat tlacitka, style nachystany-->
   </div>
-  
+  </div>
 </template>
