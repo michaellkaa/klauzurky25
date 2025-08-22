@@ -8,6 +8,7 @@ use App\Models\Faculty;
 
 class SearchController extends Controller
 {
+    //tady vyhledavani
     public function search(Request $request)
     {
         $query = $request->input('query');

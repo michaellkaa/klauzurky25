@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    //tady se uzivatel registruje
     public function register(Request $request)
     {
         $validated = $request->validate( [
@@ -37,6 +38,7 @@ class AuthController extends Controller
         return response()->json(['message' => 'Registrace proběhla úspěšně', 'user' => $user], 201);
     }
 
+    //tady se prihlasi
     public function login(Request $request)
     {
         try {
@@ -65,7 +67,7 @@ class AuthController extends Controller
         return response()->json(['message' => 'Přihlášení úspěšné.'], 200);
     }
 
-
+    //a tady si muze zmenit fotku
     public function updatePhoto(Request $request)
     {
         $request->validate([
@@ -85,6 +87,7 @@ class AuthController extends Controller
         ]);
     }
 
+    //a tady odejit
     public function logout(Request $request)
     {
         $request->session()->invalidate();

@@ -53,20 +53,20 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
+    //tady update na admina
+    public function promoteUser($id)
+    {
+        $user = User::findOrFail($id);
 
-public function promoteUser($id)
-{
-    $user = User::findOrFail($id);
+        if ($user->role === 'admin') {
+            return response()->json(['message' => 'uživatel už je admin'], 400);
+        }
 
-    if ($user->role === 'admin') {
-        return response()->json(['message' => 'uživatel už je admin'], 400);
+        $user->role = 'admin';
+        $user->save();
+
+        return response()->json(['message' => 'uživatel je nyní admin']);
     }
-
-    $user->role = 'admin';
-    $user->save();
-
-    return response()->json(['message' => 'uživatel je nyní admin']);
-}
 
 
 }

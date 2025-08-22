@@ -9,7 +9,8 @@ use App\Models\University;
 use Illuminate\Support\Facades\Auth;
 
 class UniversityController extends Controller
-{
+{ 
+    //tady data, ale data i v resource (optimaliace)
     public function store(Request $request)
     {
         $validated = $request->validate([

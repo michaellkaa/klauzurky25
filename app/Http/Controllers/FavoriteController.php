@@ -77,7 +77,7 @@ class FavoriteController extends Controller
         return response()->json(['favorited' => $isFavorited]);
     }
 
-
+    //tady oblibene?
     public function isFavorited(Request $request)
     {
         $user = Auth::user();
@@ -107,7 +107,7 @@ class FavoriteController extends Controller
 
         return response()->json(['favorited' => $favorited]);
     }
-
+    //tady do oblibenych
     public function favorite(Request $request)
     {
         $user = Auth::user();
@@ -139,7 +139,7 @@ class FavoriteController extends Controller
 
         return response()->json(['message' => 'Favorited']);
     }
-
+    //tady z oblibenych
     public function unfavorite(Request $request)
     {
         $user = Auth::user();
@@ -169,7 +169,7 @@ class FavoriteController extends Controller
 
         return response()->json(['message' => 'Unfavorited']);
     }
-
+    //tady oblibene
     public function userFavoriteFaculties(Request $request)
     {
         /*$user = $request->user();

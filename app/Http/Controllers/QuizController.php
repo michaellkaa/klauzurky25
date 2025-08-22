@@ -16,6 +16,7 @@ class QuizController extends Controller
         return Question::with('answers')->get();
     }
 
+    //tady pocitam vysledky
     public function calculateResult(Request $request)
     {
         $answers = $request->input('answers'); 
@@ -29,7 +30,8 @@ class QuizController extends Controller
                 }
             }
         }
-
+        
+        //the struggle was real
         if (empty($scores)) {
             return response()->json(['error' => 'Nepodařilo se spočítat skóre', 'answers' => $answers]);
         }
@@ -41,7 +43,7 @@ class QuizController extends Controller
                 $resultScores[$field->name] = $score;
             }
         }
-
+        //tady nechci aby to doporucovalo ostatni (ty vysledky nejsou tak presne potom, jelikoz hodne otazek tam ma i "ostatni")
         $filteredScores = array_filter($resultScores, function($name) {
             return stripos($name, 'ostatní') === false;
         }, ARRAY_FILTER_USE_KEY);
@@ -59,7 +61,7 @@ class QuizController extends Controller
                 break;
             }
         }
-
+        //v quiz page jsem nechala to jak to vyhazuje vysledky kdyby nahodou 
         return response()->json([
             'scores' => $resultScores,
             'recommended_fields' => $bestFields,

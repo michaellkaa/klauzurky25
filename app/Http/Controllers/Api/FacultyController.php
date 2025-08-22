@@ -46,6 +46,7 @@ class FacultyController extends Controller
         return response()->json(FacultyResource::make(Faculty::findOrFail($id)));
     }
 
+    //tady data, ale data i v resource (optimaliace)
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -87,52 +88,51 @@ class FacultyController extends Controller
     }
 
     public function zamereni()
-{
-    $zamereni = Faculty::pluck('fields_of_study')
-        ->flatMap(function ($item) {
-            return array_map('trim', explode(',', $item));
-        })
-        ->filter()
-        ->unique()
-        ->values();
+    {
+        $zamereni = Faculty::pluck('fields_of_study')
+            ->flatMap(function ($item) {
+                return array_map('trim', explode(',', $item));
+            })
+            ->filter()
+            ->unique()
+            ->values();
 
-    return response()->json($zamereni);
-}
-public function getByField(Request $request)
-{
-    $field = $request->query('field');
-
-    if (!$field) {
-        return response()->json(['error' => 'Missing field parameter'], 400);
+        return response()->json($zamereni);
     }
 
-    $faculties = Faculty::where('fields_of_study', 'LIKE', "%$field%")->get();
+    public function getByField(Request $request)
+    {
+        $field = $request->query('field');
 
-    return response()->json($faculties);
-}
+        if (!$field) {
+            return response()->json(['error' => 'Missing field parameter'], 400);
+        }
 
-public function recommendedFaculties(Request $request)
-{
-    $user = $request->user();
-    $fieldNames = $user->recommendedFields->pluck('name');
+        $faculties = Faculty::where('fields_of_study', 'LIKE', "%$field%")->get();
 
-    if ($fieldNames->isEmpty()) {
-        return response()->json([]); 
+        return response()->json($faculties);
     }
-    
-    $faculties = Faculty::query()
-        ->with('favoritedByUsers')
-        ->where(function ($query) use ($fieldNames) {
-            foreach ($fieldNames as $name) {
-                $query->orWhere('fields_of_study', 'LIKE', '%' . $name . '%');
-            }
-        })
-        ->get();
 
-    return response()->json(FacultyResource::collection($faculties));
-}
+    //cool, doporucujeme fakulty a funguje to (ja doufam ze aspon moje komentare dokazuji ze nejsem ai)
+    public function recommendedFaculties(Request $request)
+    {
+        $user = $request->user();
+        $fieldNames = $user->recommendedFields->pluck('name');
 
+        if ($fieldNames->isEmpty()) {
+            return response()->json([]); 
+        }
+        
+        $faculties = Faculty::query()
+            ->with('favoritedByUsers')
+            ->where(function ($query) use ($fieldNames) {
+                foreach ($fieldNames as $name) {
+                    $query->orWhere('fields_of_study', 'LIKE', '%' . $name . '%');
+                }
+            })
+            ->get();
 
-
+        return response()->json(FacultyResource::collection($faculties));
+    }
 
 }
